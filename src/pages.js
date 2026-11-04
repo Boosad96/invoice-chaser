@@ -47,7 +47,7 @@ const SITE_URL = 'https://paychaserhq.com';
 export function layout(title, body, active, meta = {}) {
   const links = [
     ['/', 'Home'], ['/how-it-works', 'How it works'], ['/pricing', 'Pricing'],
-    ['/templates', 'Sample templates'], ['/blog', 'Guides'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
+    ['/templates', 'Sample templates'], ['/reminder-email-generator', 'Free tools'], ['/blog', 'Guides'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
   ];
   const nav = links.map(([href, label]) =>
     '<a href="' + href + '"' + (active === href ? ' style="color:#1c2430;font-weight:600"' : '') + '>' + label + '</a>').join('');
@@ -70,7 +70,7 @@ export function layout(title, body, active, meta = {}) {
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
-    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav></footer></body></html>';
+    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/reminder-email-generator">Reminder generator</a><a href="/invoice-template">Invoice template</a></nav></footer></body></html>';
 }
 
 export function homePage() {
@@ -385,4 +385,113 @@ export function articleReminderTemplates() {
   <h2>Use them automatically</h2>
   <p>These three templates are the defaults every Invoice Chaser account starts with, and you can rewrite all of them. Add an invoice once and the day 7, 14 and 30 reminders go out on schedule, in your words, with your pay link. The <a href="/signup">free plan covers 3 active invoices</a>, and the full set lives on the <a href="/templates">sample templates page</a>.</p>
   <p>Related: <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a> · <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
+}
+
+export function reminderEmailGeneratorPage() {
+  const jsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Invoice Chaser Reminder Email Generator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: SITE_URL + '/reminder-email-generator',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate a polite day 7, firm day 14, and final day 30 invoice reminder email in seconds. Free tool — enter client, amount and due date, copy and send.',
+  });
+  const body = '<section class="hero"><p class="eyebrow">Free tool</p><h1>Reminder email generator</h1>'
+    + '<p style="font-size:19px">Fill in the invoice, pick day 7, 14 or 30, and get a ready-to-send reminder email. Free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section><div class="card" style="max-width:720px">'
+    + '<label>Your business name<br><input id="g-biz" type="text" placeholder="e.g. Abhi Designs" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Client name<br><input id="g-client" type="text" placeholder="e.g. Priya Sharma" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Invoice number (optional)<br><input id="g-inv" type="text" placeholder="e.g. INV-1042" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Amount<br><span style="display:flex;gap:8px"><select id="g-cur" style="padding:10px"><option value="$">$ USD</option><option value="£">£ GBP</option><option value="€">€ EUR</option><option value="₹">₹ INR</option></select>'
+    + '<input id="g-amt" type="text" placeholder="e.g. 250" style="flex:1;padding:10px;margin:0"></span></label>'
+    + '<label style="display:block;margin-top:12px">Due date<br><input id="g-due" type="date" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Payment link (optional)<br><input id="g-link" type="text" placeholder="e.g. https://pay.example.com/inv-1042" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<p><button class="btn" onclick="genDay(7)" id="g-d7">Day 7 — polite nudge</button> '
+    + '<button class="btn" onclick="genDay(14)" id="g-d14">Day 14 — firmer follow-up</button> '
+    + '<button class="btn" onclick="genDay(30)" id="g-d30">Day 30 — final notice</button></p>'
+    + '<label>Subject<br><input id="g-subject" type="text" readonly style="width:100%;padding:10px;margin:6px 0 12px;background:#f4f6f8"></label>'
+    + '<label>Email<br><textarea id="g-body" rows="12" readonly style="width:100%;padding:10px;margin:6px 0 12px;background:#f4f6f8"></textarea></label>'
+    + '<p><button class="btn" onclick="copyEmail()">Copy email</button> <button class="btn" onclick="copySubject()">Copy subject</button></p>'
+    + '<p id="g-copied" style="color:#0b6b5e"></p>'
+    + '</div>'
+    + '<p style="margin-top:16px">Want all three sent automatically at day 7, 14 and 30, without copying anything? <a href="/signup">Start free with Invoice Chaser</a> — 3 active invoices free. Need the invoice itself first? Use the <a href="/invoice-template">free invoice template</a>.</p></section>'
+    + '<script>'
+    + 'function gval(id){return document.getElementById(id).value.trim();}'
+    + 'function genDay(day){'
+    + 'var biz=gval("g-biz")||"Your Business";var client=gval("g-client")||"there";var inv=gval("g-inv");'
+    + 'var amt=gval("g-amt")||"___";var cur=document.getElementById("g-cur").value;var due=gval("g-due")||"the due date";'
+    + 'var link=gval("g-link");var invRef=inv?("invoice "+inv):"your invoice";var amtStr=cur+amt;'
+    + 'var subject="",text="";'
+    + 'if(day===7){subject="Friendly reminder: "+invRef+" for "+amtStr+" due "+due;'
+    + 'text="Hi "+client+",\\n\\nJust a friendly reminder that "+invRef+" for "+amtStr+" was due on "+due+".\\n\\nIf you have already sent payment, please ignore this note — and thank you. If not, you can settle it here:"+(link?(" "+link):"")+"\\n\\nThanks so much,\\n"+biz;}'
+    + 'else if(day===14){subject="Follow-up: "+invRef+" for "+amtStr+" is now overdue";'
+    + 'text="Hi "+client+",\\n\\nI am following up on "+invRef+" for "+amtStr+", which was due on "+due+" and is now overdue.\\n\\nCould you let me know when payment will be sent? If there is an issue with the invoice, I would rather fix it now than chase it later."+(link?("\\n\\nYou can pay here: "+link):"")+"\\n\\nThanks,\\n"+biz;}'
+    + 'else{subject="Final notice: "+invRef+" for "+amtStr+" — action needed";'
+    + 'text="Hi "+client+",\\n\\nThis is a final reminder about "+invRef+" for "+amtStr+", due on "+due+".\\n\\nPlease arrange payment within 7 days, or reply with a date you will pay by. If I do not hear from you, I will have to pause further work and consider next steps."+(link?("\\n\\nPayment link: "+link):"")+"\\n\\nRegards,\\n"+biz;}'
+    + 'document.getElementById("g-subject").value=subject;document.getElementById("g-body").value=text;'
+    + 'document.getElementById("g-copied").textContent="";}'
+    + 'function copyText(id,msg){var el=document.getElementById(id);el.select();try{navigator.clipboard.writeText(el.value);}catch(e){document.execCommand("copy");}document.getElementById("g-copied").textContent=msg;}'
+    + 'function copyEmail(){copyText("g-body","Email copied — paste it into your mail app and send.");}'
+    + 'function copySubject(){copyText("g-subject","Subject copied.");}'
+    + 'genDay(7);'
+    + '</script>';
+  return layout('Free reminder email generator', body, '/reminder-email-generator', {
+    description: 'Generate a polite day 7, firm day 14, and final day 30 invoice reminder email in seconds. Free tool — enter client, amount and due date, copy and send.',
+    jsonld: jsonld,
+  });
+}
+
+export function invoiceTemplatePage() {
+  const body = '<style>@media print{header,footer,.no-print{display:none !important}main{padding:0}.inv{border:none;box-shadow:none}}</style>'
+    + '<section class="hero no-print"><p class="eyebrow">Free tool</p><h1>Free invoice template</h1>'
+    + '<p style="font-size:19px">Fill it in below, then print it to PDF or download it as a file. Free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section class="no-print"><div class="card" style="max-width:720px">'
+    + '<label>Your business name<br><input id="t-biz" type="text" placeholder="e.g. Abhi Designs" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Your address / contact<br><input id="t-bizaddr" type="text" placeholder="e.g. Baharampur, West Bengal · you@example.com" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Client name<br><input id="t-client" type="text" placeholder="e.g. Priya Sharma" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Client address / contact<br><input id="t-clientaddr" type="text" placeholder="e.g. Client company, city · client@example.com" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Invoice number<br><input id="t-inv" type="text" placeholder="INV-1042" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Currency<br><select id="t-cur" style="width:100%;padding:10px;margin:6px 0 12px"><option value="$">$ USD</option><option value="£">£ GBP</option><option value="€">€ EUR</option><option value="₹">₹ INR</option></select></label></span>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Issue date<br><input id="t-issue" type="date" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Due date<br><input id="t-due" type="date" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<table id="t-items" style="width:100%;border-collapse:collapse"><tr><th style="text-align:left">Item</th><th>Qty</th><th>Rate</th><th>Amount</th><th></th></tr></table>'
+    + '<p><button class="btn" onclick="addRow()">+ Add item</button></p>'
+    + '<label>Tax % (optional)<br><input id="t-tax" type="number" value="0" min="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Payment details / notes<br><input id="t-notes" type="text" placeholder="e.g. Pay by bank transfer within 14 days. UPI / account details here." style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<p><button class="btn" onclick="window.print()">Print / Save as PDF</button> <button class="btn" onclick="downloadInvoice()">Download as file</button></p>'
+    + '</div></section>'
+    + '<section><div class="card inv" id="t-preview" style="max-width:720px"></div>'
+    + '<p class="no-print" style="margin-top:16px">Invoice sent? If it goes unpaid, generate the follow-up with the <a href="/reminder-email-generator">free reminder email generator</a> — or let <a href="/signup">Invoice Chaser send all three reminders automatically</a>.</p></section>'
+    + '<script>'
+    + 'function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}'
+    + 'function addRow(d,q,r){var tb=document.getElementById("t-items");var tr=document.createElement("tr");'
+    + 'tr.innerHTML="<td><input class=\\"it-desc\\" type=\\"text\\" placeholder=\\"Work done\\" value=\\""+(d||"")+"\\" style=\\"width:100%;padding:8px\\"></td>"'
+    + '+ "<td><input class=\\"it-qty\\" type=\\"number\\" value=\\""+(q||1)+"\\" min=\\"0\\" style=\\"width:64px;padding:8px\\"></td>"'
+    + '+ "<td><input class=\\"it-rate\\" type=\\"number\\" value=\\""+(r||0)+"\\" min=\\"0\\" style=\\"width:88px;padding:8px\\"></td>"'
+    + '+ "<td class=\\"it-amt\\" style=\\"padding:8px\\"></td><td><button onclick=\\"this.parentNode.parentNode.remove();recalc();\\">×</button></td>";'
+    + 'tb.appendChild(tr);tr.querySelectorAll("input").forEach(function(el){el.addEventListener("input",recalc);});recalc();}'
+    + 'function money(n){var c=document.getElementById("t-cur").value;return c+Number(n).toFixed(2);}'
+    + 'function recalc(){var rows=document.querySelectorAll("#t-items tr");var sub=0,itemsHtml="";'
+    + 'for(var i=1;i<rows.length;i++){var d=rows[i].querySelector(".it-desc").value;var q=parseFloat(rows[i].querySelector(".it-qty").value)||0;var r=parseFloat(rows[i].querySelector(".it-rate").value)||0;var a=q*r;sub+=a;'
+    + 'rows[i].querySelector(".it-amt").textContent=money(a);'
+    + 'itemsHtml+="<tr><td style=\\"padding:8px;border-top:1px solid #e5e8ec\\">"+escHtml(d)+"</td><td style=\\"padding:8px;border-top:1px solid #e5e8ec\\">"+q+"</td><td style=\\"padding:8px;border-top:1px solid #e5e8ec\\">"+money(r)+"</td><td style=\\"padding:8px;border-top:1px solid #e5e8ec\\">"+money(a)+"</td></tr>";}'
+    + 'var tax=parseFloat(document.getElementById("t-tax").value)||0;var taxAmt=sub*tax/100;var total=sub+taxAmt;'
+    + 'var p=document.getElementById("t-preview");'
+    + 'p.innerHTML="<h2 style=\\"margin-top:0\\">INVOICE</h2><p><b>"+escHtml(document.getElementById("t-biz").value||"Your Business")+"</b><br>"+escHtml(document.getElementById("t-bizaddr").value)+"</p>"'
+    + '+ "<p>Bill to:<br><b>"+escHtml(document.getElementById("t-client").value||"Client")+"</b><br>"+escHtml(document.getElementById("t-clientaddr").value)+"</p>"'
+    + '+ "<p>Invoice: "+escHtml(document.getElementById("t-inv").value)+" &nbsp;|&nbsp; Issued: "+escHtml(document.getElementById("t-issue").value)+" &nbsp;|&nbsp; Due: "+escHtml(document.getElementById("t-due").value)+"</p>"'
+    + '+ "<table style=\\"width:100%;border-collapse:collapse\\"><tr><th style=\\"text-align:left\\">Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>"+itemsHtml+"</table>"'
+    + '+ "<p style=\\"text-align:right\\">Subtotal: "+money(sub)+"<br>Tax ("+tax+"%): "+money(taxAmt)+"<br><b>Total due: "+money(total)+"</b></p>"'
+    + '+ "<p>"+escHtml(document.getElementById("t-notes").value)+"</p>";}'
+    + 'function downloadInvoice(){var html="<!DOCTYPE html><html><head><meta charset=\\"utf-8\\"><title>Invoice</title></head><body>"+document.getElementById("t-preview").innerHTML+"</body></html>";'
+    + 'var blob=new Blob([html],{type:"text/html"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="invoice.html";a.click();}'
+    + 'document.querySelectorAll("#t-biz,#t-bizaddr,#t-client,#t-clientaddr,#t-inv,#t-issue,#t-due,#t-tax,#t-notes").forEach(function(el){el.addEventListener("input",recalc);});'
+    + 'document.getElementById("t-cur").addEventListener("change",recalc);'
+    + 'addRow("Design work",1,250);addRow("",1,0);'
+    + '</script>';
+  return layout('Free invoice template', body, '/invoice-template', {
+    description: 'Free invoice template for freelancers and solo trades. Fill in your business, client and items, then print to PDF or download — no sign-up needed.',
+  });
 }
