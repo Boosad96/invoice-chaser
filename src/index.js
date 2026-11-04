@@ -16,6 +16,7 @@ import {
   layout, homePage, howItWorksPage, pricingPage, templatesPage, faqPage,
   aboutPage, contactPage, privacyPage, loginPage, signupPage, payPage,
   blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleReminderTemplates,
+  reminderEmailGeneratorPage, invoiceTemplatePage,
 } from './pages.js';
 import { appPage } from './app.js';
 import {
