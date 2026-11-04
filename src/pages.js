@@ -416,7 +416,7 @@ export function reminderEmailGeneratorPage() {
     + '<p><button class="btn" onclick="copyEmail()">Copy email</button> <button class="btn" onclick="copySubject()">Copy subject</button></p>'
     + '<p id="g-copied" style="color:#0b6b5e"></p>'
     + '</div>'
-    + '<p style="margin-top:16px">Want all three sent automatically at day 7, 14 and 30, without copying anything? <a href="/signup">Start free with Invoice Chaser</a> — 3 active invoices free. Need the invoice itself first? Use the <a href="/invoice-template">free invoice template</a>.</p></section>'
+    + '<p style="margin-top:16px">Want all three sent automatically at day 7, 14 and 30, without copying anything? <a href="/signup">Start free with Invoice Chaser</a> — 3 active invoices free. Need the invoice itself first? Use the <a href="/invoice-template">free invoice template</a>. Charging a late fee? Work it out with the <a href="/late-fee-calculator">free late fee calculator</a>.</p></section>'
     + '<script>'
     + 'function gval(id){return document.getElementById(id).value.trim();}'
     + 'function genDay(day){'
@@ -493,5 +493,57 @@ export function invoiceTemplatePage() {
     + '</script>';
   return layout('Free invoice template', body, '/invoice-template', {
     description: 'Free invoice template for freelancers and solo trades. Fill in your business, client and items, then print to PDF or download — no sign-up needed.',
+  });
+}
+
+export function lateFeeCalculatorPage() {
+  const jsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Invoice Chaser Late Fee Calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: SITE_URL + '/late-fee-calculator',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Work out the late fee on an overdue invoice: enter the amount, due date and your rate to see the fee and total now due. Free, no sign-up.',
+  });
+  const body = '<section class="hero"><p class="eyebrow">Free tool</p><h1>Late fee calculator</h1>'
+    + '<p style="font-size:19px">Work out what a late-paying client owes. Enter the invoice amount, due date and your late-fee terms — free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section><div class="card" style="max-width:720px">'
+    + '<label>Invoice amount<br><span style="display:flex;gap:8px"><select id="l-cur" style="padding:10px"><option value="$">$ USD</option><option value="£">£ GBP</option><option value="€">€ EUR</option><option value="₹">₹ INR</option></select>'
+    + '<input id="l-amt" type="number" min="0" placeholder="e.g. 2500" style="flex:1;padding:10px;margin:0"></span></label>'
+    + '<label style="display:block;margin-top:12px">Due date<br><input id="l-due" type="date" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Late fee (% per month)<br><input id="l-rate" type="number" value="1.5" min="0" step="0.1" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Flat late fee (optional)<br><input id="l-flat" type="number" value="0" min="0" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<label>Grace days (optional)<br><input id="l-grace" type="number" value="0" min="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<p><button class="btn" onclick="calcLate()">Calculate late fee</button></p>'
+    + '<div id="l-results"></div>'
+    + '<label>Copyable clause for your payment terms<br><textarea id="l-clause" rows="3" readonly style="width:100%;padding:10px;margin:6px 0 12px;background:#f4f6f8"></textarea></label>'
+    + '<p><button class="btn" onclick="copyClause()">Copy clause</button> <span id="l-copied" style="color:#0b6b5e"></span></p>'
+    + '<p style="font-size:14px;color:#555">This calculator does the arithmetic only — it is not legal or financial advice. A late fee can usually only be charged if it was in your agreed terms before the work started, and many places cap the rate, so check the limits where you and your client are.</p>'
+    + '</div>'
+    + '<p style="margin-top:16px">Fee worked out? Send the follow-up with the <a href="/reminder-email-generator">free reminder email generator</a>, or let <a href="/signup">Invoice Chaser chase it automatically at day 7, 14 and 30</a>. Need the invoice itself? Use the <a href="/invoice-template">free invoice template</a>.</p></section>'
+    + '<script>'
+    + 'function lnum(id,def){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?def:v;}'
+    + 'function lmoney(n){var c=document.getElementById("l-cur").value;return c+Number(n).toFixed(2);}'
+    + 'function calcLate(){'
+    + 'var amt=lnum("l-amt",0);var rate=lnum("l-rate",1.5);var flat=lnum("l-flat",0);var grace=Math.max(0,Math.floor(lnum("l-grace",0)));'
+    + 'var dueStr=document.getElementById("l-due").value;var res=document.getElementById("l-results");'
+    + 'if(!amt||!dueStr){res.innerHTML="<p>Enter an invoice amount and a due date to calculate.</p>";return;}'
+    + 'var due=new Date(dueStr+"T00:00:00Z");var today=new Date();today.setUTCHours(0,0,0,0);'
+    + 'var daysOver=Math.floor((today-due)/86400000);'
+    + 'var chargeable=Math.max(0,daysOver-grace);'
+    + 'var interest=amt*(rate/100)*(chargeable/30);var fee=chargeable>0?flat:0;var total=amt+interest+fee;'
+    + 'var html="<p>Days overdue: <b>"+daysOver+"</b><br>Chargeable days (after "+grace+" grace day(s)): <b>"+chargeable+"</b><br>Interest at "+rate+"% per month, pro-rated daily: <b>"+lmoney(interest)+"</b><br>Flat late fee: <b>"+lmoney(fee)+"</b><br>Total late charges: <b>"+lmoney(interest+fee)+"</b><br><b>Total now due: "+lmoney(total)+"</b></p>";'
+    + 'if(daysOver<=0){html="<p>This invoice is not overdue yet — it is due on "+dueStr+".</p>"+html;}'
+    + 'res.innerHTML=html;'
+    + 'var clause="Payment due within 30 days of the invoice date. Invoices unpaid after the due date incur a late fee of "+rate+"% per month (pro-rated daily)"+(flat>0?(" plus a flat fee of "+lmoney(flat)):"")+" after a grace period of "+grace+" day(s).";'
+    + 'document.getElementById("l-clause").value=clause;document.getElementById("l-copied").textContent="";}'
+    + 'function copyClause(){var el=document.getElementById("l-clause");el.select();try{navigator.clipboard.writeText(el.value);}catch(e){document.execCommand("copy");}document.getElementById("l-copied").textContent="Clause copied — paste it into your payment terms.";}'
+    + 'function lprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}lprefill("l-amt","amt");lprefill("l-due","due");lprefill("l-rate","rate");lprefill("l-flat","flat");lprefill("l-grace","grace");lprefill("l-cur","cur");calcLate();'
+    + '</script>';
+  return layout('Free late fee calculator', body, '/late-fee-calculator', {
+    description: 'Free late fee calculator for freelancers. Enter the amount, due date and your rate to work out the late fee and total now due — no sign-up.',
+    jsonld: jsonld,
   });
 }
