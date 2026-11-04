@@ -42,7 +42,7 @@ pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow:au
 @media(max-width:640px){h1{font-size:32px}.nav{gap:12px}.hero{padding:24px 0 16px}.hero-grid{grid-template-columns:1fr}.hero-panel{padding:28px 22px}.hero-panel h1{font-size:36px}.stats{grid-template-columns:1fr}}
 `;
 
-const SITE_URL = 'https://invoice-chaser.agentid-mints.workers.dev';
+const SITE_URL = 'https://paychaserhq.com';
 
 export function layout(title, body, active, meta = {}) {
   const links = [
