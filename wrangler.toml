@@ -13,7 +13,7 @@ compatibility_date = "2026-11-04"
 [[d1_databases]]
 binding = "DB"
 database_name = "invoice-chaser-db"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "54086964-4b60-42e8-9a53-36ef7d373cc8"
 
 # Daily reminder job: 09:00 UTC. Cloudflare cron is UTC only.
 # Uses 1 of the 5 free cron triggers per account.
