@@ -1,0 +1,172 @@
+// Public marketing pages. These are the ONLY pages that may ever carry
+// display ads. Ads must NEVER appear on /login, /signup, /app, settings, or
+// any private page. No ad code is included in v1.
+
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+const CSS = `
+:root{--ink:#1c2430;--muted:#5b6775;--line:#e3e8ee;--brand:#0f766e;--brand2:#0d9488;--bg:#f7f8f9;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);line-height:1.55;background:var(--bg)}
+a{color:var(--brand)}header{border-bottom:1px solid var(--line);background:#fff}
+.nav{max-width:960px;margin:0 auto;padding:14px 20px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.nav .logo{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;margin-right:auto}
+.nav a{color:var(--muted);text-decoration:none;font-size:15px}.nav a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--brand);color:#fff!important;text-decoration:none;padding:10px 18px;border-radius:8px;font-weight:600;border:0;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--ink)!important;border:1px solid var(--line)}
+main{max-width:960px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:36px;line-height:1.2;margin:8px 0 12px}h2{margin-top:36px}p{color:var(--muted)}
+.hero{padding:28px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+label{display:block;margin:14px 0 4px;font-weight:600}
+input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:15px}
+footer{border-top:1px solid var(--line);background:#fff}footer .nav{font-size:14px}
+code{background:#eef2f5;padding:2px 6px;border-radius:4px;font-size:14px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow:auto;font-size:14px}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin:16px 0}
+@media(max-width:640px){h1{font-size:28px}.nav{gap:12px}}
+`;
+
+export function layout(title, body, active) {
+  const links = [
+    ['/', 'Home'], ['/how-it-works', 'How it works'], ['/pricing', 'Pricing'],
+    ['/templates', 'Sample templates'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
+  ];
+  const nav = links.map(([href, label]) =>
+    '<a href="' + href + '"' + (active === href ? ' style="color:#1c2430;font-weight:600"' : '') + '>' + label + '</a>').join('');
+  return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<title>' + esc(title) + ' — Invoice Chaser</title><meta name="description" content="Invoice Chaser chases unpaid invoices for freelancers and solo trades, automatically, by email."><style>' + CSS + '</style></head>'
+    + '<body><header><nav class="nav"><a class="logo" href="/">Invoice Chaser</a>' + nav
+    + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
+    + '<main>' + body + '</main>'
+    + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
+    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav></footer></body></html>';
+}
+
+export function homePage() {
+  return layout('Chase unpaid invoices without the awkward follow-up', `
+  <section class="hero"><h1>Unpaid invoices chase themselves.</h1>
+  <p style="font-size:19px">Invoice Chaser sends polite, firmer, then final reminders automatically at day 7, 14 and 30 after an invoice is due — so freelancers and solo trades stop losing money to forgotten follow-ups.</p>
+  <p><a class="btn" href="/signup">Start free — 3 active invoices</a> &nbsp; <a class="btn ghost" href="/how-it-works">See how it works</a></p></section>
+  <div class="grid">
+    <div class="card"><h3>1. Add the invoice</h3><p>Type it in or import a CSV. Client name, email, amount, due date — done in under a minute.</p></div>
+    <div class="card"><h3>2. Reminders run themselves</h3><p>A polite nudge at day 7, a firmer reminder at day 14, a final notice at day 30. You edit every template.</p></div>
+    <div class="card"><h3>3. Paid? It stops.</h3><p>Mark an invoice paid and its whole sequence pauses instantly. Nobody gets chased after paying.</p></div>
+  </div>
+  <div class="card"><h2 style="margin-top:0">Who it is for</h2>
+  <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
+  <div class="card"><h2 style="margin-top:0">What it never does</h2>
+  <p>Invoice Chaser never processes payments and never touches your money. It only sends reminders. Your clients pay you through your own Stripe, PayPal, or bank link.</p></div>`, '/');
+}
+
+export function howItWorksPage() {
+  return layout('How it works', `
+  <h1>How it works</h1>
+  <div class="card"><h3>Step 1 — Sign up free</h3><p>Create an account with your email and business name. The free plan covers 3 active invoices.</p></div>
+  <div class="card"><h3>Step 2 — Add invoices</h3><p>Add them one by one, or import a CSV with columns: client name, client email, amount, due date. An optional pay-link field puts your own payment link into every reminder.</p></div>
+  <div class="card"><h3>Step 3 — The sequence runs daily</h3><p>Every morning the app checks what is overdue and unpaid, and sends the next step: day 7 polite, day 14 firmer, day 30 final. Each reminder is recorded once, so a retry can never double-send it.</p></div>
+  <div class="card"><h3>Step 4 — Paid, paused, or promised</h3><p>Mark an invoice paid and its reminders stop at once. Pause any invoice while a client sorts out a query. The dashboard shows what is overdue, what is on track, what was sent, and what is due to send next.</p></div>
+  <div class="card"><h3>Step 5 — Templates are yours</h3><p>Every template is plain text you can rewrite in your own voice, with placeholders for client, amount, due date, pay link, and business name.</p></div>`, '/how-it-works');
+}
+
+export function pricingPage() {
+  return layout('Pricing', `
+  <h1>Simple pricing</h1>
+  <p>Start free. Upgrade only when you have more unpaid invoices than the free plan covers.</p>
+  <table><tr><th>Plan</th><th>Active invoices</th><th>Price</th></tr>
+  <tr><td><strong>Free</strong></td><td>3</td><td>$0</td></tr>
+  <tr><td><strong>Starter</strong></td><td>25</td><td>$19 / month</td></tr>
+  <tr><td><strong>Pro</strong></td><td>100</td><td>$49 / month</td></tr></table>
+  <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Paid plans are display-only in this version — checkout is added when billing launches, and you will never be charged without explicitly choosing a plan.</p>`, '/pricing');
+}
+
+export function templatesPage() {
+  return layout('Sample reminder templates', `
+  <h1>Sample reminder templates</h1>
+  <p>These are the three default templates every account starts with. You can rewrite all of them. Placeholders: <code>{{client}}</code>, <code>{{amount}}</code>, <code>{{due_date}}</code>, <code>{{pay_link}}</code>, <code>{{business_name}}</code>.</p>
+  <div class="card"><h3>Day 7 — Polite nudge</h3><p><strong>Subject:</strong> Friendly reminder: invoice {{amount}} was due {{due_date}}</p><p>Hi {{client}},<br><br>Just a friendly nudge — invoice {{amount}} was due on {{due_date}} and we have not seen the payment yet.<br><br>If you have already paid, please ignore this message. Otherwise you can pay here:<br>{{pay_link}}<br><br>Thanks so much,<br>{{business_name}}</p></div>
+  <div class="card"><h3>Day 14 — Firmer follow-up</h3><p><strong>Subject:</strong> Second reminder: invoice {{amount}} is now overdue</p><p>Hi {{client}},<br><br>This is a second reminder that invoice {{amount}}, due on {{due_date}}, is still unpaid.<br><br>Please arrange payment as soon as you can, or reply to this email if there is an issue with the invoice:<br>{{pay_link}}<br><br>Thanks,<br>{{business_name}}</p></div>
+  <div class="card"><h3>Day 30 — Final notice</h3><p><strong>Subject:</strong> Final notice: invoice {{amount}} overdue since {{due_date}}</p><p>Hi {{client}},<br><br>This is a final notice for invoice {{amount}}, which was due on {{due_date}} and remains unpaid.<br><br>Please pay now or contact us urgently to agree a payment plan:<br>{{pay_link}}<br><br>{{business_name}}</p></div>`, '/templates');
+}
+
+export function faqPage() {
+  return layout('Frequently asked questions', `
+  <h1>Frequently asked questions</h1>
+  <div class="card"><h3>Does Invoice Chaser touch my money?</h3><p>No. It never processes payments, holds funds, or takes a cut. It sends reminders only. Clients pay you through your own payment link or bank details.</p></div>
+  <div class="card"><h3>What happens when a client pays?</h3><p>Mark the invoice paid in your dashboard and every pending reminder for it stops immediately. Nothing further is sent for that invoice.</p></div>
+  <div class="card"><h3>Can I pause chasing one client?</h3><p>Yes. Pause any invoice while a query is being sorted out. Paused invoices send nothing until you resume them.</p></div>
+  <div class="card"><h3>Do I need accounting software?</h3><p>No. Invoices are typed in or imported from a CSV. No Xero, QuickBooks, or other integration is required.</p></div>
+  <div class="card"><h3>What if a client replies to a reminder?</h3><p>Replies go to your own email inbox (reminders are sent from your business). If a client promises payment or disputes the invoice, pause it from your dashboard — automatic reply classification is a planned feature, not a v1 promise.</p></div>
+  <div class="card"><h3>Can a reminder be sent twice by mistake?</h3><p>No. Every reminder is recorded as sent the moment it goes out, and the daily job only ever picks up reminders still marked pending.</p></div>
+  <div class="card"><h3>Is there a free plan?</h3><p>Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are shown on the pricing page; checkout is not live in this version.</p></div>
+  <div class="card"><h3>Will you show ads?</h3><p>Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, or settings pages.</p></div>`, '/faq');
+}
+
+export function aboutPage() {
+  return layout('About', `
+  <h1>About Invoice Chaser</h1>
+  <p>Invoice Chaser exists for one frustrating, ordinary problem: freelancers and solo trades send an invoice, then forget — or dread — the follow-up, while the money sits unpaid. Accounting tools generate the invoice and stop; this tool handles what happens after it.</p>
+  <p>It is a small, focused product: one workflow (remind, escalate, stop when paid), email only, no per-customer service, no money movement. It is built for people who work from a phone and a spreadsheet, not a finance department.</p>`, '/about');
+}
+
+export function contactPage() {
+  return layout('Contact', `
+  <h1>Contact</h1>
+  <p>Questions, feedback, or a bug to report? Send a message and it is stored for the site owner to read.</p>
+  <form method="post" action="/api/contact" id="contactForm">
+    <label for="name">Name</label><input id="name" name="name" required>
+    <label for="email">Email</label><input id="email" name="email" type="email" required>
+    <label for="message">Message</label><textarea id="message" name="message" rows="5" required></textarea>
+    <p><button class="btn" type="submit">Send message</button></p>
+  </form>
+  <p id="contactResult"></p>
+  <script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: document.getElementById('name').value, email: document.getElementById('email').value, message: document.getElementById('message').value }) });
+    document.getElementById('contactResult').textContent = res.ok ? 'Thanks — your message was received.' : 'Something went wrong. Please try again.';
+    if (res.ok) e.target.reset();
+  });
+  </script>`, '/contact');
+}
+
+export function privacyPage() {
+  return layout('Privacy', `
+  <h1>Privacy</h1>
+  <p><strong>What we collect.</strong> Your account email, business name, and the invoices you enter (client names, client emails, amounts, due dates, and any pay link you paste). We also store the reminders we send on your behalf and your email templates.</p>
+  <p><strong>What we never do.</strong> We never process payments, hold your money, or sell your data. Your clients' details are used only to send the reminders you asked for.</p>
+  <p><strong>Cookies.</strong> We use one strictly necessary cookie to keep you signed in. We do not use tracking cookies in this version.</p>
+  <p><strong>Future advertising.</strong> If display advertising (for example Google AdSense) is enabled later, Google and its partners may use cookies to serve ads on public pages of this site. Those cookies will never be used inside private pages (dashboard, login, signup, settings), and this page will be updated before any ad code goes live.</p>
+  <p><strong>Deletion.</strong> Delete an invoice and it is gone from your dashboard. To delete your whole account, contact us through the contact page.</p>`, '/privacy');
+}
+
+export function loginPage(error) {
+  return layout('Sign in', `
+  <h1>Sign in</h1>
+  ${error ? '<div class="note">' + esc(error) + '</div>' : ''}
+  <form method="post" action="/api/auth/login">
+    <label for="email">Email</label><input id="email" name="email" type="email" required>
+    <label for="password">Password</label><input id="password" name="password" type="password" required>
+    <p><button class="btn" type="submit">Sign in</button></p>
+  </form>
+  <p>No account yet? <a href="/signup">Create a free account</a>.</p>`, '/login');
+}
+
+export function signupPage(error) {
+  return layout('Create your free account', `
+  <h1>Create your free account</h1>
+  <p>Free for up to 3 active invoices. No card required.</p>
+  ${error ? '<div class="note">' + esc(error) + '</div>' : ''}
+  <form method="post" action="/api/auth/signup">
+    <label for="email">Email</label><input id="email" name="email" type="email" required>
+    <label for="business">Business name</label><input id="business" name="business" required>
+    <label for="password">Password (at least 8 characters)</label><input id="password" name="password" type="password" required minlength="8">
+    <p><button class="btn" type="submit">Create account</button></p>
+  </form>
+  <p>Already have an account? <a href="/login">Sign in</a>.</p>`, '/signup');
+}

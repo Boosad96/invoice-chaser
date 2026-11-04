@@ -1,0 +1,1 @@
+{"description":"Invoice chasing web app for freelancers and solo trades — Cloudflare Workers + D1 + Resend","name":"invoice-chaser","private":true,"scripts":{"deploy":"wrangler deploy","dev":"wrangler dev"},"type":"module","version":"1.0.0"}
