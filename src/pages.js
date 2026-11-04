@@ -31,7 +31,15 @@ footer{border-top:1px solid var(--line);background:#fff}footer .nav{font-size:14
 code{background:#eef2f5;padding:2px 6px;border-radius:4px;font-size:14px}
 pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow:auto;font-size:14px}
 .note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin:16px 0}
-@media(max-width:640px){h1{font-size:32px}.nav{gap:12px}.hero{padding:24px 0 16px}}
+.hero-panel{background:linear-gradient(135deg,#07332d 0%,#0b6b5e 60%,#0e8a78 100%);border-radius:20px;padding:44px 36px;color:#fff;box-shadow:0 16px 40px rgba(7,51,45,.3)}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+.hero-panel .eyebrow{color:#fbbf24}.hero-panel h1{color:#fff;font-size:50px}
+.hero-panel p{color:#cde8e2}.hero-panel .btn.ghost{background:transparent;color:#fff!important;border:1px solid rgba(255,255,255,.5);box-shadow:none}
+.hero-visual svg{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 24px rgba(0,0,0,.3))}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(20,32,46,.06)}
+.stat b{display:block;font-size:26px;color:var(--brand)}.stat span{color:var(--muted);font-size:14px}
+@media(max-width:640px){h1{font-size:32px}.nav{gap:12px}.hero{padding:24px 0 16px}.hero-grid{grid-template-columns:1fr}.hero-panel{padding:28px 22px}.hero-panel h1{font-size:36px}.stats{grid-template-columns:1fr}}
 `;
 
 const SITE_URL = 'https://invoice-chaser.agentid-mints.workers.dev';
@@ -77,9 +85,30 @@ export function homePage() {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free plan: 3 active invoices' },
   });
   return layout('Automatic invoice reminders for freelancers', `
-  <section class="hero"><p class="eyebrow">Automatic invoice reminders</p><h1>Unpaid invoices chase themselves.</h1>
+  <section class="hero-panel"><div class="hero-grid"><div>
+  <p class="eyebrow">Automatic invoice reminders</p><h1>Unpaid invoices chase themselves.</h1>
   <p style="font-size:19px">Invoice Chaser is automatic invoice reminder software for freelancers and solo trades. It sends polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due — so you stop losing money to forgotten follow-ups, without the awkward phone call.</p>
-  <p><a class="btn" href="/signup">Start free — 3 active invoices</a> &nbsp; <a class="btn ghost" href="/how-it-works">See how it works</a></p></section>
+  <p><a class="btn" href="/signup">Start free — 3 active invoices</a> &nbsp; <a class="btn ghost" href="/how-it-works">See how it works</a></p></div>
+  <div class="hero-visual"><svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Invoice marked paid after automatic reminders">
+    <rect x="45" y="15" width="210" height="200" rx="14" fill="#ffffff"/>
+    <rect x="65" y="35" width="110" height="12" rx="6" fill="#14202e"/>
+    <rect x="65" y="58" width="170" height="7" rx="3.5" fill="#cbd5e1"/>
+    <rect x="65" y="73" width="150" height="7" rx="3.5" fill="#cbd5e1"/>
+    <rect x="65" y="95" width="170" height="1.5" fill="#e2e8f0"/>
+    <rect x="65" y="108" width="90" height="7" rx="3.5" fill="#94a3b8"/>
+    <rect x="65" y="123" width="90" height="7" rx="3.5" fill="#94a3b8"/>
+    <rect x="65" y="138" width="90" height="7" rx="3.5" fill="#94a3b8"/>
+    <rect x="185" y="105" width="50" height="40" rx="8" fill="#ecfdf5"/>
+    <text x="210" y="131" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="800" fill="#0b6b5e">$100</text>
+    <g transform="rotate(-12 195 175)"><rect x="155" y="160" width="80" height="30" rx="15" fill="none" stroke="#f59e0b" stroke-width="2.5"/><text x="195" y="180" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="800" fill="#f59e0b" letter-spacing="2">PAID</text></g>
+    <g><rect x="8" y="150" width="86" height="30" rx="15" fill="#0b6b5e"/><text x="51" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#ffffff">Day 7 ✓ sent</text></g>
+    <g><rect x="205" y="30" width="86" height="30" rx="15" fill="#f59e0b"/><text x="248" y="50" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#ffffff">Day 30 ✓ final</text></g>
+  </svg></div></div></section>
+  <div class="stats">
+    <div class="stat"><b>3 free</b><span>active invoices, no card</span></div>
+    <div class="stat"><b>7 · 14 · 30</b><span>day reminder sequence</span></div>
+    <div class="stat"><b>$0 touched</b><span>never processes payments</span></div>
+  </div>
   <div class="grid">
     <div class="card"><h3>1. Add the invoice</h3><p>Type it in or import a CSV. Client name, email, amount, due date — done in under a minute.</p></div>
     <div class="card"><h3>2. Reminders run themselves</h3><p>A polite nudge at day 7, a firmer reminder at day 14, a final notice at day 30. You edit every template.</p></div>
