@@ -122,7 +122,7 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>`, '/', {
-    description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due — free for 3 active invoices.',
+    description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
     jsonld,
   });
 }
@@ -135,7 +135,7 @@ export function howItWorksPage() {
   <div class="card"><h3>Step 3 — The sequence runs daily</h3><p>Every morning the app checks what is overdue and unpaid, and sends the next step: day 7 polite, day 14 firmer, day 30 final. Each reminder is recorded once, so a retry can never double-send it.</p></div>
   <div class="card"><h3>Step 4 — Paid, paused, or promised</h3><p>Mark an invoice paid and its reminders stop at once. Pause any invoice while a client sorts out a query. The dashboard shows what is overdue, what is on track, what was sent, and what is due to send next.</p></div>
   <div class="card"><h3>Step 5 — Templates are yours</h3><p>Every template is plain text you can rewrite in your own voice, with placeholders for client, amount, due date, pay link, and business name.</p></div>`, '/how-it-works', {
-    description: 'How automatic invoice reminders work: add invoices or import a CSV, and Invoice Chaser sends day 7, 14 and 30 reminders by email until the invoice is marked paid.',
+    description: 'How automatic invoice reminders work: add invoices or import a CSV, and Invoice Chaser sends day 7, 14 and 30 reminders until the invoice is marked paid.',
   });
 }
 
@@ -149,7 +149,7 @@ export function pricingPage() {
   <tr><td><strong>Pro</strong></td><td>100</td><td>$49 / month</td></tr></table>
   <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Pay with USDT on BNB Smart Chain — no card needed. Choose a plan and pay the exact amount; your plan upgrades automatically once the payment is verified on-chain, and lasts 30 days.</p>
   <p><a class="btn" href="/pay?plan=starter">Pay $19 USDT — Starter</a> &nbsp; <a class="btn" href="/pay?plan=pro">Pay $49 USDT — Pro</a> &nbsp; <a class="btn ghost" href="/signup">Start free</a></p>`, '/pricing', {
-    description: 'Invoice Chaser pricing: free for 3 active invoices, Starter $19/month for 25, Pro $49/month for 100. Every plan includes the full day 7, 14 and 30 reminder sequence.',
+    description: 'Invoice Chaser pricing: free for 3 active invoices, Starter $19/month for 25, Pro $49/month for 100. Every plan includes the full day 7, 14 and 30 sequence.',
   });
 }
 
@@ -187,7 +187,7 @@ export function templatesPage() {
   <div class="card"><h3>Day 7 — Polite nudge</h3><p><strong>Subject:</strong> Friendly reminder: invoice {{amount}} was due {{due_date}}</p><p>Hi {{client}},<br><br>Just a friendly nudge — invoice {{amount}} was due on {{due_date}} and we have not seen the payment yet.<br><br>If you have already paid, please ignore this message. Otherwise you can pay here:<br>{{pay_link}}<br><br>Thanks so much,<br>{{business_name}}</p></div>
   <div class="card"><h3>Day 14 — Firmer follow-up</h3><p><strong>Subject:</strong> Second reminder: invoice {{amount}} is now overdue</p><p>Hi {{client}},<br><br>This is a second reminder that invoice {{amount}}, due on {{due_date}}, is still unpaid.<br><br>Please arrange payment as soon as you can, or reply to this email if there is an issue with the invoice:<br>{{pay_link}}<br><br>Thanks,<br>{{business_name}}</p></div>
   <div class="card"><h3>Day 30 — Final notice</h3><p><strong>Subject:</strong> Final notice: invoice {{amount}} overdue since {{due_date}}</p><p>Hi {{client}},<br><br>This is a final notice for invoice {{amount}}, which was due on {{due_date}} and remains unpaid.<br><br>Please pay now or contact us urgently to agree a payment plan:<br>{{pay_link}}<br><br>{{business_name}}</p></div>`, '/templates', {
-    description: 'Free invoice reminder email templates: a polite day 7 nudge, a firmer day 14 follow-up, and a day 30 final notice — with placeholders for client, amount, due date and pay link.',
+    description: 'Free invoice reminder email templates: a polite day 7 nudge, a firmer day 14 follow-up, and a day 30 final notice, with placeholders for client and amount.',
   });
 }
 
@@ -227,7 +227,7 @@ export function aboutPage() {
   <h1>About Invoice Chaser</h1>
   <p>Invoice Chaser exists for one frustrating, ordinary problem: freelancers and solo trades send an invoice, then forget — or dread — the follow-up, while the money sits unpaid. Accounting tools generate the invoice and stop; this tool handles what happens after it.</p>
   <p>It is a small, focused product: one workflow (remind, escalate, stop when paid), email only, no per-customer service, no money movement between you and your clients. It is built for people who work from a phone and a spreadsheet, not a finance department.</p>`, '/about', {
-    description: 'About Invoice Chaser: automatic invoice reminders for freelancers and solo trades — one workflow (remind, escalate, stop when paid), email only, no money movement.',
+    description: 'About Invoice Chaser: automatic invoice reminders for freelancers and solo trades — one workflow (remind, escalate, stop when paid), email only.',
   });
 }
 
@@ -308,14 +308,14 @@ export function blogIndexPage() {
   <div class="card"><h3><a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a></h3><p>The five parts every reminder needs, subject lines that get opened, and the tone ladder from friendly nudge to final notice.</p></div>
   <div class="card"><h3><a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a></h3><p>Work through the steps in order: check the boring stuff first, remind, call, set a deadline, pause work — and what to do before the next invoice so it doesn't happen again.</p></div>
   <div class="card"><h3><a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></h3><p>Three ready-to-use templates — day 7 polite, day 14 firmer, day 30 final — with the placeholders explained and tips for making them sound like you.</p></div>`, '/blog', {
-    description: 'Guides for freelancers and solo trades on getting paid: writing payment reminder emails, what to do when a client does not pay, and ready-to-use reminder templates.',
+    description: 'Guides for freelancers and solo trades on getting paid: payment reminder emails, what to do when a client does not pay, and ready-to-use templates.',
   });
 }
 
 export function articlePaymentReminderEmail() {
   const path = '/blog/payment-reminder-email';
   const headline = 'How to write a payment reminder email that actually gets paid';
-  const description = 'A payment reminder email works when it is polite, specific, and makes paying easy. Here are the five parts every reminder needs, plus subject lines, a full example, and the mistakes to avoid.';
+  const description = 'A payment reminder email works when it is polite, specific, and makes paying easy. Here are the five parts every reminder needs, plus a full example.';
   return layout(headline, `
   <h1>${headline}</h1>
   <p>Most late payments are not disputes. The client meant to pay, the invoice slipped down their inbox, and nobody followed up. A good reminder email fixes exactly that — it jogs the memory, removes every obstacle to paying, and keeps the relationship intact. A bad one does the opposite: it sounds angry, vague, or accusatory, and the client puts it off again.</p>
@@ -341,7 +341,7 @@ export function articlePaymentReminderEmail() {
 export function articleClientNotPaying() {
   const path = '/blog/client-not-paying';
   const headline = "What to do when a client doesn't pay your invoice";
-  const description = 'Work through the steps in order when a client does not pay: check the boring stuff, remind politely, call, set a firm deadline, pause work, and prevent it next time.';
+  const description = 'When a client does not pay: check the boring stuff, remind politely, call, set a firm deadline, pause work, and prevent it next time.';
   return layout(headline, `
   <h1>${headline}</h1>
   <p>An unpaid invoice is stressful because it mixes money with a relationship. The way through it is to work the steps in order, from the least confrontational to the firmest, and to give each step a fair chance before moving on. Jumping straight to threats feels satisfying for an afternoon and usually costs you the client and the payment both.</p>
