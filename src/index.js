@@ -183,7 +183,12 @@ export default {
     if (method === 'GET' && path === '/signup') return html(signupPage());
     if (method === 'GET' && path === '/app') return html(appPage());
     if (method === 'GET' && path === '/robots.txt') {
-      return new Response('User-agent: *\nAllow: /\n', { headers: { 'Content-Type': 'text/plain' } });
+      return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nSitemap: https://invoice-chaser.agentid-mints.workers.dev/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
+    }
+    if (method === 'GET' && path === '/sitemap.xml') {
+      const pages = ['/', '/how-it-works', '/pricing', '/templates', '/faq', '/about', '/contact', '/privacy'];
+      const urls = pages.map((p) => '  <url><loc>https://invoice-chaser.agentid-mints.workers.dev' + p + '</loc></url>').join('\n');
+      return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
 
     // Contact form (public, stores the message for the site owner)
