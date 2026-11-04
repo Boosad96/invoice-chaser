@@ -47,7 +47,7 @@ const SITE_URL = 'https://paychaserhq.com';
 export function layout(title, body, active, meta = {}) {
   const links = [
     ['/', 'Home'], ['/how-it-works', 'How it works'], ['/pricing', 'Pricing'],
-    ['/templates', 'Sample templates'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
+    ['/templates', 'Sample templates'], ['/blog', 'Guides'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
   ];
   const nav = links.map(([href, label]) =>
     '<a href="' + href + '"' + (active === href ? ' style="color:#1c2430;font-weight:600"' : '') + '>' + label + '</a>').join('');
@@ -183,6 +183,7 @@ export function templatesPage() {
   return layout('Sample reminder templates', `
   <h1>Sample reminder templates</h1>
   <p>These are the three default templates every account starts with. You can rewrite all of them. Placeholders: <code>{{client}}</code>, <code>{{amount}}</code>, <code>{{due_date}}</code>, <code>{{pay_link}}</code>, <code>{{business_name}}</code>.</p>
+  <p>Want the reasoning behind each one — when to send it and what to change? Read the <a href="/blog/invoice-reminder-templates">invoice reminder templates guide</a>, or browse all <a href="/blog">guides for getting paid</a>.</p>
   <div class="card"><h3>Day 7 — Polite nudge</h3><p><strong>Subject:</strong> Friendly reminder: invoice {{amount}} was due {{due_date}}</p><p>Hi {{client}},<br><br>Just a friendly nudge — invoice {{amount}} was due on {{due_date}} and we have not seen the payment yet.<br><br>If you have already paid, please ignore this message. Otherwise you can pay here:<br>{{pay_link}}<br><br>Thanks so much,<br>{{business_name}}</p></div>
   <div class="card"><h3>Day 14 — Firmer follow-up</h3><p><strong>Subject:</strong> Second reminder: invoice {{amount}} is now overdue</p><p>Hi {{client}},<br><br>This is a second reminder that invoice {{amount}}, due on {{due_date}}, is still unpaid.<br><br>Please arrange payment as soon as you can, or reply to this email if there is an issue with the invoice:<br>{{pay_link}}<br><br>Thanks,<br>{{business_name}}</p></div>
   <div class="card"><h3>Day 30 — Final notice</h3><p><strong>Subject:</strong> Final notice: invoice {{amount}} overdue since {{due_date}}</p><p>Hi {{client}},<br><br>This is a final notice for invoice {{amount}}, which was due on {{due_date}} and remains unpaid.<br><br>Please pay now or contact us urgently to agree a payment plan:<br>{{pay_link}}<br><br>{{business_name}}</p></div>`, '/templates', {
@@ -286,4 +287,102 @@ export function signupPage(error) {
     <p><button class="btn" type="submit">Create account</button></p>
   </form>
   <p>Already have an account? <a href="/login">Sign in</a>.</p>`, '/signup', { robots: 'noindex, follow' });
+}
+
+function articleJsonld(path, headline, description) {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    author: { '@type': 'Organization', name: 'Invoice Chaser', url: SITE_URL + '/' },
+    publisher: { '@type': 'Organization', name: 'Invoice Chaser', url: SITE_URL + '/' },
+    mainEntityOfPage: SITE_URL + path,
+  });
+}
+
+export function blogIndexPage() {
+  return layout('Guides for getting paid', `
+  <h1>Guides for getting paid</h1>
+  <p>Practical guides for freelancers and solo trades on chasing unpaid invoices without losing the client — or your temper.</p>
+  <div class="card"><h3><a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a></h3><p>The five parts every reminder needs, subject lines that get opened, and the tone ladder from friendly nudge to final notice.</p></div>
+  <div class="card"><h3><a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a></h3><p>Work through the steps in order: check the boring stuff first, remind, call, set a deadline, pause work — and what to do before the next invoice so it doesn't happen again.</p></div>
+  <div class="card"><h3><a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></h3><p>Three ready-to-use templates — day 7 polite, day 14 firmer, day 30 final — with the placeholders explained and tips for making them sound like you.</p></div>`, '/blog', {
+    description: 'Guides for freelancers and solo trades on getting paid: writing payment reminder emails, what to do when a client does not pay, and ready-to-use reminder templates.',
+  });
+}
+
+export function articlePaymentReminderEmail() {
+  const path = '/blog/payment-reminder-email';
+  const headline = 'How to write a payment reminder email that actually gets paid';
+  const description = 'A payment reminder email works when it is polite, specific, and makes paying easy. Here are the five parts every reminder needs, plus subject lines, a full example, and the mistakes to avoid.';
+  return layout(headline, `
+  <h1>${headline}</h1>
+  <p>Most late payments are not disputes. The client meant to pay, the invoice slipped down their inbox, and nobody followed up. A good reminder email fixes exactly that — it jogs the memory, removes every obstacle to paying, and keeps the relationship intact. A bad one does the opposite: it sounds angry, vague, or accusatory, and the client puts it off again.</p>
+  <h2>Why most reminders fail</h2>
+  <p>Three common faults kill otherwise fair reminders. First, vagueness: an email that says "just checking in on my invoice" without an amount, a date, or an invoice number forces the client to go digging — and they will do it later, which means never. Second, no clear action: if there is no pay link or payment instruction, even a willing client has to work out how to pay. Third, the wrong tone: opening with a threat on the first reminder burns goodwill you may need later, while being too apologetic about asking for your own money signals that payment is optional. It is not.</p>
+  <h2>The five parts of a reminder that works</h2>
+  <p><strong>1. A subject line that says what it is.</strong> "Friendly reminder: invoice $100 was due 10 November" beats "Quick question" every time. The client should know in one glance what the email is about and whether it needs them today.</p>
+  <p><strong>2. A friendly opener that assumes the best.</strong> "Just a friendly nudge — this may simply have been forgotten" costs nothing and keeps the door open. Assume forgetfulness, not bad faith, until you have evidence otherwise.</p>
+  <p><strong>3. The facts, all in one place.</strong> Invoice number, amount, due date. Never make the client search for these. One line is enough: "Invoice INV-014, $100, due 10 November."</p>
+  <p><strong>4. One clear action.</strong> A single pay link, or one set of payment instructions. If you give three ways to pay and a paragraph of bank details, you have given them a reason to postpone.</p>
+  <p><strong>5. A polite close with an out.</strong> "If you have already paid, please ignore this message" removes the embarrassment of a client who paid yesterday. End with your name and business, not a legal threat.</p>
+  <h2>The tone ladder: day 7, day 14, day 30</h2>
+  <p>One reminder is rarely the whole story. A sequence works better than a single email because it escalates gradually. Day 7 is a polite nudge that assumes forgetfulness. Day 14 is firmer: it states the invoice is now overdue and asks for payment or a reply. Day 30 is a final notice: it asks for payment now or a payment plan, and it is the right place — the only place — to mention next steps. Sending the day 30 tone on day 7 is the fastest way to lose a client; sending the day 7 tone on day 30 is the fastest way to never be paid.</p>
+  <h2>A full example (day 7)</h2>
+  <div class="card"><p><strong>Subject:</strong> Friendly reminder: invoice $100 was due 10 November</p><p>Hi Sarah,<br><br>Just a friendly nudge — invoice INV-014 for $100 was due on 10 November and we have not seen the payment yet.<br><br>If you have already paid, please ignore this message. Otherwise you can pay here:<br>[your pay link]<br><br>Thanks so much,<br>Alex, Alex Plumbing</p></div>
+  <h2>Mistakes to avoid</h2>
+  <p>Do not threaten consequences in the first reminder. Do not copy in the client's boss or team to apply pressure — it embarrasses people and rarely speeds payment. Do not send the same email twice because you forgot you sent it; duplicate reminders make you look disorganised and train clients to ignore you. And do not chase by email forever: if two written reminders get no reply, a short phone call resolves what email cannot, because it is much harder to ignore a person than an inbox.</p>
+  <h2>Make it automatic</h2>
+  <p>The hardest part of reminders is not writing one — it is sending the second and third on time, every time, for every invoice. That is what Invoice Chaser does: you add the invoice once, and the day 7, 14 and 30 reminders go out on schedule in your own words, with your own pay link in every message. The free plan covers 3 active invoices, and you can <a href="/signup">start free here</a>. The full set of default templates is on the <a href="/templates">sample templates page</a>.</p>
+  <p>Related: <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a> · <a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
+}
+
+export function articleClientNotPaying() {
+  const path = '/blog/client-not-paying';
+  const headline = "What to do when a client doesn't pay your invoice";
+  const description = 'Work through the steps in order when a client does not pay: check the boring stuff, remind politely, call, set a firm deadline, pause work, and prevent it next time.';
+  return layout(headline, `
+  <h1>${headline}</h1>
+  <p>An unpaid invoice is stressful because it mixes money with a relationship. The way through it is to work the steps in order, from the least confrontational to the firmest, and to give each step a fair chance before moving on. Jumping straight to threats feels satisfying for an afternoon and usually costs you the client and the payment both.</p>
+  <h2>Step 0: check the boring stuff first</h2>
+  <p>Before you assume bad faith, rule out the unglamorous causes. Did the invoice actually reach the right person — not a general inbox, not an ex-employee? Is the amount right, and does it match what was quoted? Did you include how to pay? A surprising share of "unpaid" invoices turn out to be an email in spam, an invoice sent to the wrong address, or a client waiting on a corrected invoice. Fixing one of these takes five minutes and saves weeks.</p>
+  <h2>Step 1: send a polite reminder (around day 7)</h2>
+  <p>Send a short, friendly reminder with the invoice number, amount, due date, and a pay link. Assume it was forgotten. Most late payments resolve right here — which is why a reminder sequence matters more than any single dramatic action. If you want the wording, see <a href="/blog/payment-reminder-email">how to write a payment reminder email that actually gets paid</a>.</p>
+  <h2>Step 2: call them</h2>
+  <p>If a second written reminder gets no reply, pick up the phone. A call is harder to ignore than an inbox, and it tells you in two minutes what email cannot: whether there is a query, a cash-flow problem, or simply a busy person who keeps meaning to pay. Stay calm and factual, ask when payment will be made, and write down what they say. A promised date from a call is worth more than three unanswered emails.</p>
+  <h2>Step 3: send a firmer written notice with a deadline (around day 14–30)</h2>
+  <p>Put it in writing: the amount, the original due date, and a specific date by which payment (or a payment plan) is needed. A deadline turns an open-ended chase into a decision. This is also the point to state, plainly and without anger, what happens next if the deadline passes — for example, that work will pause, or that the matter will be passed on. Only promise consequences you are actually prepared to follow through on.</p>
+  <h2>Step 4: pause future work</h2>
+  <p>Do not keep delivering work to a client who has not paid for the last job. Pausing is not punishment; it is the natural consequence, and it is often the moment a client finds the money. Tell them clearly that work resumes when the account is current. If the client genuinely cannot pay at once, a written payment plan — dates and amounts — is better than an indefinite wait.</p>
+  <h2>Step 5: late fees, only if they were agreed</h2>
+  <p>A late fee only helps if it was in your terms or contract before the work started. Adding one after the fact, in anger, usually creates a dispute about the fee instead of payment of the invoice. For the next job, put payment terms in writing up front: due date, what happens if payment is late, and a deposit for larger jobs.</p>
+  <h2>Last resorts: mediation and small claims</h2>
+  <p>If everything above fails, the remaining routes are mediation or a small-claims process. The rules, limits, and costs vary by country and region, and the effort is only worth it above a certain amount — chasing a small invoice through a court often costs more in time than the invoice is worth. For a large sum, get professional advice before acting rather than relying on general guidance from an article. Keep every email, invoice, and note of every call: a paper trail is what makes any formal route possible.</p>
+  <h2>Prevent the next one</h2>
+  <p>The cheapest unpaid invoice is the one that never happens. Ask for a deposit on larger jobs. Put payment terms on every invoice. Include a pay link so paying takes one click. And put reminders on a schedule — day 7, day 14, day 30 — instead of relying on memory, because memory is exactly what fails when you are busy doing the work. Invoice Chaser runs that schedule for you; the <a href="/signup">free plan covers 3 active invoices</a>.</p>
+  <p>Related: <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a> · <a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
+}
+
+export function articleReminderTemplates() {
+  const path = '/blog/invoice-reminder-templates';
+  const headline = 'Invoice reminder email templates for freelancers';
+  const description = 'Three ready-to-use invoice reminder email templates: a polite day 7 nudge, a firmer day 14 follow-up, and a day 30 final notice, with placeholders explained.';
+  return layout(headline, `
+  <h1>${headline}</h1>
+  <p>Copy these, replace the placeholders, and send. They follow the day 7, 14 and 30 sequence: each one is a little firmer than the last, and none of them burns the relationship before it has to. Placeholders: <code>{{client}}</code> is the client name, <code>{{amount}}</code> is the invoice amount, <code>{{due_date}}</code> is the original due date, <code>{{pay_link}}</code> is your payment link, <code>{{business_name}}</code> is your business name.</p>
+  <h2>Template 1 — Day 7, polite nudge</h2>
+  <div class="card"><p><strong>Subject:</strong> Friendly reminder: invoice {{amount}} was due {{due_date}}</p><p>Hi {{client}},<br><br>Just a friendly nudge — invoice {{amount}} was due on {{due_date}} and we have not seen the payment yet.<br><br>If you have already paid, please ignore this message. Otherwise you can pay here:<br>{{pay_link}}<br><br>Thanks so much,<br>{{business_name}}</p></div>
+  <p>Use this for the first reminder, about a week after the due date. The tone assumes forgetfulness, and the "already paid" line saves an embarrassed client from an awkward reply.</p>
+  <h2>Template 2 — Day 14, firmer follow-up</h2>
+  <div class="card"><p><strong>Subject:</strong> Second reminder: invoice {{amount}} is now overdue</p><p>Hi {{client}},<br><br>This is a second reminder that invoice {{amount}}, due on {{due_date}}, is still unpaid.<br><br>Please arrange payment as soon as you can, or reply to this email if there is an issue with the invoice:<br>{{pay_link}}<br><br>Thanks,<br>{{business_name}}</p></div>
+  <p>The change in tone is deliberate: "second reminder" and "still unpaid" signal that this is no longer a nudge, while the invitation to reply catches genuine queries before they become excuses.</p>
+  <h2>Template 3 — Day 30, final notice</h2>
+  <div class="card"><p><strong>Subject:</strong> Final notice: invoice {{amount}} overdue since {{due_date}}</p><p>Hi {{client}},<br><br>This is a final notice for invoice {{amount}}, which was due on {{due_date}} and remains unpaid.<br><br>Please pay now or contact us urgently to agree a payment plan:<br>{{pay_link}}<br><br>{{business_name}}</p></div>
+  <p>Short, direct, and the right place to ask for a payment plan as the alternative to payment. If this gets no reply, the next step is a phone call, not a fourth email — see <a href="/blog/client-not-paying">what to do when a client doesn't pay</a>.</p>
+  <h2>How to make them sound like you</h2>
+  <p>Swap "Hi" for whatever you normally use. If you are on first-name terms, use the first name; if the client is a company, address the person who approved the work. Keep the facts line intact — amount, due date, pay link — and rewrite the sentences around it in your own voice. One link only: two pay links do not double the chance of payment, they halve the chance the client clicks either. And never send a template without checking the amount and date first; a reminder with the wrong amount destroys your credibility for the whole chase.</p>
+  <h2>Use them automatically</h2>
+  <p>These three templates are the defaults every Invoice Chaser account starts with, and you can rewrite all of them. Add an invoice once and the day 7, 14 and 30 reminders go out on schedule, in your words, with your pay link. The <a href="/signup">free plan covers 3 active invoices</a>, and the full set lives on the <a href="/templates">sample templates page</a>.</p>
+  <p>Related: <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a> · <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
 }
