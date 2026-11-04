@@ -9,17 +9,20 @@ function esc(s) {
 }
 
 const CSS = `
-:root{--ink:#1c2430;--muted:#5b6775;--line:#e3e8ee;--brand:#0f766e;--brand2:#0d9488;--bg:#f7f8f9;--card:#fff}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);line-height:1.55;background:var(--bg)}
+:root{--ink:#14202e;--muted:#55636f;--line:#e2e8ee;--brand:#0b6b5e;--brand2:#0e8a78;--accent:#f59e0b;--bg:#f6f7f8;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.6;background:var(--bg)}
 a{color:var(--brand)}header{border-bottom:1px solid var(--line);background:#fff}
-.nav{max-width:960px;margin:0 auto;padding:14px 20px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-.nav .logo{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;margin-right:auto}
+.nav{max-width:1000px;margin:0 auto;padding:16px 20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.nav .logo{font-weight:800;font-size:21px;color:var(--ink);text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:10px}
+.logo-badge{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--brand);color:#fff;font-size:18px;font-weight:800}
 .nav a{color:var(--muted);text-decoration:none;font-size:15px}.nav a:hover{color:var(--ink)}
-.btn{display:inline-block;background:var(--brand);color:#fff!important;text-decoration:none;padding:10px 18px;border-radius:8px;font-weight:600;border:0;cursor:pointer}
-.btn.ghost{background:#fff;color:var(--ink)!important;border:1px solid var(--line)}
-main{max-width:960px;margin:0 auto;padding:32px 20px 64px}
-h1{font-size:36px;line-height:1.2;margin:8px 0 12px}h2{margin-top:36px}p{color:var(--muted)}
-.hero{padding:28px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+.btn{display:inline-block;background:var(--brand);color:#fff!important;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700;border:0;cursor:pointer;box-shadow:0 2px 8px rgba(11,107,94,.25)}
+.btn:hover{background:var(--brand2)}
+.btn.ghost{background:#fff;color:var(--ink)!important;border:1px solid var(--line);box-shadow:none}
+main{max-width:1000px;margin:0 auto;padding:36px 20px 72px}
+h1{font-size:44px;line-height:1.15;margin:10px 0 14px;letter-spacing:-.5px}h2{margin-top:36px;font-size:24px}h3{margin:0 0 6px}p{color:var(--muted)}
+.hero{padding:36px 0 24px}.eyebrow{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--brand);text-transform:uppercase;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,32,46,.06)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 label{display:block;margin:14px 0 4px;font-weight:600}
 input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
@@ -28,7 +31,7 @@ footer{border-top:1px solid var(--line);background:#fff}footer .nav{font-size:14
 code{background:#eef2f5;padding:2px 6px;border-radius:4px;font-size:14px}
 pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow:auto;font-size:14px}
 .note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin:16px 0}
-@media(max-width:640px){h1{font-size:28px}.nav{gap:12px}}
+@media(max-width:640px){h1{font-size:32px}.nav{gap:12px}.hero{padding:24px 0 16px}}
 `;
 
 const SITE_URL = 'https://invoice-chaser.agentid-mints.workers.dev';
@@ -55,7 +58,7 @@ export function layout(title, body, active, meta = {}) {
     + '<title>' + esc(title) + ' — Invoice Chaser</title><meta name="description" content="' + esc(description) + '">'
     + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '">' + og + jsonld
     + '<style>' + CSS + '</style></head>'
-    + '<body><header><nav class="nav"><a class="logo" href="/">Invoice Chaser</a>' + nav
+    + '<body><header><nav class="nav"><a class="logo" href="/"><span class="logo-badge">✓</span>Invoice Chaser</a>' + nav
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
@@ -74,7 +77,7 @@ export function homePage() {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free plan: 3 active invoices' },
   });
   return layout('Automatic invoice reminders for freelancers', `
-  <section class="hero"><h1>Unpaid invoices chase themselves.</h1>
+  <section class="hero"><p class="eyebrow">Automatic invoice reminders</p><h1>Unpaid invoices chase themselves.</h1>
   <p style="font-size:19px">Invoice Chaser is automatic invoice reminder software for freelancers and solo trades. It sends polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due — so you stop losing money to forgotten follow-ups, without the awkward phone call.</p>
   <p><a class="btn" href="/signup">Start free — 3 active invoices</a> &nbsp; <a class="btn ghost" href="/how-it-works">See how it works</a></p></section>
   <div class="grid">
