@@ -1,6 +1,7 @@
 // Email templates + Resend sending.
-// The app NEVER processes payments or touches money. Reminders only ever
-// contain a pay link the user pasted themselves.
+// Reminders never touch a customer's clients' money: they only ever contain
+// a pay link the user pasted themselves. The app's own plan payments (USDT
+// on BSC, verified on-chain) are handled in verify.js / index.js, not here.
 
 export const DEFAULT_TEMPLATES = {
   1: {

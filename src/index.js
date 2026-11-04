@@ -1,7 +1,9 @@
 // Invoice Chaser — Cloudflare Worker.
 // Serves public pages, the private dashboard app, a JSON API, and a daily
-// cron job that sends due reminders via Resend. The app NEVER processes
-// payments or touches money; reminders only carry a pay link the user pasted.
+// cron job that sends due reminders via Resend. The app never touches a
+// customer's clients' money: reminders only carry a pay link the user pasted.
+// The one payment the app itself takes is its own plan subscription, paid in
+// USDT on BNB Smart Chain and verified on-chain before any upgrade.
 
 import {
   newId, hashPassword, verifyPassword, createSession, getSessionUser,
@@ -12,11 +14,24 @@ import {
 } from './email.js';
 import {
   layout, homePage, howItWorksPage, pricingPage, templatesPage, faqPage,
-  aboutPage, contactPage, privacyPage, loginPage, signupPage,
+  aboutPage, contactPage, privacyPage, loginPage, signupPage, payPage,
 } from './pages.js';
 import { appPage } from './app.js';
+import {
+  USDT_BEP20, PAY_TO, PLAN_PRICES, planUnits, formatUsdt, validTxHash, verifyUsdtPayment,
+} from './verify.js';
 
 const PLAN_LIMITS = { free: 3, starter: 25, pro: 100 };
+
+// A paid plan only counts while its 30-day window is still open. Expired or
+// missing plan_until falls back to free, so a lapsed subscription can never
+// keep a higher limit by accident.
+function effectivePlan(user) {
+  if (!user) return 'free';
+  if (user.plan !== 'starter' && user.plan !== 'pro') return 'free';
+  if (!user.plan_until) return 'free';
+  return new Date(user.plan_until).getTime() > Date.now() ? user.plan : 'free';
+}
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'INR'];
 
 function json(data, status = 200, headers = {}) {
@@ -173,7 +188,10 @@ export default {
     // Public pages
     if (method === 'GET' && path === '/') return html(homePage());
     if (method === 'GET' && path === '/how-it-works') return html(howItWorksPage());
-    if (method === 'GET' && path === '/pricing') return html(pricingPage());
+    if (method === 'GET' && path === '/pay') {
+      const plan = url.searchParams.get('plan');
+      return html(payPage(plan === 'pro' ? 'pro' : 'starter'));
+    }
     if (method === 'GET' && path === '/templates') return html(templatesPage());
     if (method === 'GET' && path === '/faq') return html(faqPage());
     if (method === 'GET' && path === '/about') return html(aboutPage());
@@ -186,7 +204,7 @@ export default {
       return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nSitemap: https://paychaserhq.com/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
     }
     if (method === 'GET' && path === '/sitemap.xml') {
-      const pages = ['/', '/how-it-works', '/pricing', '/templates', '/faq', '/about', '/contact', '/privacy'];
+      const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/faq', '/about', '/contact', '/privacy'];
       const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
@@ -230,6 +248,76 @@ export default {
       return json({ ok: true }, 200, { 'Set-Cookie': clearSessionCookie() });
     }
 
+    // USDT plan payments: the customer pays first, then submits the BSC
+    // transaction hash. The plan upgrades ONLY after the payment is verified
+    // on-chain (exact USDT amount to the site wallet). Every confirmed or
+    // flagged payment is emailed to the site owner as the payment report.
+    if (method === 'POST' && path === '/api/payments/submit') {
+      if (!requireSameOrigin(request)) return html(payPage('starter', { type: 'error', text: 'Cross-origin request refused.' }), 403);
+      const user = await getSessionUser(db, request);
+      if (!user) return html(payPage('starter', { type: 'error', text: 'Sign in first, then submit your payment.' }), 401);
+      const body = await readBody(request);
+      const plan = body.plan === 'pro' ? 'pro' : (body.plan === 'starter' ? 'starter' : null);
+      const txHash = String(body.tx_hash || '').trim();
+      if (!plan) return html(payPage('starter', { type: 'error', text: 'Choose a plan: Starter or Pro.' }), 400);
+      if (!validTxHash(txHash)) return html(payPage(plan, { type: 'error', text: 'That does not look like a BSC transaction hash. It should start with 0x and be 66 characters long.' }), 400);
+      try {
+        const existing = await db.prepare('SELECT status FROM payments WHERE tx_hash = ?').bind(txHash.toLowerCase()).first();
+        if (existing) {
+          return html(payPage(plan, { type: 'error', text: existing.status === 'confirmed'
+            ? 'This transaction was already claimed and the plan was upgraded.'
+            : 'This transaction was already submitted and is under review by the site owner.' }), 400);
+        }
+        const result = await verifyUsdtPayment(txHash, planUnits(plan));
+        if (result.state === 'confirmed') {
+          const now = new Date();
+          let base = now;
+          if (user.plan === plan && user.plan_until && new Date(user.plan_until).getTime() > now.getTime()) {
+            base = new Date(user.plan_until); // renewing early: extend from the current expiry
+          }
+          const until = new Date(base.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+          await db.batch([
+            db.prepare('INSERT INTO payments (id, user_id, plan, amount_usdt, tx_hash, from_address, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+              .bind(newId(), user.id, plan, String(PLAN_PRICES[plan]), txHash.toLowerCase(), result.from || '', 'confirmed', now.toISOString()),
+            db.prepare('UPDATE users SET plan = ?, plan_until = ? WHERE id = ?').bind(plan, until, user.id),
+          ]);
+          if (env.OWNER_EMAIL) {
+            try {
+              await sendEmail(env, { to: env.OWNER_EMAIL,
+                subject: 'Invoice Chaser: ' + plan + ' payment confirmed — $' + PLAN_PRICES[plan] + ' USDT',
+                text: 'A customer just paid for the ' + plan + ' plan.\n\nAmount: $' + PLAN_PRICES[plan] + ' USDT\nTransaction: ' + txHash + '\nFrom: ' + (result.from || 'unknown') + '\nCustomer: ' + user.email + ' (' + user.business_name + ')\nPlan valid until: ' + until + '\n\nThe plan has been upgraded automatically. No action needed.' });
+            } catch { /* owner email must never block the upgrade */ }
+          }
+          return html(payPage(plan, { type: 'success', text: 'Payment confirmed on-chain. Your ' + plan + ' plan is active until ' + until.slice(0, 10) + '. <a href="/app">Go to your dashboard</a>.' }));
+        }
+        if (result.state === 'wrong_amount') {
+          await db.prepare('INSERT INTO payments (id, user_id, plan, amount_usdt, tx_hash, from_address, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+            .bind(newId(), user.id, plan, formatUsdt(result.amountUnits), txHash.toLowerCase(), result.from || '', 'flagged', new Date().toISOString()).run();
+          if (env.OWNER_EMAIL) {
+            try {
+              await sendEmail(env, { to: env.OWNER_EMAIL,
+                subject: 'Invoice Chaser: payment flagged — wrong amount for ' + plan,
+                text: 'A customer sent USDT but not the exact plan amount.\n\nExpected: $' + PLAN_PRICES[plan] + ' USDT\nReceived: ' + formatUsdt(result.amountUnits) + ' USDT\nTransaction: ' + txHash + '\nFrom: ' + (result.from || 'unknown') + '\nCustomer: ' + user.email + ' (' + user.business_name + ')\n\nThe plan was NOT upgraded. Decide manually: refund, or upgrade by hand.' });
+            } catch { /* never block the response */ }
+          }
+          return html(payPage(plan, { type: 'error', text: 'We found your payment, but it was ' + formatUsdt(result.amountUnits) + ' USDT instead of exactly $' + PLAN_PRICES[plan] + '. The plan was not upgraded. The site owner has been notified and will handle it — if you sent the wrong amount by mistake, contact us from the contact page with this transaction hash.' }), 400);
+        }
+        const reasons = {
+          not_found: 'We could not find that transaction on BNB Smart Chain yet. Wait for it to confirm (usually under a minute) and submit again.',
+          failed: 'That transaction failed on-chain, so no payment arrived. Check it on BscScan and try a new payment.',
+          wrong_recipient: 'That transaction is real, but its USDT did not go to the Invoice Chaser wallet. Check the wallet address on the payment page and send again.',
+          not_usdt: 'That transaction does not contain a USDT transfer. Only USDT on BNB Smart Chain (BEP-20) is accepted.',
+          rpc_unavailable: 'BNB Smart Chain could not be reached right now. Nothing was charged or changed — try submitting again in a few minutes.',
+        };
+        return html(payPage(plan, { type: 'error', text: reasons[result.state] || 'Payment could not be verified. Nothing was changed — try again.' }), 400);
+      } catch (e) {
+        if (/no such table|no such column/i.test(String(e && e.message))) {
+          return html(payPage(plan, { type: 'error', text: 'Payments are not set up yet — the database update has not been applied. Please try again later.' }), 503);
+        }
+        return html(payPage(plan, { type: 'error', text: 'Something went wrong while verifying the payment. Nothing was changed — please try again.' }), 500);
+      }
+    }
+
     // Everything below needs a session.
     if (path.startsWith('/api/')) {
       if (!requireSameOrigin(request)) return json({ error: 'Cross-origin request refused.' }, 403);
@@ -241,7 +329,7 @@ export default {
           .bind(user.id).first();
         return json({
           email: user.email, business_name: user.business_name, currency: user.currency,
-          plan: user.plan, plan_limit: PLAN_LIMITS[user.plan] || 3, active_count: active.n,
+          plan: effectivePlan(user), plan_limit: PLAN_LIMITS[effectivePlan(user)] || 3, plan_until: user.plan_until || null, active_count: active.n,
         });
       }
 
@@ -258,8 +346,9 @@ export default {
         }
         const active = await db.prepare("SELECT COUNT(*) AS n FROM invoices WHERE user_id = ? AND status = 'open'")
           .bind(user.id).first();
-        if (active.n >= (PLAN_LIMITS[user.plan] || 3)) {
-          return json({ error: 'Free plan allows 3 active invoices. Mark one paid, or see the pricing page for larger plans.' }, 403);
+        const plan = effectivePlan(user);
+        if (active.n >= (PLAN_LIMITS[plan] || 3)) {
+          return json({ error: 'Your ' + plan + ' plan allows ' + (PLAN_LIMITS[plan] || 3) + ' active invoices. Mark one paid, or upgrade from the pricing page.' }, 403);
         }
         const id = await createInvoice(db, user, body);
         return json({ ok: true, id });
@@ -273,7 +362,7 @@ export default {
           if (!row.client_name || !validEmail(row.client_email) || !(Number(row.amount) > 0) || !validDate(row.due_date)) { skipped++; continue; }
           const active = await db.prepare("SELECT COUNT(*) AS n FROM invoices WHERE user_id = ? AND status = 'open'")
             .bind(user.id).first();
-          if (active.n >= (PLAN_LIMITS[user.plan] || 3)) { skipped++; continue; }
+          if (active.n >= (PLAN_LIMITS[effectivePlan(user)] || 3)) { skipped++; continue; }
           await createInvoice(db, user, row);
           imported++;
         }

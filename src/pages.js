@@ -107,7 +107,7 @@ export function homePage() {
   <div class="stats">
     <div class="stat"><b>3 free</b><span>active invoices, no card</span></div>
     <div class="stat"><b>7 · 14 · 30</b><span>day reminder sequence</span></div>
-    <div class="stat"><b>$0 touched</b><span>never processes payments</span></div>
+    <div class="stat"><b>USDT checkout</b><span>pay with crypto, no card</span></div>
   </div>
   <div class="grid">
     <div class="card"><h3>1. Add the invoice</h3><p>Type it in or import a CSV. Client name, email, amount, due date — done in under a minute.</p></div>
@@ -121,7 +121,7 @@ export function homePage() {
   <div class="card"><h2 style="margin-top:0">Who it is for</h2>
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
-  <p>Invoice Chaser never processes payments and never touches your money. It only sends reminders. Your clients pay you through your own Stripe, PayPal, or bank link.</p></div>`, '/', {
+  <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>`, '/', {
     description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due — free for 3 active invoices.',
     jsonld,
   });
@@ -147,8 +147,35 @@ export function pricingPage() {
   <tr><td><strong>Free</strong></td><td>3</td><td>$0</td></tr>
   <tr><td><strong>Starter</strong></td><td>25</td><td>$19 / month</td></tr>
   <tr><td><strong>Pro</strong></td><td>100</td><td>$49 / month</td></tr></table>
-  <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Paid plans are display-only in this version — checkout is added when billing launches, and you will never be charged without explicitly choosing a plan.</p>`, '/pricing', {
+  <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Pay with USDT on BNB Smart Chain — no card needed. Choose a plan and pay the exact amount; your plan upgrades automatically once the payment is verified on-chain, and lasts 30 days.</p>
+  <p><a class="btn" href="/pay?plan=starter">Pay $19 USDT — Starter</a> &nbsp; <a class="btn" href="/pay?plan=pro">Pay $49 USDT — Pro</a> &nbsp; <a class="btn ghost" href="/signup">Start free</a></p>`, '/pricing', {
     description: 'Invoice Chaser pricing: free for 3 active invoices, Starter $19/month for 25, Pro $49/month for 100. Every plan includes the full day 7, 14 and 30 reminder sequence.',
+  });
+}
+
+export function payPage(plan, notice) {
+  const price = plan === 'pro' ? 49 : 19;
+  const limit = plan === 'pro' ? 100 : 25;
+  const name = plan === 'pro' ? 'Pro' : 'Starter';
+  const note = notice ? `<div class="card" style="border-left:5px solid ${notice.type === 'success' ? '#0b6b5e' : '#b91c1c'}"><p style="margin:0">${notice.text}</p></div>` : '';
+  return layout('Pay with USDT — ' + name, `
+  <h1>Pay for ${name} — $${price}</h1>
+  <p>${name} gives you ${limit} active invoices, the full day 7, 14 and 30 reminder sequence, editable templates, CSV import, and the dashboard — for 30 days from the moment your payment is verified.</p>
+  ${note}
+  <div class="card"><h3 style="margin-top:0">Step 1 — Send exactly $${price} USDT</h3>
+  <p>Send <strong>$${price} USDT</strong> on <strong>BNB Smart Chain (BEP-20)</strong> to this wallet. Copy the address exactly — do not type it by hand.</p>
+  <p><code style="word-break:break-all">0xB202F2AB1257de36c0A52f8d1c227CCba4a95Fd2</code></p>
+  <p class="note" style="color:#b91c1c"><strong>BNB Smart Chain only.</strong> USDT sent on Ethereum, Tron, or any other network will not be detected and cannot be recovered. Send exactly $${price} — a different amount will not upgrade your plan automatically.</p></div>
+  <div class="card"><h3 style="margin-top:0">Step 2 — Paste your transaction hash</h3>
+  <p>After sending, paste the transaction hash (it starts with 0x) below. We check BNB Smart Chain for the exact payment and upgrade your plan automatically — usually within a minute of confirmation.</p>
+  <form method="POST" action="/api/payments/submit">
+  <input type="hidden" name="plan" value="${plan}">
+  <p><input type="text" name="tx_hash" placeholder="0x…" required style="width:100%;max-width:560px"></p>
+  <p><button class="btn" type="submit">Verify payment and activate ${name}</button></p>
+  </form>
+  <p class="note">You must be signed in to submit a payment. Crypto payments are final — USDT cannot be reversed once sent, so double-check the amount and address before you send. Your plan lasts 30 days; renew the same way before it expires.</p></div>
+  <p><a href="/pricing">Back to pricing</a> · <a href="/faq">Questions? Read the FAQ</a></p>`, '/pay', {
+    description: 'Pay for Invoice Chaser ' + name + ' ($' + price + '/month, ' + limit + ' active invoices) with USDT on BNB Smart Chain. Payment is verified on-chain and the plan activates automatically.',
   });
 }
 
@@ -165,14 +192,14 @@ export function templatesPage() {
 
 export function faqPage() {
   const qa = [
-    ['Does Invoice Chaser touch my money?', 'No. It never processes payments, holds funds, or takes a cut. It sends reminders only. Clients pay you through your own payment link or bank details.'],
+    ['Does Invoice Chaser touch my money?', 'For your clients\u2019 money: no. Invoice Chaser never holds client funds or takes a cut — clients pay you through your own payment link or bank details. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.'],
     ['What happens when a client pays?', 'Mark the invoice paid in your dashboard and every pending reminder for it stops immediately. Nothing further is sent for that invoice.'],
     ['Can I pause chasing one client?', 'Yes. Pause any invoice while a query is being sorted out. Paused invoices send nothing until you resume them.'],
     ['Do I need accounting software?', 'No. Invoices are typed in or imported from a CSV. No Xero, QuickBooks, or other integration is required.'],
     ['What if a client replies to a reminder?', 'Replies go to your own email inbox (reminders are sent from your business). If a client promises payment or disputes the invoice, pause it from your dashboard.'],
     ['Can a reminder be sent twice by mistake?', 'No. Every reminder is recorded as sent the moment it goes out, and the daily job only ever picks up reminders still marked pending.'],
-    ['Is there a free plan?', 'Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are shown on the pricing page; checkout is not live in this version.'],
-    ['Will you show ads?', 'Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, or settings pages.'],
+    ['Is there a free plan?', 'Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are paid from the payment page in USDT on BNB Smart Chain; the plan activates automatically once the payment is verified on-chain.'],
+    ['Will you show ads?', 'Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, settings, or payment pages.'],
   ];
   const jsonld = JSON.stringify({
     '@context': 'https://schema.org',
@@ -181,14 +208,14 @@ export function faqPage() {
   });
   return layout('Frequently asked questions', `
   <h1>Frequently asked questions</h1>
-  <div class="card"><h3>Does Invoice Chaser touch my money?</h3><p>No. It never processes payments, holds funds, or takes a cut. It sends reminders only. Clients pay you through your own payment link or bank details.</p></div>
+  <div class="card"><h3>Does Invoice Chaser touch my money?</h3><p>For your clients' money: no. Invoice Chaser never holds client funds or takes a cut — clients pay you through your own payment link or bank details. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
   <div class="card"><h3>What happens when a client pays?</h3><p>Mark the invoice paid in your dashboard and every pending reminder for it stops immediately. Nothing further is sent for that invoice.</p></div>
   <div class="card"><h3>Can I pause chasing one client?</h3><p>Yes. Pause any invoice while a query is being sorted out. Paused invoices send nothing until you resume them.</p></div>
   <div class="card"><h3>Do I need accounting software?</h3><p>No. Invoices are typed in or imported from a CSV. No Xero, QuickBooks, or other integration is required.</p></div>
   <div class="card"><h3>What if a client replies to a reminder?</h3><p>Replies go to your own email inbox (reminders are sent from your business). If a client promises payment or disputes the invoice, pause it from your dashboard — automatic reply classification is a planned feature, not a v1 promise.</p></div>
   <div class="card"><h3>Can a reminder be sent twice by mistake?</h3><p>No. Every reminder is recorded as sent the moment it goes out, and the daily job only ever picks up reminders still marked pending.</p></div>
-  <div class="card"><h3>Is there a free plan?</h3><p>Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are shown on the pricing page; checkout is not live in this version.</p></div>
-  <div class="card"><h3>Will you show ads?</h3><p>Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, or settings pages.</p></div>`, '/faq', {
+  <div class="card"><h3>Is there a free plan?</h3><p>Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are paid from the <a href="/pay">payment page</a> in USDT on BNB Smart Chain; the plan activates automatically once the payment is verified on-chain.</p></div>
+  <div class="card"><h3>Will you show ads?</h3><p>Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, settings, or payment pages.</p></div>`, '/faq', {
     description: 'Invoice Chaser FAQ: does it touch your money, what happens when a client pays, pausing one client, accounting software, duplicate reminders, and the free plan.',
     jsonld,
   });
@@ -198,7 +225,7 @@ export function aboutPage() {
   return layout('About', `
   <h1>About Invoice Chaser</h1>
   <p>Invoice Chaser exists for one frustrating, ordinary problem: freelancers and solo trades send an invoice, then forget — or dread — the follow-up, while the money sits unpaid. Accounting tools generate the invoice and stop; this tool handles what happens after it.</p>
-  <p>It is a small, focused product: one workflow (remind, escalate, stop when paid), email only, no per-customer service, no money movement. It is built for people who work from a phone and a spreadsheet, not a finance department.</p>`, '/about', {
+  <p>It is a small, focused product: one workflow (remind, escalate, stop when paid), email only, no per-customer service, no money movement between you and your clients. It is built for people who work from a phone and a spreadsheet, not a finance department.</p>`, '/about', {
     description: 'About Invoice Chaser: automatic invoice reminders for freelancers and solo trades — one workflow (remind, escalate, stop when paid), email only, no money movement.',
   });
 }

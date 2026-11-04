@@ -21,8 +21,11 @@ database_id = "54086964-4b60-42e8-9a53-36ef7d373cc8"
 crons = ["0 9 * * *"]
 
 # Sender address, live now that paychaserhq.com is verified in Resend.
+# OWNER_EMAIL receives the payment report for every confirmed or flagged
+# USDT plan payment (the Worker cannot message chat).
 [vars]
 RESEND_FROM = "Invoice Chaser <reminders@paychaserhq.com>"
+OWNER_EMAIL = "boosad.96.abhi@gmail.com"
 
 # Optional: set RESEND_FROM in the dashboard (or via wrangler secret/var) once
 # your own domain is verified in Resend, e.g. "Invoice Chaser <reminders@yourdomain.com>".
