@@ -435,7 +435,7 @@ export function reminderEmailGeneratorPage() {
     + 'function copyText(id,msg){var el=document.getElementById(id);el.select();try{navigator.clipboard.writeText(el.value);}catch(e){document.execCommand("copy");}document.getElementById("g-copied").textContent=msg;}'
     + 'function copyEmail(){copyText("g-body","Email copied — paste it into your mail app and send.");}'
     + 'function copySubject(){copyText("g-subject","Subject copied.");}'
-    + 'genDay(7);'
+    + 'function prefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}prefill("g-biz","biz");prefill("g-client","client");prefill("g-inv","inv");prefill("g-amt","amt");prefill("g-due","due");prefill("g-link","link");prefill("g-cur","cur");genDay(7);'
     + '</script>';
   return layout('Free reminder email generator', body, '/reminder-email-generator', {
     description: 'Generate a polite day 7, firm day 14, and final day 30 invoice reminder email in seconds. Free tool — enter client, amount and due date, copy and send.',
