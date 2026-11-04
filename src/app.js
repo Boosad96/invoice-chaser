@@ -32,7 +32,7 @@ pre.mail{white-space:pre-wrap;background:#f1f5f9;padding:14px;border-radius:8px;
 
 export function appPage() {
   return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-    + '<title>Dashboard — Invoice Chaser</title><style>' + APP_CSS + '</style></head><body>'
+    + '<title>Dashboard — Invoice Chaser</title><meta name="robots" content="noindex, follow"><style>' + APP_CSS + '</style></head><body>'
     + '<header><div class="top"><b>Invoice Chaser</b><span id="who"></span><span class="sp"></span>'
     + '<a class="btn ghost" href="/">Public site</a><button class="ghost" id="logoutBtn">Sign out</button></div></header>'
     + '<main><div id="alert"></div>'

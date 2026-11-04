@@ -15,7 +15,7 @@ import {
 import {
   layout, homePage, howItWorksPage, pricingPage, templatesPage, faqPage,
   aboutPage, contactPage, privacyPage, loginPage, signupPage, payPage,
-  blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleReminderTemplates,
+  blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleReminderTemplates, articleLateFee,
   reminderEmailGeneratorPage, invoiceTemplatePage, lateFeeCalculatorPage,
 } from './pages.js';
 import { appPage } from './app.js';
@@ -203,6 +203,7 @@ export default {
     if (method === 'GET' && path === '/blog/payment-reminder-email') return html(articlePaymentReminderEmail());
     if (method === 'GET' && path === '/blog/client-not-paying') return html(articleClientNotPaying());
     if (method === 'GET' && path === '/blog/invoice-reminder-templates') return html(articleReminderTemplates());
+    if (method === 'GET' && path === '/blog/late-fee') return html(articleLateFee());
     if (method === 'GET' && path === '/faq') return html(faqPage());
     if (method === 'GET' && path === '/about') return html(aboutPage());
     if (method === 'GET' && path === '/contact') return html(contactPage());
@@ -214,7 +215,7 @@ export default {
       return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nSitemap: https://paychaserhq.com/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
     }
     if (method === 'GET' && path === '/sitemap.xml') {
-      const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/faq', '/about', '/contact', '/privacy'];
+      const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
       const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
@@ -470,7 +471,7 @@ export default {
       return json({ error: 'Not found.' }, 404);
     }
 
-    return html(layout('Not found', '<h1>Page not found</h1><p>That page does not exist. <a href="/">Back home</a>.</p>'), 404);
+    return html(layout('Not found', '<h1>Page not found</h1><p>That page does not exist. <a href="/">Back home</a>.</p>', '/404', { robots: 'noindex, follow' }), 404);
   },
 
   async scheduled(event, env) {
