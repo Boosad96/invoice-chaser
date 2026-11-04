@@ -188,6 +188,7 @@ export default {
     // Public pages
     if (method === 'GET' && path === '/') return html(homePage());
     if (method === 'GET' && path === '/how-it-works') return html(howItWorksPage());
+    if (method === 'GET' && path === '/pricing') return html(pricingPage());
     if (method === 'GET' && path === '/pay') {
       const plan = url.searchParams.get('plan');
       return html(payPage(plan === 'pro' ? 'pro' : 'starter'));
