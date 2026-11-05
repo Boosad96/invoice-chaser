@@ -70,7 +70,8 @@ export function layout(title, body, active, meta = {}) {
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
-    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/reminder-email-generator">Reminder generator</a><a href="/invoice-template">Invoice template</a><a href="/late-fee-calculator">Late fee calculator</a></nav></footer></body></html>';
+    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/reminder-email-generator">Reminder generator</a><a href="/invoice-template">Invoice template</a><a href="/late-fee-calculator">Late fee calculator</a></nav>'
+    + '<p style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a></p></footer></body></html>';
 }
 
 export function homePage() {
@@ -122,7 +123,7 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Three free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, or <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
+  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Three free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, or <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a> and the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
     description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
     jsonld,
   });
