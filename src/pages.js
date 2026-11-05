@@ -62,7 +62,7 @@ export function layout(title, body, active, meta = {}) {
     + '<meta name="twitter:title" content="' + esc(title) + ' — Invoice Chaser">'
     + '<meta name="twitter:description" content="' + esc(description) + '">';
   const jsonld = meta.jsonld ? '<script type="application/ld+json">' + meta.jsonld + '</script>' : '';
-  return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+  return '<!DOCTYPE html><html lang="en"><head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-00Q0MX10EP"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-00Q0MX10EP");</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
     + '<title>' + esc(title) + ' — Invoice Chaser</title><meta name="description" content="' + esc(description) + '">'
     + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '"><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230b6b5e%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20font-size%3D%2238%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3E%E2%9C%93%3C%2Ftext%3E%3C%2Fsvg%3E">' + og + jsonld
     + '<style>' + CSS + '</style></head>'
