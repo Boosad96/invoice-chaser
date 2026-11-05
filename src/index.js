@@ -36,6 +36,26 @@ function effectivePlan(user) {
 }
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'INR'];
 
+// Permanent redirects for URLs visitors (and bots) guess that do not exist:
+// /about-us instead of /about, /contact-us instead of /contact, and so on.
+// Found in GA4 2026-11-06: 7 guessed paths in the last 28 days plus 5 more
+// in Realtime. A 301 sends the visitor to the real page and tells Google
+// the guessed URL is the canonical one.
+const REDIRECTS = {
+  '/about-us': '/about',
+  '/contact-us': '/contact',
+  '/privacy-policy': '/privacy',
+  '/legal/privacy': '/privacy',
+  '/legal/privacy-policy': '/privacy',
+  '/support': '/contact',
+  '/team': '/about',
+  '/help': '/faq',
+  '/legal': '/privacy',
+  '/terms': '/privacy',
+  '/impressum': '/about',
+  '/imprint': '/about',
+};
+
 function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
     status,
@@ -469,6 +489,10 @@ export default {
       }
 
       return json({ error: 'Not found.' }, 404);
+    }
+
+    if (method === 'GET' && REDIRECTS[path]) {
+      return new Response(null, { status: 301, headers: { Location: REDIRECTS[path] } });
     }
 
     return html(layout('Not found', '<h1>Page not found</h1><p>That page does not exist. <a href="/">Back home</a>.</p>', '/404', { robots: 'noindex, follow' }), 404);
