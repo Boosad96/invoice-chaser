@@ -16,7 +16,7 @@ import {
   layout, homePage, howItWorksPage, pricingPage, templatesPage, faqPage,
   aboutPage, contactPage, privacyPage, loginPage, signupPage, payPage,
   blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleReminderTemplates, articleLateFee,
-  reminderEmailGeneratorPage, invoiceTemplatePage, lateFeeCalculatorPage, usLateFeeCalculatorPage,
+  reminderEmailGeneratorPage, invoiceTemplatePage, lateFeeCalculatorPage, usLateFeeCalculatorPage, invoiceReminderEmailTemplatePage,
 } from './pages.js';
 import { appPage } from './app.js';
 import {
@@ -220,6 +220,7 @@ export default {
     if (method === 'GET' && path === '/invoice-template') return html(invoiceTemplatePage());
     if (method === 'GET' && path === '/late-fee-calculator') return html(lateFeeCalculatorPage());
     if (method === 'GET' && path === '/us-late-fee-calculator') return html(usLateFeeCalculatorPage());
+    if (method === 'GET' && path === '/invoice-reminder-email-template') return html(invoiceReminderEmailTemplatePage());
     if (method === 'GET' && path === '/blog') return html(blogIndexPage());
     if (method === 'GET' && path === '/blog/payment-reminder-email') return html(articlePaymentReminderEmail());
     if (method === 'GET' && path === '/blog/client-not-paying') return html(articleClientNotPaying());
@@ -236,7 +237,7 @@ export default {
       return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nSitemap: https://paychaserhq.com/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
     }
     if (method === 'GET' && path === '/sitemap.xml') {
-      const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
+      const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
       const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
