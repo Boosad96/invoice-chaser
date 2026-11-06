@@ -58,9 +58,13 @@ export function layout(title, body, active, meta = {}) {
     + '<meta property="og:description" content="' + esc(description) + '">'
     + '<meta property="og:type" content="website">'
     + '<meta property="og:url" content="' + canonical + '">'
-    + '<meta name="twitter:card" content="summary">'
+    + '<meta property="og:image" content="https://paychaserhq.com/og-image.png">'
+    + '<meta property="og:image:width" content="1200">'
+    + '<meta property="og:image:height" content="630">'
+    + '<meta name="twitter:card" content="summary_large_image">'
     + '<meta name="twitter:title" content="' + esc(title) + ' — Invoice Chaser">'
-    + '<meta name="twitter:description" content="' + esc(description) + '">';
+    + '<meta name="twitter:description" content="' + esc(description) + '">'
+    + '<meta name="twitter:image" content="https://paychaserhq.com/og-image.png">';
   const jsonld = meta.jsonld ? '<script type="application/ld+json">' + meta.jsonld + '</script>' : '';
   const crumbItems = Array.isArray(meta.breadcrumbs) ? [{ name: 'Home', path: '/' }].concat(meta.breadcrumbs.map(([name, path]) => ({ name, path }))) : null;
   const crumbNav = crumbItems ? '<nav aria-label="Breadcrumb" style="font-size:14px;color:var(--muted);margin-bottom:4px">' + crumbItems.map((c, i) => (i > 0 ? ' › ' : '') + (i === crumbItems.length - 1 ? esc(c.name) : '<a href="' + c.path + '">' + esc(c.name) + '</a>')).join('') + '</nav>' : '';

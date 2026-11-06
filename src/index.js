@@ -19,6 +19,7 @@ import {
   reminderEmailGeneratorPage, invoiceTemplatePage, lateFeeCalculatorPage, usLateFeeCalculatorPage, invoiceReminderEmailTemplatePage, cashFlowForecastPage, irregularIncomeBudgetPage, expenseTrackerPage,
 } from './pages.js';
 import { appPage } from './app.js';
+import { OG_IMAGE_B64 } from './og-image.js';
 import {
   USDT_BEP20, PAY_TO, PLAN_PRICES, planUnits, formatUsdt, validTxHash, verifyUsdtPayment,
 } from './verify.js';
@@ -238,6 +239,10 @@ export default {
     if (method === 'GET' && path === '/app') return html(appPage());
     if (method === 'GET' && path === '/robots.txt') {
       return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nSitemap: https://paychaserhq.com/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
+    }
+    if (method === 'GET' && path === '/og-image.png') {
+      const bytes = Uint8Array.from(atob(OG_IMAGE_B64), (c) => c.charCodeAt(0));
+      return new Response(bytes, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' } });
     }
     if (method === 'GET' && path === '/sitemap.xml') {
       const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
