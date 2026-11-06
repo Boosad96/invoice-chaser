@@ -241,7 +241,7 @@ export default {
     }
     if (method === 'GET' && path === '/sitemap.xml') {
       const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
-      const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc></url>').join('\n');
+      const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc><lastmod>2026-11-06</lastmod></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
 

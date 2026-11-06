@@ -62,13 +62,16 @@ export function layout(title, body, active, meta = {}) {
     + '<meta name="twitter:title" content="' + esc(title) + ' — Invoice Chaser">'
     + '<meta name="twitter:description" content="' + esc(description) + '">';
   const jsonld = meta.jsonld ? '<script type="application/ld+json">' + meta.jsonld + '</script>' : '';
+  const crumbItems = Array.isArray(meta.breadcrumbs) ? [{ name: 'Home', path: '/' }].concat(meta.breadcrumbs.map(([name, path]) => ({ name, path }))) : null;
+  const crumbNav = crumbItems ? '<nav aria-label="Breadcrumb" style="font-size:14px;color:var(--muted);margin-bottom:4px">' + crumbItems.map((c, i) => (i > 0 ? ' › ' : '') + (i === crumbItems.length - 1 ? esc(c.name) : '<a href="' + c.path + '">' + esc(c.name) + '</a>')).join('') + '</nav>' : '';
+  const crumbJsonld = crumbItems ? '<script type="application/ld+json">' + JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbItems.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: SITE_URL + c.path })) }) + '</script>' : '';
   return '<!DOCTYPE html><html lang="en"><head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-00Q0MX10EP"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-00Q0MX10EP");</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
     + '<title>' + esc(title) + ' — Invoice Chaser</title><meta name="description" content="' + esc(description) + '">'
-    + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '"><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230b6b5e%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20font-size%3D%2238%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3E%E2%9C%93%3C%2Ftext%3E%3C%2Fsvg%3E">' + og + jsonld
+    + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '"><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230b6b5e%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20font-size%3D%2238%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3E%E2%9C%93%3C%2Ftext%3E%3C%2Fsvg%3E">' + og + jsonld + crumbJsonld
     + '<style>' + CSS + '</style></head>'
     + '<body><header><nav class="nav"><a class="logo" href="/"><span class="logo-badge">✓</span>Invoice Chaser</a>' + nav
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
-    + '<main>' + body + '</main>'
+    + '<main>' + crumbNav + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
     + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
     + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a> · <a href="/business-expense-tracker-excel">Expense tracker</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
@@ -467,6 +470,7 @@ export function reminderEmailGeneratorPage() {
   return layout('Free reminder email generator', body, '/reminder-email-generator', {
     description: 'Generate a polite day 7, firm day 14, and final day 30 invoice reminder email in seconds. Free tool — enter client, amount and due date, copy and send.',
     jsonld: jsonld,
+    breadcrumbs: [['Reminder email generator', '/reminder-email-generator']],
   });
 }
 
@@ -522,6 +526,7 @@ export function invoiceTemplatePage() {
     + '</script>';
   return layout('Free invoice template', body, '/invoice-template', {
     description: 'Free invoice template for freelancers and solo trades. Fill in your business, client and items, then print to PDF or download — no sign-up needed.',
+    breadcrumbs: [['Invoice template', '/invoice-template']],
   });
 }
 
@@ -575,6 +580,7 @@ export function lateFeeCalculatorPage() {
   return layout('Free late fee calculator', body, '/late-fee-calculator', {
     description: 'Free late fee calculator for freelancers. Enter the amount, due date and your rate to work out the late fee and total now due — no sign-up.',
     jsonld: jsonld,
+    breadcrumbs: [['Late fee calculator', '/late-fee-calculator']],
   });
 }
 
@@ -745,8 +751,9 @@ export function usLateFeeCalculatorPage() {
     + 'function uprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}uprefill("u-amt","amt");uprefill("u-due","due");uprefill("u-rate","rate");uprefill("u-flat","flat");uprefill("u-grace","grace");uprefill("u-state","state");uprefill("u-method","method");calcLateUS();'
     + '</script>';
   return layout('Late fee calculator (US) — state caps & reminder email', body, '/us-late-fee-calculator', {
-    description: 'Free US late fee calculator for freelancers and small businesses. Work out the late fee on an overdue invoice, check your state\'s cap, copy a late-fee clause and generate the reminder email — no sign-up.',
+    description: 'Free US late fee calculator: work out the late fee, check your state\'s cap, copy a clause and generate the reminder email. No sign-up.',
     jsonld: jsonld,
+    breadcrumbs: [['Late fee calculator (US)', '/us-late-fee-calculator']],
   });
 }
 
@@ -839,8 +846,9 @@ export function invoiceReminderEmailTemplatePage() {
     + 'function tprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}tprefill("t-biz","biz");tprefill("t-client","client");tprefill("t-inv","inv");tprefill("t-amt","amt");tprefill("t-due","due");tprefill("t-fee","fee");tprefill("t-total","total");tprefill("t-link","link");tprefill("t-cur","cur");genTpl(7);'
     + '</script>';
   return layout('Invoice reminder email templates (free) — generator + letter sample', body, '/invoice-reminder-email-template', {
-    description: '9 free invoice reminder email templates and a late payment reminder letter sample. Fill in your invoice details and copy, or generate one instantly — no sign-up.',
+    description: '9 free invoice reminder email templates plus a late payment reminder letter sample. Fill in your details and copy, or generate one instantly.',
     jsonld: jsonld,
+    breadcrumbs: [['Invoice reminder email templates', '/invoice-reminder-email-template']],
   });
 }
 
@@ -935,8 +943,9 @@ export function cashFlowForecastPage() {
     + 'function cprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}cprefill("c-cash","cash");calcFlow();'
     + '</script>';
   return layout('Small business cash flow forecast template — free 13-week planner', body, '/small-business-cash-flow-forecast-template', {
-    description: 'Free small business cash flow forecast template. Enter your starting cash, invoices and bills to see your balance for the next 13 weeks and find the week you run short — download as CSV, no sign-up.',
+    description: 'Free 13-week cash flow forecast template: enter cash, invoices and bills to find the week you run short. Download as CSV. No sign-up.',
     jsonld: jsonld,
+    breadcrumbs: [['Cash flow forecast template', '/small-business-cash-flow-forecast-template']],
   });
 }
 
@@ -1029,8 +1038,9 @@ export function irregularIncomeBudgetPage() {
     + 'calcBudget();'
     + '</script>';
   return layout('Irregular income budget template — free planner with Excel download', body, '/irregular-income-budget-template-excel', {
-    description: 'Free irregular income budget template for freelancers. Budget from your lowest month, set tax aside first, split the rest 50/30/20 — download as a spreadsheet, no sign-up.',
+    description: 'Free irregular income budget template: budget from your lowest month, set tax aside first, split the rest 50/30/20. Spreadsheet download.',
     jsonld: jsonld,
+    breadcrumbs: [['Irregular income budget template', '/irregular-income-budget-template-excel']],
   });
 }
 
@@ -1132,7 +1142,8 @@ export function expenseTrackerPage() {
     + 'calcExpenses();'
     + '</script>';
   return layout('Business expense tracker (Excel) — free with Schedule C mapping', body, '/business-expense-tracker-excel', {
-    description: 'Free business expense tracker for freelancers and small businesses. Log expenses, see each one mapped to its IRS Schedule C line, and download it as a spreadsheet — no sign-up.',
+    description: 'Free business expense tracker: log expenses, see each mapped to its IRS Schedule C line, download as a spreadsheet. No sign-up.',
     jsonld: jsonld,
+    breadcrumbs: [['Business expense tracker', '/business-expense-tracker-excel']],
   });
 }
