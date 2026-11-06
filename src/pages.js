@@ -70,7 +70,7 @@ export function layout(title, body, active, meta = {}) {
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
-    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/reminder-email-generator">Reminder generator</a><a href="/invoice-template">Invoice template</a><a href="/late-fee-calculator">Late fee calculator</a></nav>'
+    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/reminder-email-generator">Reminder generator</a><a href="/invoice-template">Invoice template</a><a href="/late-fee-calculator">Late fee calculator</a><a href="/us-late-fee-calculator">US late fee calculator</a></nav>'
     + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
 }
 
@@ -123,7 +123,7 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Four free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, or <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
+  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Four free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, or use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
     description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
     jsonld,
   });
@@ -551,7 +551,7 @@ export function lateFeeCalculatorPage() {
     + '<p><button class="btn" onclick="copyClause()">Copy clause</button> <span id="l-copied" style="color:#0b6b5e"></span></p>'
     + '<p style="font-size:14px;color:#555">This calculator does the arithmetic only — it is not legal or financial advice. A late fee can usually only be charged if it was in your agreed terms before the work started, and many places cap the rate, so check the limits where you and your client are.</p>'
     + '</div>'
-    + '<p style="margin-top:16px">Fee worked out? Send the follow-up with the <a href="/reminder-email-generator">free reminder email generator</a>, or let <a href="/signup">Invoice Chaser chase it automatically at day 7, 14 and 30</a>. Need the invoice itself? Use the <a href="/invoice-template">free invoice template</a>.</p></section>'
+    + '<p style="margin-top:16px">Fee worked out? Send the follow-up with the <a href="/reminder-email-generator">free reminder email generator</a>, or let <a href="/signup">Invoice Chaser chase it automatically at day 7, 14 and 30</a>. Need the invoice itself? Use the <a href="/invoice-template">free invoice template</a>. Charging a US client? Use the <a href="/us-late-fee-calculator">US late fee calculator with state caps and a built-in reminder email</a>.</p></section>'
     + '<section><h2>How a late fee is calculated</h2><p>Most freelance late fees have two parts: a monthly percentage on the unpaid balance and, sometimes, a flat fee for being late at all. This calculator charges the monthly rate pro-rated by day: a $2,000 invoice at 1.5% a month that is 45 days late accrues $45 in interest. The flat fee is added once, only if the invoice is past its grace period. Interest here is simple, never compounded: it is always charged on the original invoice amount, never on earlier fees.</p><p>The most common small-business term is 1.5% a month, about 18% a year, often with a flat $25 to $50 on top. Whatever you choose, it only works if it was in your agreed terms before the work started. A fee invented after the invoice is already late usually creates a dispute about the fee instead of payment of the invoice. Caps and statutory interest rules vary by country and, in the US, by state, so check the limits where you and your client are.</p><h2>Frequently asked questions</h2><h3>What is a standard late fee for a freelancer?</h3><p>1.5% per month is the most common term, often with a flat fee of $25 to $50 on top. Some contracts use 1% a month. Higher rates risk being unenforceable where caps apply.</p><h3>Can I charge a late fee if it was not in my terms?</h3><p>Usually not as a contract fee. If your terms said nothing about late fees, ask for payment first and add the term to your next invoice. Some places give statutory interest by law even without a term, so check the rules where you are.</p><h3>Does the late fee compound?</h3><p>In this calculator, no. Interest is simple and always calculated on the original invoice amount. If your contract says interest compounds, the real figure will be higher.</p><h3>What if the client pays part of the invoice?</h3><p>This calculator assumes the whole invoice is unpaid. For a partial payment, enter the remaining balance as the invoice amount to work out the fee on what is still owed.</p><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a standard late fee for a freelancer?","acceptedAnswer":{"@type":"Answer","text":"1.5% per month is the most common term, often with a flat fee of $25 to $50 on top. Some contracts use 1% a month. Higher rates risk being unenforceable where caps apply."}},{"@type":"Question","name":"Can I charge a late fee if it was not in my terms?","acceptedAnswer":{"@type":"Answer","text":"Usually not as a contract fee. If your terms said nothing about late fees, ask for payment first and add the term to your next invoice. Some places give statutory interest by law even without a term, so check the rules where you are."}},{"@type":"Question","name":"Does the late fee compound?","acceptedAnswer":{"@type":"Answer","text":"In this calculator, no. Interest is simple and always calculated on the original invoice amount. If your contract says interest compounds, the real figure will be higher."}},{"@type":"Question","name":"What if the client pays part of the invoice?","acceptedAnswer":{"@type":"Answer","text":"This calculator assumes the whole invoice is unpaid. For a partial payment, enter the remaining balance as the invoice amount to work out the fee on what is still owed."}}]}</script></section>'
     + '<script>'
     + 'function lnum(id,def){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?def:v;}'
@@ -574,6 +574,178 @@ export function lateFeeCalculatorPage() {
     + '</script>';
   return layout('Free late fee calculator', body, '/late-fee-calculator', {
     description: 'Free late fee calculator for freelancers. Enter the amount, due date and your rate to work out the late fee and total now due — no sign-up.',
+    jsonld: jsonld,
+  });
+}
+
+// US state late-fee caps. Single source of truth for the table and the
+// state selector below. Filled from research:
+// ~/workspace/keyword-mining/us-state-late-fee-caps.json
+// Fields: state, code, cap (max contract rate %/yr, or null), statutory
+// (default rate %/yr when no term agreed, or null), note, status
+// ('verified' = 2+ sources agree, 'single-source', 'unverified',
+// 'no-cap-found'). NEVER guess a number: unverified states show '—'.
+const US_STATE_CAPS = [
+  {"state": "Alabama", "code": "AL", "cap": 8, "statutory": 6, "note": "No late-fee cap; 8% ceiling on agreed interest in written loan/forbearance contracts (any rate allowed on $2,000+).", "status": "verified"},
+  {"state": "Alaska", "code": "AK", "cap": 10, "statutory": 10.5, "note": "No cap on flat late fees; agreed interest capped at the greater of 10% or 5 pts over the 12th Federal Reserve District rate (contracts over $25,000 exempt).", "status": "verified"},
+  {"state": "Arizona", "code": "AZ", "cap": null, "statutory": 10, "note": "No late-fee cap; parties may agree any interest rate in writing; a fee must be a reasonable estimate of loss, not a penalty.", "status": "verified"},
+  {"state": "Arkansas", "code": "AR", "cap": 17, "statutory": 6, "note": "No cap on flat late fees; 17% constitutional ceiling on contract interest.", "status": "verified"},
+  {"state": "California", "code": "CA", "cap": null, "statutory": 10, "note": "No late-fee cap; usury does not reach late charges on overdue invoices for goods sold on credit.", "status": "verified"},
+  {"state": "Colorado", "code": "CO", "cap": 45, "statutory": 8, "note": "No cap on flat late fees; agreed interest in a written instrument capped at 45%/yr.", "status": "verified"},
+  {"state": "Connecticut", "code": "CT", "cap": 12, "statutory": 8, "note": "No late-fee cap; 12% ceiling on interest on loans of money (no maximum on loans over $10,000).", "status": "verified"},
+  {"state": "Delaware", "code": "DE", "cap": null, "statutory": null, "note": "No late-fee cap; agreed interest limited to the Federal Reserve discount rate + 5 pts (floating); corporations/LLCs cannot plead usury; loans over $100,000 uncapped. Both the cap and the default rate are the same floating formula (Fed discount rate + 5 pts); no fixed number can be given.", "status": "verified"},
+  {"state": "District of Columbia", "code": "DC", "cap": 24, "statutory": 6, "note": "No cap on flat late fees; 24%/yr cap on interest on a written payment instrument (business loans over $2,500 exempt; whether an ordinary invoice counts is unsettled).", "status": "single-source"},
+  {"state": "Florida", "code": "FL", "cap": 18, "statutory": 7.87, "note": "No cap on flat late fees; 18%/yr usury ceiling on interest (25% criminal threshold on loans over $500,000); 5% delinquency charge allowed on commercial installment contracts.", "status": "verified"},
+  {"state": "Georgia", "code": "GA", "cap": 18, "statutory": 7, "note": "Late-fee rule: up to 1.5%/month (18%/yr) on commercial-account balances 30+ days overdue.", "status": "verified"},
+  {"state": "Hawaii", "code": "HI", "cap": null, "statutory": 10, "note": "No late-fee cap; written contracts may set any rate not prohibited for non-consumer credit.", "status": "verified"},
+  {"state": "Idaho", "code": "ID", "cap": null, "statutory": 12, "note": "No late-fee cap; written contracts may set their own rate.", "status": "verified"},
+  {"state": "Illinois", "code": "IL", "cap": 9, "statutory": 5, "note": "No cap on flat late fees; 9%/yr ceiling on interest in written contracts unless an exemption applies (corporation loans, wholesaler-retailer credit, business loans).", "status": "verified"},
+  {"state": "Indiana", "code": "IN", "cap": null, "statutory": 8, "note": "No late-fee cap; interest caps cover consumer credit only.", "status": "verified"},
+  {"state": "Iowa", "code": "IA", "cap": null, "statutory": 5, "note": "No late-fee cap; business credit may agree any rate in writing and cannot plead usury.", "status": "verified"},
+  {"state": "Kansas", "code": "KS", "cap": null, "statutory": 10, "note": "No late-fee cap; the 15% written-contract interest limit does not apply to business transactions.", "status": "verified"},
+  {"state": "Kentucky", "code": "KY", "cap": 19, "statutory": 8, "note": "No cap on flat late fees; written interest limited to the lesser of 19% or 4 pts over the 90-day commercial-paper rate on amounts $15,000 or less (no limit above $15,000).", "status": "verified"},
+  {"state": "Louisiana", "code": "LA", "cap": null, "statutory": 7.5, "note": "No late-fee cap; commercial debts are exempt from the 12% contract-interest limit.", "status": "verified"},
+  {"state": "Maine", "code": "ME", "cap": null, "statutory": null, "note": "No late-fee cap; parties may agree any finance charge on non-consumer credit. No automatic invoice rate: with no interest term, a court awards prejudgment interest at the 1-year Treasury bill rate + 3% (except small claims).", "status": "verified"},
+  {"state": "Maryland", "code": "MD", "cap": null, "statutory": 6, "note": "No late-fee cap; the fee must state its amount, when it applies and when it is charged — a disclosed fee is not treated as interest or a penalty.", "status": "verified"},
+  {"state": "Massachusetts", "code": "MA", "cap": 20, "statutory": 6, "note": "No late-fee cap; 20%/yr criminal-usury line on loans (AG-notice exception); unsettled whether it reaches invoice late fees.", "status": "verified"},
+  {"state": "Michigan", "code": "MI", "cap": 25, "statutory": 5, "note": "No late-fee cap; 25% criminal-usury line for business credit; 7% ceiling on written interest excluding credit-sale time-price differentials.", "status": "verified"},
+  {"state": "Minnesota", "code": "MN", "cap": null, "statutory": 6, "note": "No late-fee cap and no interest/fee limit on credit to a corporation, LLC, partnership or other organization.", "status": "verified"},
+  {"state": "Mississippi", "code": "MS", "cap": 10, "statutory": 8, "note": "No cap on obligations over $2,000; for $2,000 or less, a written rate is limited to the greater of 10%/yr or 5 pts over the Fed discount rate on 90-day commercial paper.", "status": "single-source"},
+  {"state": "Missouri", "code": "MO", "cap": null, "statutory": 9, "note": "No late-fee cap; parties may agree any rate, fee or charge on business/commercial credit.", "status": "verified"},
+  {"state": "Montana", "code": "MT", "cap": 18, "statutory": 10, "note": "Late-charge rule: up to 1.5%/month (18%/yr) on goods sold at retail, from 30 days (services not covered).", "status": "single-source"},
+  {"state": "Nebraska", "code": "NE", "cap": 16, "statutory": 12, "note": "Open-account charges up to 1 1/3%/month (16%/yr) on balances unpaid 30+ days after statement; the 16% ceiling does not apply to corporations, partnerships, LLCs or trusts.", "status": "single-source"},
+  {"state": "Nevada", "code": "NV", "cap": null, "statutory": 8.75, "note": "No late-fee cap; parties may agree any rate and fees in writing.", "status": "verified"},
+  {"state": "New Hampshire", "code": "NH", "cap": null, "statutory": 10, "note": "No late-fee cap; 10%/yr legal rate for business transactions unless the parties agree otherwise in writing.", "status": "verified"},
+  {"state": "New Jersey", "code": "NJ", "cap": 16, "statutory": 6, "note": "No late-fee cap for corporations, LLCs or LLPs; 16%/yr ceiling on written loan interest (those entities cannot plead usury; loans $50,000+ exempt).", "status": "single-source"},
+  {"state": "New Mexico", "code": "NM", "cap": 15, "statutory": 15, "note": "No late-fee cap for business-entity debtors; for other debtors, open-account interest limited to 15%/yr from 30 days after last delivery unless a higher rate is agreed.", "status": "verified"},
+  {"state": "New York", "code": "NY", "cap": 16, "statutory": 9, "note": "No late-fee cap (charge must be a reasonable estimate of loss); 16% civil-usury ceiling on loans/forbearances, 25% criminal threshold; corporations cannot raise civil usury as a defense.", "status": "verified"},
+  {"state": "North Carolina", "code": "NC", "cap": null, "statutory": 8, "note": "No late-fee cap; limits on late charges cover loans/open-end credit, not exempt loans (credit to non-natural persons and business-purpose credit).", "status": "verified"},
+  {"state": "North Dakota", "code": "ND", "cap": null, "statutory": 6, "note": "No late-fee cap for most business customers; the interest ceiling (5.5 pts over the average 6-month T-bill rate, minimum 7%) does not apply to corporations, LLCs, cooperatives, trusts, partnerships filing a partnership return, or amounts over $35,000.", "status": "verified"},
+  {"state": "Ohio", "code": "OH", "cap": null, "statutory": 7, "note": "No late-fee cap; a fee must be reasonable, not a penalty.", "status": "verified"},
+  {"state": "Oklahoma", "code": "OK", "cap": null, "statutory": 6, "note": "No late-fee cap for business invoices; a fixed late fee must be a reasonable estimate of loss.", "status": "single-source"},
+  {"state": "Oregon", "code": "OR", "cap": null, "statutory": 9, "note": "No late-fee cap for business invoices.", "status": "single-source"},
+  {"state": "Pennsylvania", "code": "PA", "cap": null, "statutory": 6, "note": "No late-fee cap; the 6% interest limit (41 P.S. § 201) covers loans of $50,000 or less and does not apply to business loans of any amount; corporations cannot raise it as a defense.", "status": "verified"},
+  {"state": "Rhode Island", "code": "RI", "cap": 21, "statutory": 12, "note": "No late-fee cap; loan interest capped at 21%/yr (or prime + 9 pts if higher), commercial loans over $1,000,000 exempt.", "status": "verified"},
+  {"state": "South Carolina", "code": "SC", "cap": null, "statutory": 8.75, "note": "No late-fee cap.", "status": "verified"},
+  {"state": "South Dakota", "code": "SD", "cap": 18, "statutory": 15, "note": "Cap on the interest rate shown on an invoice/bill/statement: 18%/yr; written agreements otherwise have no limit; no cap on a flat late fee.", "status": "verified"},
+  {"state": "Tennessee", "code": "TN", "cap": 10, "statutory": 10, "note": "No cap on flat late fees; interest limited to 10%/yr, or the weekly formula rate (4 pts over average prime, 24% maximum) with a signed written contract.", "status": "verified"},
+  {"state": "Texas", "code": "TX", "cap": 10, "statutory": 6, "note": "No cap on flat late fees; interest limited to 10%/yr unless a written agreement adopts the optional Chapter 303 ceiling (18% for business credit).", "status": "verified"},
+  {"state": "Utah", "code": "UT", "cap": null, "statutory": 10, "note": "No late-fee cap; parties may agree any interest rate.", "status": "verified"},
+  {"state": "Vermont", "code": "VT", "cap": null, "statutory": 12, "note": "No late-fee cap; corporations and business borrowers may agree rates above the 12% general rate.", "status": "verified"},
+  {"state": "Virginia", "code": "VA", "cap": null, "statutory": 6, "note": "No general late-fee cap; Va. Code § 6.2-400 allows up to 5% of an overdue installment if the contract states it (7-day grace; payment within 7 days counts as on time).", "status": "single-source"},
+  {"state": "Washington", "code": "WA", "cap": null, "statutory": 12, "note": "No late-fee cap; usury cannot be pleaded on transactions made mainly for business purposes.", "status": "verified"},
+  {"state": "West Virginia", "code": "WV", "cap": null, "statutory": 6, "note": "No late-fee cap; corporations, partnerships and LLCs cannot plead usury; usury limits do not apply to business-purpose loans/installment sales.", "status": "verified"},
+  {"state": "Wisconsin", "code": "WI", "cap": null, "statutory": 5, "note": "No late-fee cap; the usury limit does not cover business loans or forbearances.", "status": "verified"},
+  {"state": "Wyoming", "code": "WY", "cap": null, "statutory": 7, "note": "No late-fee cap; the consumer credit code covers only personal/family/household credit.", "status": "verified"},
+];
+
+export function usLateFeeCalculatorPage() {
+  const jsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Invoice Chaser US Late Fee Calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: SITE_URL + '/us-late-fee-calculator',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free US late fee calculator for freelancers and small businesses. Work out the late fee on an overdue invoice, check your state\'s cap, copy a late-fee clause and generate the reminder email — no sign-up.',
+  });
+  const faqJsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Can I charge a late fee on an overdue invoice in the US?', acceptedAnswer: { '@type': 'Answer', text: 'Usually yes, if the late fee was in your agreed payment terms before the work started. A fee invented after the invoice is already late is hard to enforce. Some states also give statutory interest by law even without a term — check your state in the table below.' } },
+      { '@type': 'Question', name: 'What is a normal late fee for a freelancer in the US?', acceptedAnswer: { '@type': 'Answer', text: '1% to 2% per month is the normal range, with 1.5% a month the most common term, often with a flat $25 to $50 fee on top. Above 2% a month is unusual and may not be enforceable in states with caps.' } },
+      { '@type': 'Question', name: 'How is the late fee calculated — pro-rated or per month?', acceptedAnswer: { '@type': 'Answer', text: 'Both methods exist. Pro-rated daily divides the monthly rate by 30 and charges for each day late. Per month started charges a full month for any part of a month — a $2,400 invoice at 1.5% a month that is 40 days late costs $48 pro-rated but $72 per month started. Your contract should say which one applies; this calculator shows both.' } },
+      { '@type': 'Question', name: 'What is my state\'s late fee cap?', acceptedAnswer: { '@type': 'Answer', text: 'Caps vary by state and many states have no late-fee-specific cap — the contract rate governs, subject to general interest limits. Pick your state in the calculator above to see its cap and statutory rate, or read the full state table below.' } },
+      { '@type': 'Question', name: 'Does the late fee compound?', acceptedAnswer: { '@type': 'Answer', text: 'In this calculator, no. Interest is simple and always calculated on the original invoice amount, never on earlier fees. If your contract says interest compounds, the real figure will be higher.' } },
+      { '@type': 'Question', name: 'What if the client pays part of the invoice?', acceptedAnswer: { '@type': 'Answer', text: 'This calculator assumes the whole invoice is unpaid. For a partial payment, enter the remaining balance as the invoice amount to work out the fee on what is still owed.' } },
+    ],
+  });
+  const stateOptions = US_STATE_CAPS.map((s) => '<option value="' + s.code + '">' + s.state + '</option>').join('');
+  const capRows = US_STATE_CAPS.length === 0
+    ? '<tr><td colspan="4">State caps are being verified against official sources and will appear here shortly.</td></tr>'
+    : US_STATE_CAPS.map((s) => '<tr><td><b>' + s.state + '</b></td><td>' + (s.cap == null ? '—' : s.cap + '%/yr') + '</td><td>' + (s.statutory == null ? '—' : s.statutory + '%/yr') + '</td><td>' + s.note + (s.status !== 'verified' ? ' <i>(' + s.status + ')</i>' : '') + '</td></tr>').join('');
+  const body = '<section class="hero"><p class="eyebrow">Free tool · United States</p><h1>Late fee calculator (US)</h1>'
+    + '<p style="font-size:19px">Work out the late fee on an overdue invoice, check your state\'s cap, copy a late-fee clause and generate the reminder email — free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section><div class="card" style="max-width:720px">'
+    + '<label>Invoice amount (USD)<br><input id="u-amt" type="number" min="0" placeholder="e.g. 2400" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label>Due date<br><input id="u-due" type="date" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Late fee (% per month)<br><input id="u-rate" type="number" value="1.5" min="0" step="0.1" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Flat late fee (optional)<br><input id="u-flat" type="number" value="0" min="0" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Grace days (optional)<br><input id="u-grace" type="number" value="0" min="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Your state<br><select id="u-state" style="width:100%;padding:10px;margin:6px 0 12px"><option value="">Select a state…</option>' + stateOptions + '</select></label></span>'
+    + '<label>How your terms charge interest<br><select id="u-method" style="width:100%;padding:10px;margin:6px 0 12px"><option value="daily">Pro-rated daily (monthly rate ÷ 30 × days late)</option><option value="monthly">Per month started (a full month for any part of a month)</option></select></label>'
+    + '<div id="u-capinfo"></div>'
+    + '<p><button class="btn" onclick="calcLateUS()">Calculate late fee</button></p>'
+    + '<div id="u-results"></div>'
+    + '<label>Copyable clause for your payment terms<br><textarea id="u-clause" rows="3" readonly style="width:100%;padding:10px;margin:6px 0 12px;background:#f4f6f8"></textarea></label>'
+    + '<p><button class="btn" onclick="copyClauseUS()">Copy clause</button> <span id="u-copied" style="color:#0b6b5e"></span></p>'
+    + '<h3 style="margin-top:28px">Generate the reminder email</h3>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Invoice number (optional)<br><input id="u-inv" type="text" placeholder="e.g. INV-0042" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Stage<br><select id="u-stage" style="width:100%;padding:10px;margin:6px 0 12px"><option value="friendly">Friendly nudge</option><option value="firm">Firm follow-up</option><option value="final">Final notice</option></select></label></span>'
+    + '<p><button class="btn ghost" onclick="genReminderUS()">Generate reminder email</button></p>'
+    + '<label>Your reminder email — copy and send<br><textarea id="u-email" rows="10" readonly style="width:100%;padding:10px;margin:6px 0 12px;background:#f4f6f8"></textarea></label>'
+    + '<p><button class="btn" onclick="copyEmailUS()">Copy email</button> <span id="u-ecopied" style="color:#0b6b5e"></span></p>'
+    + '<p style="font-size:14px;color:#555">This calculator does the arithmetic only — it is not legal or financial advice. A late fee can usually only be charged if it was in your agreed terms before the work started, and many states cap the rate, so check the table below for where you and your client are.</p>'
+    + '</div>'
+    + '<p style="margin-top:16px">Want all three reminders sent automatically at day 7, 14 and 30, without copying anything? <a href="/signup">Start free with Invoice Chaser</a> — 3 active invoices free. Need the invoice itself? Use the <a href="/invoice-template">free invoice template</a>. Prefer the plain calculator without state caps? Use the <a href="/late-fee-calculator">free late fee calculator</a>.</p></section>'
+    + '<section><h2>How a late fee is calculated</h2><p>Most US freelance late fees have two parts: a monthly percentage on the unpaid balance and, sometimes, a flat fee for being late at all. This calculator shows both common methods. Pro-rated daily divides the monthly rate by 30 and charges for each day late: a $2,400 invoice at 1.5% a month that is 40 days late accrues $48. Per month started charges a full month for any part of a month, so the same invoice costs $72 — that is the method BillGrid uses in its worked example. Interest here is simple, never compounded: it is always charged on the original invoice amount, never on earlier fees. The flat fee is added once, only if the invoice is past its grace period.</p><p>The most common small-business term is 1.5% a month, about 18% a year, often with a flat $25 to $50 on top. Whatever you choose, it only works if it was in your agreed terms before the work started. A fee invented after the invoice is already late usually creates a dispute about the fee instead of payment of the invoice. Caps and statutory interest rules vary by state — pick your state above to check yours.</p>'
+    + '<h2>Late fee caps by state</h2><p>US states set their own limits. Some cap the contract rate itself; others only set a statutory rate that applies when no rate was agreed, and a few have no specific late-fee cap at all — then the contract rate governs, subject to general interest limits. “—” in the contract-rate column means the state sets no ceiling on business invoices; “—” in the statutory column means no fixed rate exists (Delaware uses a floating formula; Maine has no automatic rate). State caps last checked 6 November 2026.</p>'
+    + '<div style="overflow-x:auto"><table><thead><tr><th>State</th><th>Max contract rate</th><th>Statutory rate (no term agreed)</th><th>What it means</th></tr></thead><tbody>' + capRows + '</tbody></table></div>'
+    + '<p style="font-size:14px;color:#555">Sources: state statutes and official state pages, Nolo and FindLaw state guides. Figures are for commercial, non-consumer debts; consumer debts and loans often have different caps. In most states the figure shown is a cap on agreed interest, not a cap on a late fee itself — a late fee must be a reasonable estimate of loss, not a penalty. This table is general information, not legal advice — check your state\'s current statute before relying on a figure.</p>'
+    + '<h2>Frequently asked questions</h2><h3>Can I charge a late fee on an overdue invoice in the US?</h3><p>Usually yes, if the late fee was in your agreed payment terms before the work started. A fee invented after the invoice is already late is hard to enforce. Some states also give statutory interest by law even without a term — check your state in the table above.</p><h3>What is a normal late fee for a freelancer in the US?</h3><p>1% to 2% per month is the normal range, with 1.5% a month the most common term, often with a flat $25 to $50 fee on top. Above 2% a month is unusual and may not be enforceable in states with caps.</p><h3>How is the late fee calculated — pro-rated or per month?</h3><p>Both methods exist. Pro-rated daily divides the monthly rate by 30 and charges for each day late. Per month started charges a full month for any part of a month — a $2,400 invoice at 1.5% a month that is 40 days late costs $48 pro-rated but $72 per month started. Your contract should say which one applies; this calculator shows both.</p><h3>What is my state\'s late fee cap?</h3><p>Caps vary by state and many states have no late-fee-specific cap — the contract rate governs, subject to general interest limits. Pick your state in the calculator above to see its cap and statutory rate, or read the full state table above.</p><h3>Does the late fee compound?</h3><p>In this calculator, no. Interest is simple and always calculated on the original invoice amount. If your contract says interest compounds, the real figure will be higher.</p><h3>What if the client pays part of the invoice?</h3><p>This calculator assumes the whole invoice is unpaid. For a partial payment, enter the remaining balance as the invoice amount to work out the fee on what is still owed.</p><script type="application/ld+json">' + faqJsonld + '</script></section>'
+    + '<script>'
+    + 'var US_CAPS=' + JSON.stringify(US_STATE_CAPS) + ';'
+    + 'function unum(id,def){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?def:v;}'
+    + 'function umoney(n){return "$"+Number(n).toFixed(2);}'
+    + 'function uEvent(name){try{if(typeof gtag==="function"){gtag("event",name);}}catch(e){}}'
+    + 'function uStateCap(){var code=document.getElementById("u-state").value;if(!code)return null;for(var i=0;i<US_CAPS.length;i++){if(US_CAPS[i].code===code)return US_CAPS[i];}return null;}'
+    + 'function uShowCap(){var el=document.getElementById("u-capinfo");var s=uStateCap();var rate=unum("u-rate",1.5);if(!s){el.innerHTML="";return;}'
+    + 'var html="<p style=\\"font-size:14px\\">";'
+    + 'if(s.cap!=null){html+="Max contract rate in "+s.state+": <b>"+s.cap+"%/yr</b>. ";if(rate*12>s.cap){html+="<b style=\\"color:#b45309\\">Your rate of "+rate+"%/mo ("+(rate*12).toFixed(1)+"%/yr) is above this cap — a court may not enforce the excess.</b> ";}}'
+    + 'else{html+="No verified contract-rate cap found for "+s.state+" — the agreed rate governs, subject to general interest limits. ";}'
+    + 'if(s.statutory!=null){html+="If your terms said nothing, the statutory rate is <b>"+s.statutory+"%/yr</b>. ";}'
+    + 'if(rate>2){html+="<b style=\\"color:#b45309\\">Above 2%/mo is unusual and may be unenforceable in some states.</b>";}'
+    + 'html+="</p>";el.innerHTML=html;}'
+    + 'function calcLateUS(){'
+    + 'var amt=unum("u-amt",0);var rate=unum("u-rate",1.5);var flat=unum("u-flat",0);var grace=Math.max(0,Math.floor(unum("u-grace",0)));'
+    + 'var dueStr=document.getElementById("u-due").value;var res=document.getElementById("u-results");'
+    + 'uShowCap();'
+    + 'if(!amt||!dueStr){res.innerHTML="<p>Enter an invoice amount and a due date to calculate.</p>";return;}'
+    + 'var due=new Date(dueStr+"T00:00:00Z");var today=new Date();today.setUTCHours(0,0,0,0);'
+    + 'var daysOver=Math.floor((today-due)/86400000);'
+    + 'var chargeable=Math.max(0,daysOver-grace);'
+    + 'var intDaily=amt*(rate/100)*(chargeable/30);'
+    + 'var monthsStarted=chargeable>0?Math.ceil(chargeable/30):0;'
+    + 'var intMonthly=amt*(rate/100)*monthsStarted;'
+    + 'var fee=chargeable>0?flat:0;'
+    + 'var method=document.getElementById("u-method").value;'
+    + 'var interest=method==="monthly"?intMonthly:intDaily;'
+    + 'var total=amt+interest+fee;'
+    + 'var html="<p>Days overdue: <b>"+daysOver+"</b><br>Chargeable days (after "+grace+" grace day(s)): <b>"+chargeable+"</b><br>Interest pro-rated daily: <b>"+umoney(intDaily)+"</b><br>Interest per month started ("+monthsStarted+" month(s)): <b>"+umoney(intMonthly)+"</b><br>Flat late fee: <b>"+umoney(fee)+"</b><br>Total late charges ("+(method==="monthly"?"per month started":"pro-rated daily")+"): <b>"+umoney(interest+fee)+"</b><br><b>Total now due: "+umoney(total)+"</b></p>";'
+    + 'if(daysOver<=0){html="<p>This invoice is not overdue yet — it is due on "+dueStr+".</p>"+html;}'
+    + 'res.innerHTML=html;'
+    + 'var methodText=method==="monthly"?"per month started":"pro-rated daily";'
+    + 'var clause="Payment due within 30 days of the invoice date. Invoices unpaid after the due date incur a late fee of "+rate+"% per month ("+methodText+")"+(flat>0?(" plus a flat fee of "+umoney(flat)):"")+" after a grace period of "+grace+" day(s).";'
+    + 'document.getElementById("u-clause").value=clause;document.getElementById("u-copied").textContent="";uEvent("calculate_late_fee_us");}'
+    + 'function copyClauseUS(){var el=document.getElementById("u-clause");el.select();try{navigator.clipboard.writeText(el.value);}catch(e){document.execCommand("copy");}document.getElementById("u-copied").textContent="Clause copied — paste it into your payment terms.";uEvent("copy_clause_us");}'
+    + 'function genReminderUS(){'
+    + 'var amt=unum("u-amt",0);var dueStr=document.getElementById("u-due").value;var inv=document.getElementById("u-inv").value||"[invoice number]";'
+    + 'var stage=document.getElementById("u-stage").value;var res=document.getElementById("u-results").innerText||"";'
+    + 'var totalLine="";var m=res.match(/Total now due: \\$[0-9,.]+/);if(m){totalLine=m[0]+". ";}'
+    + 'var feeLine="";var f=res.match(/Total late charges[^:]*: \\$[0-9,.]+/);if(f){feeLine=f[0]+". ";}'
+    + 'var email="";'
+    + 'if(stage==="friendly"){email="Subject: Reminder: invoice "+inv+" due "+(dueStr||"[due date]")+"\\n\\nHi,\\n\\nJust a quick reminder that invoice "+inv+" for "+umoney(amt)+" is due on "+(dueStr||"[due date]")+". I have attached a copy for your convenience.\\n\\nIf you have already sent payment, please ignore this note.\\n\\nThanks,";}'
+    + 'else if(stage==="firm"){email="Subject: Second notice: invoice "+inv+" is overdue\\n\\nHi,\\n\\nI am following up on invoice "+inv+" for "+umoney(amt)+", which was due on "+(dueStr||"[due date]")+" and is now overdue. "+feeLine+totalLine+"\\n\\nPlease arrange payment by [date, 5 working days away]. If there is a problem with the invoice, please tell me today so we can fix it.\\n\\nThanks,";}'
+    + 'else{email="Subject: Final notice: invoice "+inv+"\\n\\nHi,\\n\\nDespite my earlier reminders, invoice "+inv+" for "+umoney(amt)+" (due "+(dueStr||"[due date]")+") remains unpaid. "+feeLine+totalLine+"\\n\\nPlease arrange payment in full by [date, 7 days away]. If I do not receive payment by then, I will have to pause further work and consider next steps.\\n\\nThanks,";}'
+    + 'document.getElementById("u-email").value=email;document.getElementById("u-ecopied").textContent="";uEvent("generate_reminder_us");}'
+    + 'function copyEmailUS(){var el=document.getElementById("u-email");el.select();try{navigator.clipboard.writeText(el.value);}catch(e){document.execCommand("copy");}document.getElementById("u-ecopied").textContent="Email copied — paste it into your mail app.";uEvent("copy_reminder_us");}'
+    + 'document.getElementById("u-state").addEventListener("change",uShowCap);'
+    + 'function uprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}uprefill("u-amt","amt");uprefill("u-due","due");uprefill("u-rate","rate");uprefill("u-flat","flat");uprefill("u-grace","grace");uprefill("u-state","state");uprefill("u-method","method");calcLateUS();'
+    + '</script>';
+  return layout('Late fee calculator (US) — state caps & reminder email', body, '/us-late-fee-calculator', {
+    description: 'Free US late fee calculator for freelancers and small businesses. Work out the late fee on an overdue invoice, check your state\'s cap, copy a late-fee clause and generate the reminder email — no sign-up.',
     jsonld: jsonld,
   });
 }
