@@ -71,7 +71,7 @@ export function layout(title, body, active, meta = {}) {
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
     + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
-    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
+    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
 }
 
 export function homePage() {
@@ -123,7 +123,7 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Six free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, or plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
+  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Seven free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>, or budget irregular income with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
     description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
     jsonld,
   });
@@ -936,6 +936,100 @@ export function cashFlowForecastPage() {
     + '</script>';
   return layout('Small business cash flow forecast template — free 13-week planner', body, '/small-business-cash-flow-forecast-template', {
     description: 'Free small business cash flow forecast template. Enter your starting cash, invoices and bills to see your balance for the next 13 weeks and find the week you run short — download as CSV, no sign-up.',
+    jsonld: jsonld,
+  });
+}
+
+export function irregularIncomeBudgetPage() {
+  const jsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Invoice Chaser Irregular Income Budget Planner',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: SITE_URL + '/irregular-income-budget-template-excel',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free irregular income budget template for freelancers. Budget from your lowest month, set tax aside first, split the rest 50/30/20 — download as a spreadsheet, no sign-up.',
+  });
+  const faqJsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Why budget from my lowest month instead of my average?', acceptedAnswer: { '@type': 'Answer', text: 'Because your bills do not drop in a bad month. Budgeting from the lowest month means the plan works even when income dips; in good months the extra goes into a buffer instead of getting spent.' } },
+      { '@type': 'Question', name: 'How much should I set aside for tax as a freelancer?', acceptedAnswer: { '@type': 'Answer', text: '25% to 30% of each payment is the usual US rule of thumb: 15.3% self-employment tax plus income tax. Your actual rate depends on your income and state — use 25% as a planning figure and check it against your real tax bill.' } },
+      { '@type': 'Question', name: 'What is the 50/30/20 rule?', acceptedAnswer: { '@type': 'Answer', text: 'After tax, split what is left into 50% needs (rent, food, bills), 30% wants (everything optional) and 20% savings. It is a starting point, not a law — adjust the split to fit your life, but keep the tax pot untouched.' } },
+      { '@type': 'Question', name: 'What if my essentials cost more than 50% of my income?', acceptedAnswer: { '@type': 'Answer', text: 'Then the 50% bucket cannot cover them, and the planner will show the gap in red. Either cut a fixed cost, raise your baseline income, or run a leaner split (for example 60/20/20) until the essentials fit — do not cover the gap from the tax pot.' } },
+      { '@type': 'Question', name: 'Can I download this as an Excel spreadsheet?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — the Download CSV button saves your income history and your budget plan as a spreadsheet you can open in Excel or Google Sheets, edit and reuse every month.' } },
+    ],
+  });
+  const incRow = (m) => '<div class="b-row" style="display:flex;gap:8px;margin-bottom:8px"><input type="text" value="' + m + '" placeholder="Month" style="flex:1;padding:10px;margin:0"><input type="number" min="0" placeholder="Income $" style="flex:1;padding:10px;margin:0"><button type="button" class="btn ghost" style="padding:10px 14px" onclick="this.parentNode.remove()">×</button></div>';
+  const body = '<section class="hero"><p class="eyebrow">Free tool · For freelancers</p><h1>Irregular income budget template</h1>'
+    + '<p style="font-size:19px">Freelance income goes up and down, but rent does not. This planner budgets from your worst month, sets the tax money aside first, and splits the rest 50/30/20 — then downloads as a spreadsheet. Free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section><div class="card" style="max-width:760px">'
+    + '<h3>Your income — last 6 months</h3><p style="font-size:14px">Enter what you actually earned each month, before tax. The planner budgets from your lowest month, not your average.</p>'
+    + '<div id="b-income">' + incRow('Month 1') + incRow('Month 2') + incRow('Month 3') + incRow('Month 4') + incRow('Month 5') + incRow('Month 6') + '</div>'
+    + '<p><button class="btn ghost" onclick="bAddRow()">+ Add a month</button></p>'
+    + '<label>Tax set-aside (%)<br><input id="b-tax" type="number" value="25" min="0" max="50" step="1" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<p style="font-size:14px;color:#555">25–30% is the usual US freelancer rule of thumb (15.3% self-employment tax plus income tax). Your actual rate depends on your income and state.</p>'
+    + '<h3>Your essentials — per month</h3>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Rent / housing ($)<br><input id="b-rent" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Food / groceries ($)<br><input id="b-food" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Bills / utilities ($)<br><input id="b-bills" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Transport ($)<br><input id="b-transport" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Other essentials ($)<br><input id="b-other" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<p><button class="btn" onclick="calcBudget()">Build my budget</button></p>'
+    + '<div id="b-results"></div>'
+    + '<p><button class="btn ghost" onclick="downloadBudgetCSV()">Download spreadsheet (CSV)</button> <button class="btn ghost" onclick="copyBudgetSummary()">Copy summary</button> <span id="b-copied" style="color:#0b6b5e"></span></p>'
+    + '<p style="font-size:14px;color:#555">This is a planning estimate, not tax or financial advice. The tax rate is a rule of thumb — check your real rate against your tax bill or your accountant.</p>'
+    + '</div>'
+    + '<p style="margin-top:16px">A budget only works if the money arrives. Chase late invoices with the <a href="/invoice-reminder-email-template">invoice reminder email templates</a> or let <a href="/signup">Invoice Chaser chase them automatically at day 7, 14 and 30</a>. Planning the next quarter? Use the <a href="/small-business-cash-flow-forecast-template">13-week cash flow forecast</a>.</p></section>'
+    + '<section><h2>How the tax-first budget works</h2><p><strong>Step 1 — baseline from your lowest month.</strong> Take the last six months of income and find the lowest. That is the month your budget must survive, so that is the number you plan from. Your average is only used for one thing: working out the buffer.</p><p><strong>Step 2 — tax first.</strong> Take the tax set-aside off the baseline before anything else. At 25%, a $1,800 baseline leaves $1,350 to live on — and the $450 tax pot is never spent on anything else.</p><p><strong>Step 3 — split the rest 50/30/20.</strong> Half for needs (rent, food, bills), 30% for wants, 20% for savings. In a good month, everything above the baseline goes into a buffer that covers the bad months.</p><p><strong>Worked example.</strong> Six months of income: $2,000, $3,500, $1,800, $4,200, $2,600, $3,000. Lowest month $1,800, average $2,850. Tax at 25% is $450, leaving $1,350: needs $675, wants $405, savings $270. In an average month you put the $1,050 above the baseline into the buffer — that is what carries you through the $1,800 months.</p>'
+    + '<h2>Frequently asked questions</h2><h3>Why budget from my lowest month instead of my average?</h3><p>Because your bills do not drop in a bad month. Budgeting from the lowest month means the plan works even when income dips; in good months the extra goes into a buffer instead of getting spent.</p><h3>How much should I set aside for tax as a freelancer?</h3><p>25% to 30% of each payment is the usual US rule of thumb: 15.3% self-employment tax plus income tax. Your actual rate depends on your income and state — use 25% as a planning figure and check it against your real tax bill.</p><h3>What is the 50/30/20 rule?</h3><p>After tax, split what is left into 50% needs (rent, food, bills), 30% wants (everything optional) and 20% savings. It is a starting point, not a law — adjust the split to fit your life, but keep the tax pot untouched.</p><h3>What if my essentials cost more than 50% of my income?</h3><p>Then the 50% bucket cannot cover them, and the planner will show the gap in red. Either cut a fixed cost, raise your baseline income, or run a leaner split (for example 60/20/20) until the essentials fit — do not cover the gap from the tax pot.</p><h3>Can I download this as an Excel spreadsheet?</h3><p>Yes — the Download CSV button saves your income history and your budget plan as a spreadsheet you can open in Excel or Google Sheets, edit and reuse every month.</p><script type="application/ld+json">' + faqJsonld + '</script></section>'
+    + '<script>'
+    + 'var bCSV="";var bSummary="";'
+    + 'function bEvent(name){try{if(typeof gtag==="function"){gtag("event",name);}}catch(e){}}'
+    + 'function bmoney(n){return "$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}'
+    + 'function bnum(id,def){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?def:v;}'
+    + 'function bAddRow(){var rows=document.getElementById("b-income").querySelectorAll(".b-row");if(rows.length>=12){document.getElementById("b-copied").textContent="12 months is enough — use your most recent year.";return;}var d=document.createElement("div");d.innerHTML='
+    + JSON.stringify(incRow('Month ')) + ';document.getElementById("b-income").appendChild(d.firstChild);}'
+    + 'function calcBudget(){'
+    + 'var rows=document.getElementById("b-income").querySelectorAll(".b-row");var incomes=[];'
+    + 'for(var i=0;i<rows.length;i++){var ins=rows[i].querySelectorAll("input");var m=ins[0].value.trim()||("Month "+(i+1));var a=parseFloat(ins[1].value);if(!isNaN(a)&&a>0){incomes.push({month:m,amt:a});}}'
+    + 'var res=document.getElementById("b-results");'
+    + 'if(incomes.length===0){res.innerHTML="<p>Enter at least one month of income to build your budget.</p>";return;}'
+    + 'var sum=0;var lowest=incomes[0].amt;for(var j=0;j<incomes.length;j++){sum+=incomes[j].amt;if(incomes[j].amt<lowest){lowest=incomes[j].amt;}}'
+    + 'var avg=sum/incomes.length;var rate=bnum("b-tax",25);'
+    + 'var tax=lowest*(rate/100);var left=lowest-tax;var needs=left*0.5;var wants=left*0.3;var savings=left*0.2;'
+    + 'var ess=bnum("b-rent",0)+bnum("b-food",0)+bnum("b-bills",0)+bnum("b-transport",0)+bnum("b-other",0);'
+    + 'var gap=ess-needs;var buffer=avg-lowest;'
+    + 'var html="<p><b>Lowest month:</b> "+bmoney(lowest)+"<br><b>Average month:</b> "+bmoney(avg)+" (over "+incomes.length+" months)<br><b>Baseline to budget from:</b> "+bmoney(lowest)+"</p>";'
+    + 'html+="<div style=\\"overflow-x:auto\\"><table><thead><tr><th>Your monthly budget</th><th>Amount</th><th>Of baseline</th></tr></thead><tbody>";'
+    + 'html+="<tr><td>Tax set-aside ("+rate+"%)</td><td><b>"+bmoney(tax)+"</b></td><td>"+rate+"%</td></tr>";'
+    + 'html+="<tr><td>Needs — rent, food, bills (50% of what is left)</td><td><b>"+bmoney(needs)+"</b></td><td>50%</td></tr>";'
+    + 'html+="<tr><td>Wants (30% of what is left)</td><td><b>"+bmoney(wants)+"</b></td><td>30%</td></tr>";'
+    + 'html+="<tr><td>Savings (20% of what is left)</td><td><b>"+bmoney(savings)+"</b></td><td>20%</td></tr></tbody></table></div>";'
+    + 'if(ess>0){if(gap<=0){html+="<p><b style=\\"color:#0b6b5e\\">Your essentials ("+bmoney(ess)+") fit inside the needs bucket ("+bmoney(needs)+") — with "+bmoney(-gap)+" to spare.</b></p>";}'
+    + 'else{html+="<p><b style=\\"color:#991b1b\\">Your essentials ("+bmoney(ess)+") are "+bmoney(gap)+" over the needs bucket ("+bmoney(needs)+"). Cut a fixed cost, raise your baseline, or run a leaner split — do not take it from the tax pot.</b></p>";}}'
+    + 'html+="<p><b>Buffer:</b> in an average month, put "+bmoney(buffer)+" above the baseline aside — that is what carries you through the "+bmoney(lowest)+" months.</p>";'
+    + 'res.innerHTML=html;'
+    + 'var csv="Month,Income\\n";for(var k=0;k<incomes.length;k++){csv+=incomes[k].month.replace(/,/g,"")+","+incomes[k].amt.toFixed(2)+"\\n";}'
+    + 'csv+="\\nBudget item,Monthly amount\\n";'
+    + 'csv+="Baseline (lowest month),"+lowest.toFixed(2)+"\\n";'
+    + 'csv+="Tax set-aside ("+rate+"%),"+tax.toFixed(2)+"\\n";'
+    + 'csv+="Needs (50%),"+needs.toFixed(2)+"\\n";'
+    + 'csv+="Wants (30%),"+wants.toFixed(2)+"\\n";'
+    + 'csv+="Savings (20%),"+savings.toFixed(2)+"\\n";'
+    + 'csv+="Your essentials,"+ess.toFixed(2)+"\\n";'
+    + 'csv+="Buffer (average minus lowest),"+buffer.toFixed(2)+"\\n";'
+    + 'bCSV=csv;'
+    + 'bSummary="Irregular income budget\\nLowest month: "+bmoney(lowest)+"\\nAverage month: "+bmoney(avg)+"\\nTax set-aside ("+rate+"%): "+bmoney(tax)+"\\nNeeds: "+bmoney(needs)+"\\nWants: "+bmoney(wants)+"\\nSavings: "+bmoney(savings)+"\\nEssentials: "+bmoney(ess)+(gap>0?(" — "+bmoney(gap)+" OVER the needs bucket"):(" — fits the needs bucket"))+"\\nBuffer in a good month: "+bmoney(buffer);'
+    + 'document.getElementById("b-copied").textContent="";bEvent("calculate_budget");}'
+    + 'function downloadBudgetCSV(){if(!bCSV){document.getElementById("b-copied").textContent="Build your budget first, then download.";return;}var blob=new Blob([bCSV],{type:"text/csv"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="irregular-income-budget.csv";document.body.appendChild(a);a.click();a.remove();document.getElementById("b-copied").textContent="Spreadsheet downloaded — open it in Excel or Google Sheets.";bEvent("download_budget_csv");}'
+    + 'function copyBudgetSummary(){if(!bSummary){document.getElementById("b-copied").textContent="Build your budget first, then copy.";return;}try{navigator.clipboard.writeText(bSummary);}catch(e){var ta=document.createElement("textarea");ta.value=bSummary;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();}document.getElementById("b-copied").textContent="Summary copied.";bEvent("copy_budget_summary");}'
+    + 'calcBudget();'
+    + '</script>';
+  return layout('Irregular income budget template — free planner with Excel download', body, '/irregular-income-budget-template-excel', {
+    description: 'Free irregular income budget template for freelancers. Budget from your lowest month, set tax aside first, split the rest 50/30/20 — download as a spreadsheet, no sign-up.',
     jsonld: jsonld,
   });
 }
