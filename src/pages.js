@@ -71,7 +71,7 @@ export function layout(title, body, active, meta = {}) {
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
     + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
-    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
+    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a> · <a href="/business-expense-tracker-excel">Expense tracker</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
 }
 
 export function homePage() {
@@ -123,7 +123,7 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Seven free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>, or budget irregular income with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
+  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Eight free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>, budget irregular income with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>, or track expenses with the <a href="/business-expense-tracker-excel">business expense tracker</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
     description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
     jsonld,
   });
@@ -1030,6 +1030,109 @@ export function irregularIncomeBudgetPage() {
     + '</script>';
   return layout('Irregular income budget template — free planner with Excel download', body, '/irregular-income-budget-template-excel', {
     description: 'Free irregular income budget template for freelancers. Budget from your lowest month, set tax aside first, split the rest 50/30/20 — download as a spreadsheet, no sign-up.',
+    jsonld: jsonld,
+  });
+}
+
+// Schedule C categories for the expense tracker. pct = the share that is
+// normally deductible (meals are 50% under IRS rules; everything else here
+// is 100% of the business portion). Line numbers are IRS Schedule C Part II.
+const EXPENSE_CATS = [
+  { name: 'Office expense', line: 'Line 18', pct: 1 },
+  { name: 'Supplies', line: 'Line 22', pct: 1 },
+  { name: 'Software & subscriptions', line: 'Line 27a', pct: 1 },
+  { name: 'Advertising', line: 'Line 8', pct: 1 },
+  { name: 'Travel', line: 'Line 24a', pct: 1 },
+  { name: 'Meals', line: 'Line 24b', pct: 0.5 },
+  { name: 'Rent — other property', line: 'Line 20b', pct: 1 },
+  { name: 'Utilities', line: 'Line 25', pct: 1 },
+  { name: 'Contract labor', line: 'Line 11', pct: 1 },
+  { name: 'Legal & professional', line: 'Line 17', pct: 1 },
+  { name: 'Insurance', line: 'Line 15', pct: 1 },
+  { name: 'Car & truck', line: 'Line 9', pct: 1 },
+  { name: 'Commissions & fees', line: 'Line 10', pct: 1 },
+  { name: 'Repairs & maintenance', line: 'Line 21', pct: 1 },
+  { name: 'Taxes & licenses', line: 'Line 23', pct: 1 },
+  { name: 'Other', line: 'Line 27a', pct: 1 },
+];
+
+export function expenseTrackerPage() {
+  const jsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Invoice Chaser Business Expense Tracker',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: SITE_URL + '/business-expense-tracker-excel',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free business expense tracker for freelancers and small businesses. Log expenses, see each one mapped to its IRS Schedule C line, and download it as a spreadsheet — no sign-up.',
+  });
+  const faqJsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What counts as a business expense?', acceptedAnswer: { '@type': 'Answer', text: 'An expense that is ordinary and necessary for your business: software, office supplies, advertising, travel, rent, insurance, professional fees. Personal expenses do not count, and mixed-use items count only for the business share.' } },
+      { '@type': 'Question', name: 'Are business meals really only 50% deductible?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Under IRS rules only 50% of business meals are deductible, and the meal must have a business purpose with a record of who was there. This tracker applies the 50% automatically when you pick Meals.' } },
+      { '@type': 'Question', name: 'What is Schedule C?', acceptedAnswer: { '@type': 'Answer', text: 'Schedule C is the IRS form sole proprietors and single-member LLCs use to report business income and expenses. Each expense category on it has a line number — this tracker shows you which line each of your expenses belongs on.' } },
+      { '@type': 'Question', name: 'Do I need to keep receipts?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Keep the receipt or invoice for every expense, plus a note of what it was for. This tracker is a record of the amounts and categories, not a replacement for the receipts themselves.' } },
+      { '@type': 'Question', name: 'Can I download this as an Excel spreadsheet?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — the Download CSV button saves every expense with its category and Schedule C line as a spreadsheet you can open in Excel or Google Sheets.' } },
+    ],
+  });
+  const catOptions = EXPENSE_CATS.map((c) => '<option value="' + c.name + '">' + c.name + ' (' + c.line + ')</option>').join('');
+  const expRow = '<div class="e-row" style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap"><input type="date" style="padding:10px;margin:0;flex:1;min-width:140px"><input type="text" placeholder="What was it?" style="padding:10px;margin:0;flex:2;min-width:140px"><select style="padding:10px;margin:0;flex:1;min-width:150px">' + catOptions + '</select><input type="number" min="0" placeholder="Amount $" style="padding:10px;margin:0;flex:1;min-width:110px"><button type="button" class="btn ghost" style="padding:10px 14px" onclick="this.parentNode.remove()">×</button></div>';
+  const body = '<section class="hero"><p class="eyebrow">Free tool · With Schedule C mapping</p><h1>Business expense tracker</h1>'
+    + '<p style="font-size:19px">Log your business expenses and see each one mapped to its IRS Schedule C line — with meals automatically counted at 50%. Totals by category and by month, downloadable as a spreadsheet. Free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section><div class="card" style="max-width:760px">'
+    + '<h3>Your expenses</h3><p style="font-size:14px">Date, what it was, category, amount. Business meals are deductible at 50% — the tracker applies that for you.</p>'
+    + '<div id="e-expenses">' + expRow + expRow + expRow + '</div>'
+    + '<p><button class="btn ghost" onclick="eAddRow()">+ Add expense</button></p>'
+    + '<p><button class="btn" onclick="calcExpenses()">Total my expenses</button></p>'
+    + '<div id="e-results"></div>'
+    + '<p><button class="btn ghost" onclick="downloadExpensesCSV()">Download spreadsheet (CSV)</button> <button class="btn ghost" onclick="copyExpensesSummary()">Copy summary</button> <span id="e-copied" style="color:#0b6b5e"></span></p>'
+    + '<p style="font-size:14px;color:#555">This is a record-keeping aid, not tax advice. Categories follow IRS Schedule C Part II; the deductible share assumes 100% business use except meals at 50%. Keep your receipts, and check anything unusual with your accountant.</p>'
+    + '</div>'
+    + '<p style="margin-top:16px">Set the budget first with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>, or see the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">cash flow forecast</a>. Need the money in before you can spend it? Chase it with the <a href="/invoice-reminder-email-template">invoice reminder email templates</a>.</p></section>'
+    + '<section><h2>How the Schedule C mapping works</h2><p>Every expense you log gets the Schedule C line it usually belongs on. Office expense is Line 18, supplies Line 22, advertising Line 8, travel Line 24a, rent of business property Line 20b, software and subscriptions Line 27a. The one that catches people out is meals: business meals go on Line 24b, but only 50% of the amount is deductible — so a $60 client lunch counts as $30. The tracker does that maths for you and shows the deductible total separately from what you actually spent.</p><p><strong>Worked example.</strong> Software $240 (Line 27a, $240 deductible), a $60 client lunch (Line 24b, $30 deductible), office supplies $150 (Line 22, $150 deductible), rent $900 (Line 20b, $900 deductible). Total spent $1,350 — total deductible $1,320. The $30 difference is the non-deductible half of the lunch.</p>'
+    + '<h2>Frequently asked questions</h2><h3>What counts as a business expense?</h3><p>An expense that is ordinary and necessary for your business: software, office supplies, advertising, travel, rent, insurance, professional fees. Personal expenses do not count, and mixed-use items count only for the business share.</p><h3>Are business meals really only 50% deductible?</h3><p>Yes. Under IRS rules only 50% of business meals are deductible, and the meal must have a business purpose with a record of who was there. This tracker applies the 50% automatically when you pick Meals.</p><h3>What is Schedule C?</h3><p>Schedule C is the IRS form sole proprietors and single-member LLCs use to report business income and expenses. Each expense category on it has a line number — this tracker shows you which line each of your expenses belongs on.</p><h3>Do I need to keep receipts?</h3><p>Yes. Keep the receipt or invoice for every expense, plus a note of what it was for. This tracker is a record of the amounts and categories, not a replacement for the receipts themselves.</p><h3>Can I download this as an Excel spreadsheet?</h3><p>Yes — the Download CSV button saves every expense with its category and Schedule C line as a spreadsheet you can open in Excel or Google Sheets.</p><script type="application/ld+json">' + faqJsonld + '</script></section>'
+    + '<script>'
+    + 'var E_CATS=' + JSON.stringify(EXPENSE_CATS) + ';var eCSV="";var eSummary="";'
+    + 'function eEvent(name){try{if(typeof gtag==="function"){gtag("event",name);}}catch(e){}}'
+    + 'function emoney(n){return "$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}'
+    + 'function eCat(name){for(var i=0;i<E_CATS.length;i++){if(E_CATS[i].name===name)return E_CATS[i];}return E_CATS[E_CATS.length-1];}'
+    + 'function eAddRow(){var d=document.createElement("div");d.innerHTML='
+    + JSON.stringify(expRow)
+    + ';document.getElementById("e-expenses").appendChild(d.firstChild);}'
+    + 'function calcExpenses(){'
+    + 'var rows=document.getElementById("e-expenses").querySelectorAll(".e-row");var items=[];'
+    + 'for(var i=0;i<rows.length;i++){var ins=rows[i].querySelectorAll("input,select");var date=ins[0].value;var desc=ins[1].value.trim();var cat=ins[2].value;var amt=parseFloat(ins[3].value);if(!isNaN(amt)&&amt>0){items.push({date:date,desc:desc||"Expense",cat:cat,amt:amt});}}'
+    + 'var res=document.getElementById("e-results");'
+    + 'if(items.length===0){res.innerHTML="<p>Add at least one expense to total.</p>";return;}'
+    + 'var totSpent=0;var totDed=0;var byCat={};var byMonth={};'
+    + 'for(var j=0;j<items.length;j++){var c=eCat(items[j].cat);var ded=items[j].amt*c.pct;totSpent+=items[j].amt;totDed+=ded;'
+    + 'if(!byCat[items[j].cat]){byCat[items[j].cat]={line:c.line,pct:c.pct,spent:0,ded:0};}byCat[items[j].cat].spent+=items[j].amt;byCat[items[j].cat].ded+=ded;'
+    + 'var m=items[j].date?items[j].date.slice(0,7):"No date";if(!byMonth[m]){byMonth[m]={spent:0,ded:0};}byMonth[m].spent+=items[j].amt;byMonth[m].ded+=ded;}'
+    + 'var html="<p><b>Total spent:</b> "+emoney(totSpent)+"<br><b>Total deductible:</b> "+emoney(totDed)+"</p>";'
+    + 'html+="<h3>By category</h3><div style=\\"overflow-x:auto\\"><table><thead><tr><th>Category</th><th>Schedule C</th><th>Spent</th><th>Deductible</th></tr></thead><tbody>";'
+    + 'var catNames=Object.keys(byCat).sort();'
+    + 'for(var k=0;k<catNames.length;k++){var b=byCat[catNames[k]];html+="<tr><td>"+catNames[k]+"</td><td>"+b.line+(b.pct<1?" (50%)":"")+"</td><td>"+emoney(b.spent)+"</td><td><b>"+emoney(b.ded)+"</b></td></tr>";}'
+    + 'html+="</tbody></table></div>";'
+    + 'html+="<h3>By month</h3><div style=\\"overflow-x:auto\\"><table><thead><tr><th>Month</th><th>Spent</th><th>Deductible</th></tr></thead><tbody>";'
+    + 'var months=Object.keys(byMonth).sort();'
+    + 'for(var n=0;n<months.length;n++){html+="<tr><td>"+months[n]+"</td><td>"+emoney(byMonth[months[n]].spent)+"</td><td><b>"+emoney(byMonth[months[n]].ded)+"</b></td></tr>";}'
+    + 'html+="</tbody></table></div>";'
+    + 'res.innerHTML=html;'
+    + 'var csv="Date,Description,Category,Schedule C line,Amount,Deductible\\n";'
+    + 'for(var q=0;q<items.length;q++){var cc=eCat(items[q].cat);csv+=(items[q].date||"")+","+items[q].desc.replace(/,/g,"")+","+items[q].cat+","+cc.line+","+items[q].amt.toFixed(2)+","+(items[q].amt*cc.pct).toFixed(2)+"\\n";}'
+    + 'csv+="\\nTotal spent,"+totSpent.toFixed(2)+"\\nTotal deductible,"+totDed.toFixed(2)+"\\n";'
+    + 'eCSV=csv;'
+    + 'eSummary="Business expenses\\nTotal spent: "+emoney(totSpent)+"\\nTotal deductible: "+emoney(totDed);'
+    + 'document.getElementById("e-copied").textContent="";eEvent("calculate_expenses");}'
+    + 'function downloadExpensesCSV(){if(!eCSV){document.getElementById("e-copied").textContent="Total your expenses first, then download.";return;}var blob=new Blob([eCSV],{type:"text/csv"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="business-expenses.csv";document.body.appendChild(a);a.click();a.remove();document.getElementById("e-copied").textContent="Spreadsheet downloaded — open it in Excel or Google Sheets.";eEvent("download_expenses_csv");}'
+    + 'function copyExpensesSummary(){if(!eSummary){document.getElementById("e-copied").textContent="Total your expenses first, then copy.";return;}try{navigator.clipboard.writeText(eSummary);}catch(e){var ta=document.createElement("textarea");ta.value=eSummary;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();}document.getElementById("e-copied").textContent="Summary copied.";eEvent("copy_expenses_summary");}'
+    + 'calcExpenses();'
+    + '</script>';
+  return layout('Business expense tracker (Excel) — free with Schedule C mapping', body, '/business-expense-tracker-excel', {
+    description: 'Free business expense tracker for freelancers and small businesses. Log expenses, see each one mapped to its IRS Schedule C line, and download it as a spreadsheet — no sign-up.',
     jsonld: jsonld,
   });
 }
