@@ -70,8 +70,8 @@ export function layout(title, body, active, meta = {}) {
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
     + '<main>' + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
-    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/reminder-email-generator">Reminder generator</a><a href="/invoice-template">Invoice template</a><a href="/late-fee-calculator">Late fee calculator</a><a href="/us-late-fee-calculator">US late fee calculator</a><a href="/invoice-reminder-email-template">Reminder templates</a></nav>'
-    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
+    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
+    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></footer></body></html>';
 }
 
 export function homePage() {
@@ -123,7 +123,7 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Five free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, or copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
+  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Six free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, or plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
     description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
     jsonld,
   });
@@ -840,6 +840,102 @@ export function invoiceReminderEmailTemplatePage() {
     + '</script>';
   return layout('Invoice reminder email templates (free) — generator + letter sample', body, '/invoice-reminder-email-template', {
     description: '9 free invoice reminder email templates and a late payment reminder letter sample. Fill in your invoice details and copy, or generate one instantly — no sign-up.',
+    jsonld: jsonld,
+  });
+}
+
+export function cashFlowForecastPage() {
+  const jsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Invoice Chaser 13-Week Cash Flow Forecast',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: SITE_URL + '/small-business-cash-flow-forecast-template',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free small business cash flow forecast template. Enter your starting cash, invoices and bills to see your balance for the next 13 weeks and find the week you run short — download as CSV, no sign-up.',
+  });
+  const faqJsonld = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Why 13 weeks?', acceptedAnswer: { '@type': 'Answer', text: 'Thirteen weeks is one quarter: short enough to forecast accurately, long enough to catch the next rent and payroll cycles and the invoices due after them. Re-run it weekly and it stays current.' } },
+      { '@type': 'Question', name: 'What counts as money in?', acceptedAnswer: { '@type': 'Answer', text: 'Invoices due in that week, using the due date — not the invoice date — plus any other income. Overdue invoices land in week 1: that money should already be in your account, so chase it now.' } },
+      { '@type': 'Question', name: 'What if my balance goes negative?', acceptedAnswer: { '@type': 'Answer', text: 'That is the point of the forecast: it flags the week before it happens. Chase the invoice due before that week, delay a one-off bill, or arrange a short-term buffer before the week arrives.' } },
+      { '@type': 'Question', name: 'Does this replace my accountant\'s forecast?', acceptedAnswer: { '@type': 'Answer', text: 'No. This is a quick check for freelancers and small businesses. For tax or loan decisions, use your books and your accountant.' } },
+      { '@type': 'Question', name: 'Can I download the forecast?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — the Download CSV button saves the 13-week table as a spreadsheet you can open in Excel or Google Sheets, edit and reuse every week.' } },
+    ],
+  });
+  const invRow = '<div class="c-row" style="display:flex;gap:8px;margin-bottom:8px"><input type="text" placeholder="Invoice / client" style="flex:2;padding:10px;margin:0"><input type="number" min="0" placeholder="Amount $" style="flex:1;padding:10px;margin:0"><input type="date" style="flex:1;padding:10px;margin:0"><button type="button" class="btn ghost" style="padding:10px 14px" onclick="this.parentNode.remove()">×</button></div>';
+  const outRow = '<div class="c-row" style="display:flex;gap:8px;margin-bottom:8px"><input type="text" placeholder="Bill / what it is" style="flex:2;padding:10px;margin:0"><input type="number" min="0" placeholder="Amount $" style="flex:1;padding:10px;margin:0"><input type="date" style="flex:1;padding:10px;margin:0"><button type="button" class="btn ghost" style="padding:10px 14px" onclick="this.parentNode.remove()">×</button></div>';
+  const body = '<section class="hero"><p class="eyebrow">Free tool · 13-week planner</p><h1>Small business cash flow forecast template</h1>'
+    + '<p style="font-size:19px">Enter your starting cash, the invoices clients owe you and the bills you have to pay — and see your balance for the next 13 weeks, with the week you run short flagged in red. Free, no sign-up, nothing leaves your browser.</p></section>'
+    + '<section><div class="card" style="max-width:760px">'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Starting cash in the bank ($)<br><input id="c-cash" type="number" min="0" placeholder="e.g. 5000" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Other income per week ($)<br><input id="c-income" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<h3>Regular bills — every week</h3>'
+    + '<span style="display:flex;gap:8px"><label style="flex:1">Rent / workspace ($/week)<br><input id="c-rent" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Payroll / your pay ($/week)<br><input id="c-payroll" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label>'
+    + '<label style="flex:1">Other weekly bills ($/week)<br><input id="c-other" type="number" min="0" value="0" style="width:100%;padding:10px;margin:6px 0 12px"></label></span>'
+    + '<h3>Money in — invoices clients owe you</h3><p style="font-size:14px">Use the due date, not the invoice date. An invoice already overdue lands in week 1.</p>'
+    + '<div id="c-invoices">' + invRow + invRow + invRow + '</div>'
+    + '<p><button class="btn ghost" onclick="cAddRow(\'c-invoices\',\'inv\')">+ Add invoice</button></p>'
+    + '<h3>Money out — one-off bills</h3><p style="font-size:14px">Tax bills, equipment, annual subscriptions — anything that is not weekly.</p>'
+    + '<div id="c-outflows">' + outRow + '</div>'
+    + '<p><button class="btn ghost" onclick="cAddRow(\'c-outflows\',\'out\')">+ Add one-off bill</button></p>'
+    + '<p><button class="btn" onclick="calcFlow()">Forecast my next 13 weeks</button></p>'
+    + '<div id="c-results"></div>'
+    + '<p><button class="btn ghost" onclick="downloadFlowCSV()">Download CSV</button> <button class="btn ghost" onclick="copyFlowSummary()">Copy summary</button> <span id="c-copied" style="color:#0b6b5e"></span></p>'
+    + '<p style="font-size:14px;color:#555">This is a planning estimate, not financial advice. It assumes every invoice is paid on its due date — in real life some are late, so treat the forecast as the best case and keep a buffer.</p>'
+    + '</div>'
+    + '<p style="margin-top:16px">An invoice in the forecast is only money if the client pays it. Chase it with the <a href="/invoice-reminder-email-template">invoice reminder email templates</a> or let <a href="/signup">Invoice Chaser chase it automatically at day 7, 14 and 30</a>. Charging a late fee? Work it out with the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>.</p></section>'
+    + '<section><h2>How the 13-week forecast works</h2><p>Thirteen weeks is one quarter. You start with the cash in the bank today. Every invoice you add lands in the week its due date falls in; every weekly bill repeats for all 13 weeks; every one-off bill lands in the week its date falls in. The running balance is last week\'s balance plus this week\'s money in, minus this week\'s money out. A week that ends below zero is flagged — that is the week you run short, and the whole point of the forecast is to see it coming while you can still do something about it.</p><p><strong>Worked example.</strong> Starting cash $5,000. One invoice of $2,400 due in week 2, another of $1,800 due in week 5. Rent $400 a week and pay $900 a week, so $1,300 goes out every week. Week 1 ends at $3,700. Week 2 adds $2,400 and ends at $4,800. Week 5 adds $1,800 and ends at $2,700. By week 7 the balance is $100, and week 8 ends at −$1,200 — the shortfall week. Seeing that in week 1 gives you seven weeks to chase the week-2 invoice early, delay a one-off bill, or arrange a buffer.</p>'
+    + '<h2>Frequently asked questions</h2><h3>Why 13 weeks?</h3><p>Thirteen weeks is one quarter: short enough to forecast accurately, long enough to catch the next rent and payroll cycles and the invoices due after them. Re-run it weekly and it stays current.</p><h3>What counts as money in?</h3><p>Invoices due in that week, using the due date — not the invoice date — plus any other income. Overdue invoices land in week 1: that money should already be in your account, so chase it now.</p><h3>What if my balance goes negative?</h3><p>That is the point of the forecast: it flags the week before it happens. Chase the invoice due before that week, delay a one-off bill, or arrange a short-term buffer before the week arrives.</p><h3>Does this replace my accountant\'s forecast?</h3><p>No. This is a quick check for freelancers and small businesses. For tax or loan decisions, use your books and your accountant.</p><h3>Can I download the forecast?</h3><p>Yes — the Download CSV button saves the 13-week table as a spreadsheet you can open in Excel or Google Sheets, edit and reuse every week.</p><script type="application/ld+json">' + faqJsonld + '</script></section>'
+    + '<script>'
+    + 'var cCSV="";var cSummary="";'
+    + 'function cEvent(name){try{if(typeof gtag==="function"){gtag("event",name);}}catch(e){}}'
+    + 'function cmoney(n){return "$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}'
+    + 'function cnum(el,def){var v=parseFloat(el.value);return isNaN(v)?def:v;}'
+    + 'function cAddRow(id,kind){var d=document.createElement("div");d.innerHTML=(kind==="inv"?'
+    + JSON.stringify(invRow) + ':' + JSON.stringify(outRow)
+    + ');document.getElementById(id).appendChild(d.firstChild);}'
+    + 'function cWeekOf(dateStr,today){var d=new Date(dateStr+"T00:00:00");var diff=Math.floor((d-today)/86400000);if(diff<0)return 0;var w=Math.floor(diff/7);return w>12?-1:w;}'
+    + 'function cRows(id){var out=[];var rows=document.getElementById(id).querySelectorAll(".c-row");for(var i=0;i<rows.length;i++){var ins=rows[i].querySelectorAll("input");var label=ins[0].value.trim();var amt=parseFloat(ins[1].value);var date=ins[2].value;if(!isNaN(amt)&&amt>0&&date){out.push({label:label||"Item",amt:amt,date:date});}}return out;}'
+    + 'function calcFlow(){'
+    + 'var cash=cnum(document.getElementById("c-cash"),0);var income=cnum(document.getElementById("c-income"),0);'
+    + 'var rent=cnum(document.getElementById("c-rent"),0);var payroll=cnum(document.getElementById("c-payroll"),0);var other=cnum(document.getElementById("c-other"),0);'
+    + 'var invs=cRows("c-invoices");var outs=cRows("c-outflows");'
+    + 'var res=document.getElementById("c-results");'
+    + 'if(cash===0&&invs.length===0&&income===0){res.innerHTML="<p>Enter your starting cash or add at least one invoice to forecast.</p>";return;}'
+    + 'var today=new Date();today.setHours(0,0,0,0);'
+    + 'var weeks=[];for(var w=0;w<13;w++){weeks.push({inn:income,out:rent+payroll+other});}'
+    + 'var ignored=0;'
+    + 'for(var i=0;i<invs.length;i++){var wi=cWeekOf(invs[i].date,today);if(wi<0){ignored++;continue;}weeks[wi].inn+=invs[i].amt;}'
+    + 'for(var j=0;j<outs.length;j++){var wo=cWeekOf(outs[j].date,today);if(wo<0){ignored++;continue;}weeks[wo].out+=outs[j].amt;}'
+    + 'var running=cash;var lowest=cash;var lowestWeek=0;var firstShort=-1;var totIn=0;var totOut=0;'
+    + 'var html="<div style=\\"overflow-x:auto\\"><table><thead><tr><th>Week</th><th>Week ending</th><th>Money in</th><th>Money out</th><th>Net</th><th>Balance</th></tr></thead><tbody>";'
+    + 'var csv="Week,Week ending,Money in,Money out,Net,Running balance\\n";'
+    + 'for(var k=0;k<13;k++){var net=weeks[k].inn-weeks[k].out;running+=net;totIn+=weeks[k].inn;totOut+=weeks[k].out;'
+    + 'if(running<lowest){lowest=running;lowestWeek=k+1;}if(firstShort<0&&running<0){firstShort=k+1;}'
+    + 'var end=new Date(today.getTime()+(k*7+6)*86400000);var endStr=end.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});'
+    + 'var neg=running<0?" style=\\"background:#fef2f2;color:#991b1b\\"":"";'
+    + 'html+="<tr"+neg+"><td>Week "+(k+1)+"</td><td>"+endStr+"</td><td>"+cmoney(weeks[k].inn)+"</td><td>"+cmoney(weeks[k].out)+"</td><td>"+cmoney(net)+"</td><td><b>"+cmoney(running)+"</b></td></tr>";'
+    + 'csv+=(k+1)+","+endStr+","+weeks[k].inn.toFixed(2)+","+weeks[k].out.toFixed(2)+","+net.toFixed(2)+","+running.toFixed(2)+"\\n";}'
+    + 'html+="</tbody></table></div>";'
+    + 'var summary="<p><b>Starting cash:</b> "+cmoney(cash)+"<br><b>Total money in (13 weeks):</b> "+cmoney(totIn)+"<br><b>Total money out (13 weeks):</b> "+cmoney(totOut)+"<br><b>Lowest balance:</b> "+cmoney(lowest)+" (week "+lowestWeek+")<br>";'
+    + 'if(firstShort>0){summary+="<b style=\\"color:#991b1b\\">Cash runs short in week "+firstShort+" — chase the invoices due before then or delay a one-off bill.</b>";}'
+    + 'else{summary+="<b style=\\"color:#0b6b5e\\">No shortfall — cash stays positive for all 13 weeks.</b>";}'
+    + 'if(ignored>0){summary+="<br><span style=\\"font-size:14px\\">"+ignored+" item(s) fall after week 13 and are not in this forecast.</span>";}'
+    + 'summary+="</p>";'
+    + 'res.innerHTML=summary+html;cCSV=csv;'
+    + 'cSummary="13-week cash flow forecast\\nStarting cash: "+cmoney(cash)+"\\nTotal in: "+cmoney(totIn)+"\\nTotal out: "+cmoney(totOut)+"\\nLowest balance: "+cmoney(lowest)+" (week "+lowestWeek+")\\n"+(firstShort>0?("Cash runs short in week "+firstShort+"."):("No shortfall in 13 weeks."));'
+    + 'document.getElementById("c-copied").textContent="";cEvent("calculate_cash_flow");}'
+    + 'function downloadFlowCSV(){if(!cCSV){document.getElementById("c-copied").textContent="Forecast first, then download.";return;}var blob=new Blob([cCSV],{type:"text/csv"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cash-flow-forecast-13-week.csv";document.body.appendChild(a);a.click();a.remove();document.getElementById("c-copied").textContent="CSV downloaded — open it in Excel or Google Sheets.";cEvent("download_cash_flow_csv");}'
+    + 'function copyFlowSummary(){if(!cSummary){document.getElementById("c-copied").textContent="Forecast first, then copy.";return;}try{navigator.clipboard.writeText(cSummary);}catch(e){var ta=document.createElement("textarea");ta.value=cSummary;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();}document.getElementById("c-copied").textContent="Summary copied.";cEvent("copy_cash_flow_summary");}'
+    + 'function cprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}cprefill("c-cash","cash");calcFlow();'
+    + '</script>';
+  return layout('Small business cash flow forecast template — free 13-week planner', body, '/small-business-cash-flow-forecast-template', {
+    description: 'Free small business cash flow forecast template. Enter your starting cash, invoices and bills to see your balance for the next 13 weeks and find the week you run short — download as CSV, no sign-up.',
     jsonld: jsonld,
   });
 }
