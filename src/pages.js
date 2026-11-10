@@ -47,16 +47,17 @@ const SITE_URL = 'https://paychaserhq.com';
 export function layout(title, body, active, meta = {}) {
   const links = [
     ['/', 'Home'], ['/how-it-works', 'How it works'], ['/pricing', 'Pricing'],
-    ['/templates', 'Sample templates'], ['/reminder-email-generator', 'Free tools'], ['#more-tools', 'More tools'], ['/blog', 'Guides'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
+    ['/templates', 'Sample templates'], ['#more-tools', 'Free tools'], ['/blog', 'Guides'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
   ];
   const nav = links.map(([href, label]) =>
     '<a href="' + href + '"' + (active === href ? ' style="color:#1c2430;font-weight:600"' : '') + '>' + label + '</a>').join('');
   const description = meta.description || 'Invoice Chaser chases unpaid invoices for freelancers and solo trades, automatically, by email.';
   const canonical = SITE_URL + (active === '/' ? '/' : active);
   const robots = meta.robots || 'index, follow';
+  const ogType = meta.ogType === 'article' ? 'article' : 'website';
   const og = '<meta property="og:title" content="' + esc(title) + ' — Invoice Chaser">'
     + '<meta property="og:description" content="' + esc(description) + '">'
-    + '<meta property="og:type" content="website">'
+    + '<meta property="og:type" content="' + ogType + '">'
     + '<meta property="og:url" content="' + canonical + '">'
     + '<meta property="og:image" content="https://paychaserhq.com/og-image.png">'
     + '<meta property="og:image:width" content="1200">'
@@ -71,28 +72,51 @@ export function layout(title, body, active, meta = {}) {
   const crumbJsonld = crumbItems ? '<script type="application/ld+json">' + JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbItems.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: SITE_URL + c.path })) }) + '</script>' : '';
   return '<!DOCTYPE html><html lang="en"><head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-00Q0MX10EP"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-00Q0MX10EP");</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
     + '<title>' + esc(title) + ' — Invoice Chaser</title><meta name="description" content="' + esc(description) + '">'
-    + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '"><meta name="directree-verify" content="directree-verify=c27ac50d3ec2e4759ef20037b6eb3168"><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230b6b5e%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2245%22%20font-size%3D%2238%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3E%E2%9C%93%3C%2Ftext%3E%3C%2Fsvg%3E">' + og + jsonld + crumbJsonld
+    + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '"><meta name="directree-verify" content="directree-verify=c27ac50d3ec2e4759ef20037b6eb3168"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" href="/favicon.png" sizes="128x128">' + og + jsonld + crumbJsonld
     + '<style>' + CSS + '</style></head>'
     + '<body><header><nav class="nav"><a class="logo" href="/"><span class="logo-badge">✓</span>Invoice Chaser</a>' + nav
     + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
     + '<main>' + crumbNav + body + '</main>'
     + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
-    + '<a href="/privacy">Privacy</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
-    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a> · <a href="/business-expense-tracker-excel">Expense tracker</a><br>More free tools from the same maker: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p><p style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)"><a href="https://www.directree.io/tool/automatic-invoice-reminders-for-freelancers">Verified on Directree</a></p></footer></body></html>';
+    + '<a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
+    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a> · <a href="/business-expense-tracker-excel">Expense tracker</a><br>Other projects: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p><p style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)"><a href="https://www.directree.io/tool/automatic-invoice-reminders-for-freelancers">Verified on Directree</a> · <a href="https://fazier.com" rel="noopener" target="_blank"><img alt="Launched on Fazier" src="https://fazier.com/api/v1/public/badges/launch_badges.svg?badge_type=launched&amp;theme=light" style="height:32px;vertical-align:middle"/></a></p></footer></body></html>';
 }
 
 export function homePage() {
+  const homeDescription = 'Send polite invoice follow-ups at 7, 14 and 30 days overdue. Add invoices or import a CSV. Start free with 3 active invoices; no card required.';
   const jsonld = JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Invoice Chaser',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
-    url: SITE_URL + '/',
-    description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due.',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free plan: 3 active invoices' },
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': SITE_URL + '/#organization',
+        name: 'Invoice Chaser',
+        alternateName: 'Invoice Chaser by PayChaserHQ',
+        url: SITE_URL + '/',
+        logo: SITE_URL + '/favicon.png',
+        description: 'Invoice Chaser is automatic invoice reminder software for freelancers, built and run by Abhishek, an independent developer.',
+      },
+      {
+        '@type': 'WebSite',
+        '@id': SITE_URL + '/#website',
+        name: 'Invoice Chaser',
+        url: SITE_URL + '/',
+        publisher: { '@id': SITE_URL + '/#organization' },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': SITE_URL + '/#software',
+        name: 'Invoice Chaser',
+        applicationCategory: 'BusinessApplication',
+        operatingSystem: 'Web',
+        url: SITE_URL + '/',
+        description: homeDescription,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', description: 'Free plan: 3 active invoices' },
+        provider: { '@id': SITE_URL + '/#organization' },
+      },
+    ],
   });
-  return layout('Automatic invoice reminders for freelancers', `
+  return layout('Automatic Invoice Reminders for Freelancers', `
   <section class="hero-panel"><div class="hero-grid"><div>
   <p class="eyebrow">Automatic invoice reminders</p><h1>Unpaid invoices chase themselves.</h1>
   <p style="font-size:19px">Invoice Chaser is automatic invoice reminder software for freelancers and solo trades. It sends polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due — so you stop losing money to forgotten follow-ups, without the awkward phone call.</p>
@@ -130,35 +154,36 @@ export function homePage() {
   <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
   <div class="card"><h2 style="margin-top:0">What it never does</h2>
   <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Eight free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>, budget irregular income with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>, or track expenses with the <a href="/business-expense-tracker-excel">business expense tracker</a>. More free tools from the same maker: the <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper</a>, the <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator</a> and the <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper</a>.</p></div><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Invoice Chaser","url":"https://paychaserhq.com"},{"@type":"WebSite","name":"Invoice Chaser","url":"https://paychaserhq.com"}]}</script>`, '/', {
-    description: 'Automatic invoice reminder software for freelancers and solo trades. Polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due.',
+  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Eight free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>, budget irregular income with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>, or track expenses with the <a href="/business-expense-tracker-excel">business expense tracker</a>.</p></div>`, '/', {
+    description: homeDescription,
     jsonld,
   });
 }
 
 export function howItWorksPage() {
-  return layout('How it works', `
+  return layout('How Automatic Invoice Reminders Work', `
   <h1>How it works</h1>
   <div class="card"><h3>Step 1 — Sign up free</h3><p>Create an account with your email and business name. The free plan covers 3 active invoices.</p></div>
   <div class="card"><h3>Step 2 — Add invoices</h3><p>Add them one by one, or import a CSV with columns: client name, client email, amount, due date. An optional pay-link field puts your own payment link into every reminder.</p></div>
   <div class="card"><h3>Step 3 — The sequence runs daily</h3><p>Every morning the app checks what is overdue and unpaid, and sends the next step: day 7 polite, day 14 firmer, day 30 final. Each reminder is recorded once, so a retry can never double-send it.</p></div>
   <div class="card"><h3>Step 4 — Paid, paused, or promised</h3><p>Mark an invoice paid and its reminders stop at once. Pause any invoice while a client sorts out a query. The dashboard shows what is overdue, what is on track, what was sent, and what is due to send next.</p></div>
   <div class="card"><h3>Step 5 — Templates are yours</h3><p>Every template is plain text you can rewrite in your own voice, with placeholders for client, amount, due date, pay link, and business name.</p></div>`, '/how-it-works', {
-    description: 'How automatic invoice reminders work: add invoices or import a CSV, and Invoice Chaser sends day 7, 14 and 30 reminders until the invoice is marked paid.',
+    description: 'Add an invoice or import a CSV, edit your emails, and schedule 7, 14 and 30-day follow-ups. Mark an invoice paid to stop its reminders.',
   });
 }
 
 export function pricingPage() {
-  return layout('Pricing', `
+  return layout('Pricing: Free, Starter & Pro', `
   <h1>Simple pricing</h1>
   <p>Start free. Upgrade only when you have more unpaid invoices than the free plan covers.</p>
   <table><tr><th>Plan</th><th>Active invoices</th><th>Price</th></tr>
   <tr><td><strong>Free</strong></td><td>3</td><td>$0</td></tr>
-  <tr><td><strong>Starter</strong></td><td>25</td><td>$19 / month</td></tr>
-  <tr><td><strong>Pro</strong></td><td>100</td><td>$49 / month</td></tr></table>
-  <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Pay with USDT on BNB Smart Chain — no card needed. Choose a plan and pay the exact amount; your plan upgrades automatically once the payment is verified on-chain, and lasts 30 days.</p>
-  <p><a class="btn" href="/pay?plan=starter">Pay $19 USDT — Starter</a> &nbsp; <a class="btn" href="/pay?plan=pro">Pay $49 USDT — Pro</a> &nbsp; <a class="btn ghost" href="/signup">Start free</a></p>`, '/pricing', {
-    description: 'Invoice Chaser pricing: free for 3 active invoices, Starter $19/month for 25, Pro $49/month for 100. Every plan includes the full day 7, 14 and 30 sequence.',
+  <tr><td><strong>Starter</strong></td><td>25</td><td>19 USDT for 30 days</td></tr>
+  <tr><td><strong>Pro</strong></td><td>100</td><td>49 USDT for 30 days</td></tr></table>
+  <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Starter and Pro are paid in USDT (BEP-20) on BNB Smart Chain. There is no card checkout and no automatic renewal. Each paid plan lasts 30 days from the moment the payment is verified on-chain, then the account returns to the free plan unless you pay again.</p>
+  <p>The price is the USDT amount only. A BNB Smart Chain transfer also needs a network fee. That fee is not part of the 19 or 49 USDT and is not paid to Invoice Chaser.</p>
+  <p><a class="btn" href="/pay?plan=starter">Pay 19 USDT — Starter</a> &nbsp; <a class="btn" href="/pay?plan=pro">Pay 49 USDT — Pro</a> &nbsp; <a class="btn ghost" href="/signup">Start free</a></p>`, '/pricing', {
+    description: 'Free: 3 active invoices. Starter: 19 USDT for 25; Pro: 49 USDT for 100, each for 30 days. Manual renewal on BNB Smart Chain; no card checkout.',
   });
 }
 
@@ -168,13 +193,13 @@ export function payPage(plan, notice) {
   const name = plan === 'pro' ? 'Pro' : 'Starter';
   const note = notice ? `<div class="card" style="border-left:5px solid ${notice.type === 'success' ? '#0b6b5e' : '#b91c1c'}"><p style="margin:0">${notice.text}</p></div>` : '';
   return layout('Pay with USDT — ' + name, `
-  <h1>Pay for ${name} — $${price}</h1>
-  <p>${name} gives you ${limit} active invoices, the full day 7, 14 and 30 reminder sequence, editable templates, CSV import, and the dashboard — for 30 days from the moment your payment is verified.</p>
+  <h1>Pay for ${name} — ${price} USDT</h1>
+  <p>${name} gives you ${limit} active invoices, the full day 7, 14 and 30 reminder sequence, editable templates, CSV import, and the dashboard — for 30 days from the moment your payment is verified. The plan does not renew by itself.</p>
   ${note}
-  <div class="card"><h3 style="margin-top:0">Step 1 — Send exactly $${price} USDT</h3>
-  <p>Send <strong>$${price} USDT</strong> on <strong>BNB Smart Chain (BEP-20)</strong> to this wallet. Copy the address exactly — do not type it by hand.</p>
+  <div class="card"><h3 style="margin-top:0">Step 1 — Send exactly ${price} USDT</h3>
+  <p>Send <strong>${price} USDT</strong> on <strong>BNB Smart Chain (BEP-20)</strong> to this wallet. Copy the address exactly — do not type it by hand.</p>
   <p><code style="word-break:break-all">0xB202F2AB1257de36c0A52f8d1c227CCba4a95Fd2</code></p>
-  <p class="note" style="color:#b91c1c"><strong>BNB Smart Chain only.</strong> USDT sent on Ethereum, Tron, or any other network will not be detected and cannot be recovered. Send exactly $${price} — a different amount will not upgrade your plan automatically.</p></div>
+  <p class="note" style="color:#b91c1c"><strong>BNB Smart Chain only.</strong> USDT sent on Ethereum, Tron, or any other network will not be detected and cannot be recovered by this site. Send exactly ${price} USDT — a different amount will not upgrade your plan automatically. The network fee for the transfer is separate and is not part of the ${price} USDT.</p></div>
   <div class="card"><h3 style="margin-top:0">Step 2 — Paste your transaction hash</h3>
   <p>After sending, paste the transaction hash (it starts with 0x) below. We check BNB Smart Chain for the exact payment and upgrade your plan automatically — usually within a minute of confirmation.</p>
   <form method="POST" action="/api/payments/submit">
@@ -182,9 +207,10 @@ export function payPage(plan, notice) {
   <p><input type="text" name="tx_hash" placeholder="0x…" required style="width:100%;max-width:560px"></p>
   <p><button class="btn" type="submit">Verify payment and activate ${name}</button></p>
   </form>
-  <p class="note">You must be signed in to submit a payment. Crypto payments are final — USDT cannot be reversed once sent, so double-check the amount and address before you send. Your plan lasts 30 days; renew the same way before it expires.</p></div>
+  <p class="note">You must be signed in to submit a payment. A USDT transfer cannot be reversed by this site once it is sent, so double-check the amount, the token, and the address before you send. The plan lasts 30 days and does not renew by itself. To keep it, pay again the same way before it expires.</p></div>
   <p><a href="/pricing">Back to pricing</a> · <a href="/faq">Questions? Read the FAQ</a></p>`, '/pay', {
-    description: 'Pay for Invoice Chaser ' + name + ' ($' + price + '/month, ' + limit + ' active invoices) with USDT on BNB Smart Chain. Payment is verified on-chain and the plan activates automatically.',
+    description: 'Pay for Invoice Chaser ' + name + ' (' + price + ' USDT for 30 days, ' + limit + ' active invoices) with USDT (BEP-20) on BNB Smart Chain. Renewal is manual. The plan activates after the payment is verified on-chain.',
+    robots: 'noindex, follow',
   });
 }
 
@@ -199,7 +225,7 @@ export function templatesPage() {
       { '@type': 'Question', name: 'What do I do if the client replies to a reminder?', acceptedAnswer: { '@type': 'Answer', text: 'If they paid, mark the invoice paid and the sequence stops. If they dispute the invoice, pause the reminders and fix the invoice first. If they promise a date, pause until that date and resume chasing if it passes unpaid. If there is no reply after the day 30 final notice, call them.' } },
     ],
   });
-  return layout('Sample reminder templates', `
+  return layout('Our 7, 14 & 30-Day Reminder Sequence', `
   <h1>Sample reminder templates</h1>
   <p>These are the three reminder templates Invoice Chaser sends automatically — a polite nudge at day 7, a firmer follow-up at day 14, and a final notice at day 30. They are free to copy, work for any freelancer or small business, and use placeholders for the client, amount, due date, payment link and business name.</p>
   <p>These are the three default templates every account starts with. You can rewrite all of them. Placeholders: <code>{{client}}</code>, <code>{{amount}}</code>, <code>{{due_date}}</code>, <code>{{pay_link}}</code>, <code>{{business_name}}</code>.</p>
@@ -226,7 +252,7 @@ export function templatesPage() {
   <div class="card"><h3>What should the subject line of a reminder email say?</h3><p>Put the amount and the due date in the subject, for example "Friendly reminder: invoice $250 was due 1 November". Keep it factual and under about 60 characters, and avoid ALL CAPS and words like URGENT that trigger spam filters.</p></div>
   <div class="card"><h3>What do I change in a template for a different client?</h3><p>Replace every placeholder — client name, amount, due date, payment link and your business name — and adjust the tone: shorter and warmer for a regular client, more formal for a large company, with their purchase-order number if they use one. Never send a reminder with the wrong amount or date.</p></div>
   <div class="card"><h3>What do I do if the client replies to a reminder?</h3><p>If they paid, mark the invoice paid and the sequence stops. If they dispute the invoice, pause the reminders and fix the invoice first. If they promise a date, pause until that date and resume chasing if it passes unpaid. If there is no reply after the day 30 final notice, call them.</p></div>`, '/templates', {
-    description: 'Free invoice reminder email templates: a polite day 7 nudge, a firmer day 14 follow-up, and a day 30 final notice, with placeholders for client and amount.',
+    description: 'See the three default emails Invoice Chaser sends at 7, 14 and 30 days overdue. Preview placeholders and learn how to edit each reminder.',
     jsonld: faqJsonld,
   });
 }
@@ -239,10 +265,10 @@ export function faqPage() {
     ['Do I need accounting software?', 'No. Invoices are typed in or imported from a CSV. No Xero, QuickBooks, or other integration is required.'],
     ['What if a client replies to a reminder?', 'Replies go to your own email inbox (reminders are sent from your business). If a client promises payment or disputes the invoice, pause it from your dashboard.'],
     ['Can a reminder be sent twice by mistake?', 'No. Every reminder is recorded as sent the moment it goes out, and the daily job only ever picks up reminders still marked pending.'],
-    ['Is there a free plan?', 'Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are paid from the payment page in USDT on BNB Smart Chain; the plan activates automatically once the payment is verified on-chain.'],
+    ['Is there a free plan?', 'Yes — 3 active invoices, free, with the full sequence and templates. Starter is 19 USDT for 25 active invoices and Pro is 49 USDT for 100, each for 30 days. You pay in USDT (BEP-20) on BNB Smart Chain from the payment page. Renewal is manual. The plan activates after the payment is verified on-chain.'],
     ['Will you show ads?', 'Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, settings, or payment pages.'],
-    ['How much does Invoice Chaser cost?', 'Free covers 3 active invoices. Starter is $19 a month for 25 active invoices and Pro is $49 a month for 100. Every plan includes the full day 7, 14 and 30 sequence, editable templates, CSV import and the dashboard. A paid plan lasts 30 days from the moment the payment is verified.'],
-    ['How do I pay for a plan?', 'With USDT on BNB Smart Chain (BEP-20). Send the exact plan amount to the wallet address on the payment page, then paste your transaction hash — the payment is verified on-chain and the plan activates automatically, usually within a minute of confirmation. Crypto payments are final, so double-check the amount and the address before you send.'],
+    ['How much does Invoice Chaser cost?', 'Free covers 3 active invoices. Starter is 19 USDT for 25 active invoices and Pro is 49 USDT for 100, each for 30 days, not an automatic monthly charge. Every plan includes the full day 7, 14 and 30 sequence, editable templates, CSV import and the dashboard. Renewal is manual.'],
+    ['How do I pay for a plan?', 'With USDT (BEP-20) on BNB Smart Chain. Send the exact plan amount — 19 USDT for Starter or 49 USDT for Pro — to the wallet address on the payment page, then paste your transaction hash. The payment is verified on-chain and the plan activates automatically, usually within a minute of confirmation. It does not renew by itself. A USDT transfer cannot be reversed by this site, so double-check the amount, the token, and the address before you send.'],
     ['Can I change my reminder templates?', 'Yes. All three templates are plain text you can rewrite in your own voice, with placeholders for client, amount, due date, pay link and business name. The samples on the templates page are the defaults every account starts with.'],
     ['How are reminders sent?', 'By email, from your business. Every morning the app checks which invoices are overdue and unpaid, and sends the next step in the sequence — day 7 polite, day 14 firmer, day 30 final. Replies from clients go to your own email inbox.'],
     ['Can I import invoices from a spreadsheet?', 'Yes. Import a CSV with columns for client name, client email, amount and due date. An optional pay-link column puts your own payment link into every reminder for that invoice.'],
@@ -250,7 +276,7 @@ export function faqPage() {
     ['Does Invoice Chaser work outside the US?', 'Yes. Accounts work in USD, EUR, GBP and INR, and the free tools work anywhere. Late-fee rules differ by country and, in the US, by state — check your local rules before adding a fee to an invoice.'],
     ['Can I charge a late fee on an overdue invoice?', 'Usually yes, but only if the late fee was in your agreed payment terms before the work started. A fee invented after the invoice is already late is hard to enforce. Work out the fee with the US late fee calculator and check your state\u2019s cap.'],
     ['Can I use the free tools without signing up?', 'Yes. All eight free tools — the reminder generator, invoice template, late fee calculators, reminder templates, cash flow forecast, irregular income budget and expense tracker — run in your browser with no sign-up and nothing leaves your browser.'],
-    ['What happens when my plan expires?', 'Your account falls back to the free plan: 3 active invoices. A lapsed plan never keeps the higher limit by accident. Renew the same way before it expires to keep the higher limit.'],
+    ['What happens when my plan expires?', 'Your account falls back to the free plan: 3 active invoices. A lapsed plan never keeps the higher limit by accident. Renewal is manual: pay again the same way before the 30 days end if you want to keep the higher limit.'],
   ];
   const jsonld = JSON.stringify({
     '@context': 'https://schema.org',
@@ -259,17 +285,17 @@ export function faqPage() {
   });
   return layout('Frequently asked questions', `
   <h1>Frequently asked questions</h1>
-  <p>Invoice Chaser is automatic invoice-reminder software for freelancers and solo trades: it sends polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due. The free plan covers 3 active invoices; paid plans are $19 or $49 a month, paid in USDT. The answers below cover money, payments, pausing, privacy and the free tools.</p>
+  <p>Invoice Chaser is automatic invoice-reminder software for freelancers and solo trades: it sends polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due. The free plan covers 3 active invoices. Starter is 19 USDT and Pro is 49 USDT, each for 30 days, paid in USDT (BEP-20) on BNB Smart Chain and renewed manually. The answers below cover money, payments, pausing, privacy and the free tools.</p>
   <div class="card"><h3>Does Invoice Chaser touch my money?</h3><p>For your clients' money: no. Invoice Chaser never holds client funds or takes a cut — clients pay you through your own payment link or bank details. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
   <div class="card"><h3>What happens when a client pays?</h3><p>Mark the invoice paid in your dashboard and every pending reminder for it stops immediately. Nothing further is sent for that invoice.</p></div>
   <div class="card"><h3>Can I pause chasing one client?</h3><p>Yes. Pause any invoice while a query is being sorted out. Paused invoices send nothing until you resume them.</p></div>
   <div class="card"><h3>Do I need accounting software?</h3><p>No. Invoices are typed in or imported from a CSV. No Xero, QuickBooks, or other integration is required.</p></div>
   <div class="card"><h3>What if a client replies to a reminder?</h3><p>Replies go to your own email inbox (reminders are sent from your business). If a client promises payment or disputes the invoice, pause it from your dashboard — automatic reply classification is a planned feature, not a v1 promise.</p></div>
   <div class="card"><h3>Can a reminder be sent twice by mistake?</h3><p>No. Every reminder is recorded as sent the moment it goes out, and the daily job only ever picks up reminders still marked pending.</p></div>
-  <div class="card"><h3>Is there a free plan?</h3><p>Yes — 3 active invoices, free, with the full sequence and templates. Starter ($19/month, 25 invoices) and Pro ($49/month, 100 invoices) are paid from the <a href="/pay">payment page</a> in USDT on BNB Smart Chain; the plan activates automatically once the payment is verified on-chain.</p></div>
+  <div class="card"><h3>Is there a free plan?</h3><p>Yes — 3 active invoices, free, with the full sequence and templates. Starter is 19 USDT for 25 active invoices and Pro is 49 USDT for 100, each for 30 days. You pay in USDT (BEP-20) on BNB Smart Chain from the <a href="/pay">payment page</a>. Renewal is manual. The plan activates after the payment is verified on-chain.</p></div>
   <div class="card"><h3>Will you show ads?</h3><p>Not in this version. If display advertising is added later, it will appear only on public pages like this one — never inside your private dashboard, login, signup, settings, or payment pages.</p></div>
-  <div class="card"><h3>How much does Invoice Chaser cost?</h3><p>Free covers 3 active invoices. Starter is $19 a month for 25 active invoices and Pro is $49 a month for 100. Every plan includes the full day 7, 14 and 30 sequence, editable templates, CSV import and the dashboard. A paid plan lasts 30 days from the moment the payment is verified.</p></div>
-  <div class="card"><h3>How do I pay for a plan?</h3><p>With USDT on BNB Smart Chain (BEP-20). Send the exact plan amount to the wallet address on the <a href="/pay">payment page</a>, then paste your transaction hash — the payment is verified on-chain and the plan activates automatically, usually within a minute of confirmation. Crypto payments are final, so double-check the amount and the address before you send.</p></div>
+  <div class="card"><h3>How much does Invoice Chaser cost?</h3><p>Free covers 3 active invoices. Starter is 19 USDT for 25 active invoices and Pro is 49 USDT for 100, each for 30 days, not an automatic monthly charge. Every plan includes the full day 7, 14 and 30 sequence, editable templates, CSV import and the dashboard. Renewal is manual.</p></div>
+  <div class="card"><h3>How do I pay for a plan?</h3><p>With USDT (BEP-20) on BNB Smart Chain. Send the exact plan amount — 19 USDT for Starter or 49 USDT for Pro — to the wallet address on the <a href="/pay">payment page</a>, then paste your transaction hash. The payment is verified on-chain and the plan activates automatically, usually within a minute of confirmation. It does not renew by itself. A USDT transfer cannot be reversed by this site, so double-check the amount, the token, and the address before you send.</p></div>
   <div class="card"><h3>Can I change my reminder templates?</h3><p>Yes. All three templates are plain text you can rewrite in your own voice, with placeholders for client, amount, due date, pay link and business name. The samples on the <a href="/templates">templates page</a> are the defaults every account starts with.</p></div>
   <div class="card"><h3>How are reminders sent?</h3><p>By email, from your business. Every morning the app checks which invoices are overdue and unpaid, and sends the next step in the sequence — day 7 polite, day 14 firmer, day 30 final. Replies from clients go to your own email inbox.</p></div>
   <div class="card"><h3>Can I import invoices from a spreadsheet?</h3><p>Yes. Import a CSV with columns for client name, client email, amount and due date. An optional pay-link column puts your own payment link into every reminder for that invoice.</p></div>
@@ -277,25 +303,26 @@ export function faqPage() {
   <div class="card"><h3>Does Invoice Chaser work outside the US?</h3><p>Yes. Accounts work in USD, EUR, GBP and INR, and the free tools work anywhere. Late-fee rules differ by country and, in the US, by state — check your local rules before adding a fee to an invoice.</p></div>
   <div class="card"><h3>Can I charge a late fee on an overdue invoice?</h3><p>Usually yes, but only if the late fee was in your agreed payment terms before the work started. A fee invented after the invoice is already late is hard to enforce. Work out the fee with the <a href="/us-late-fee-calculator">US late fee calculator</a> and check your state's cap.</p></div>
   <div class="card"><h3>Can I use the free tools without signing up?</h3><p>Yes. All eight free tools — the reminder generator, invoice template, late fee calculators, reminder templates, cash flow forecast, irregular income budget and expense tracker — run in your browser with no sign-up and nothing leaves your browser.</p></div>
-  <div class="card"><h3>What happens when my plan expires?</h3><p>Your account falls back to the free plan: 3 active invoices. A lapsed plan never keeps the higher limit by accident. Renew the same way before it expires to keep the higher limit.</p></div>`, '/faq', {
+  <div class="card"><h3>What happens when my plan expires?</h3><p>Your account falls back to the free plan: 3 active invoices. A lapsed plan never keeps the higher limit by accident. Renewal is manual: pay again the same way before the 30 days end if you want to keep the higher limit.</p></div>`, '/faq', {
     description: 'Invoice Chaser FAQ: does it touch your money, what happens when a client pays, pausing one client, accounting software, duplicate reminders, and the free plan.',
     jsonld,
   });
 }
 
 export function aboutPage() {
-  return layout('About', `
+  return layout('About Invoice Chaser', `
   <h1>About Invoice Chaser</h1>
   <p>Invoice Chaser exists for one frustrating, ordinary problem: freelancers and solo trades send an invoice, then forget — or dread — the follow-up, while the money sits unpaid. Accounting tools generate the invoice and stop; this tool handles what happens after it.</p>
-  <p>It is a small, focused product: one workflow (remind, escalate, stop when paid), email only, no per-customer service, no money movement between you and your clients. It is built for people who work from a phone and a spreadsheet, not a finance department.</p>`, '/about', {
-    description: 'About Invoice Chaser: automatic invoice reminders for freelancers and solo trades — one workflow (remind, escalate, stop when paid), email only.',
+  <p>It is a small, focused product: one workflow (remind, escalate, stop when paid), email only, no per-customer service, no money movement between you and your clients. It is built for people who work from a phone and a spreadsheet, not a finance department.</p>
+  <p>Invoice Chaser is built and run by Abhishek, an independent solo developer in India. There is no company office, phone number, or street address for this site. Questions go through the <a href="/contact">contact form</a>. How reminders run is on <a href="/how-it-works">how it works</a>, and the basis for using the site is on the <a href="/terms">terms</a>.</p>`, '/about', {
+    description: 'Learn what Invoice Chaser does, who operates it, how invoice reminders work and where to get help. Built for freelancers and solo businesses.',
   });
 }
 
 export function contactPage() {
-  return layout('Contact', `
+  return layout('Contact & Support', `
   <h1>Contact</h1>
-  <p>Questions, feedback, or a bug to report? Send a message and it is stored for the site owner to read.</p>
+  <p>Questions, feedback, or a bug to report? Send a message through the form. It is stored for the site owner to read. This page does not list a support email, phone number, or street address, and it does not promise a reply time.</p>
   <form method="post" action="/api/contact" id="contactForm">
     <label for="name">Name</label><input id="name" name="name" required>
     <label for="email">Email</label><input id="email" name="email" type="email" required>
@@ -311,17 +338,45 @@ export function contactPage() {
     document.getElementById('contactResult').textContent = res.ok ? 'Thanks — your message was received.' : 'Something went wrong. Please try again.';
     if (res.ok) e.target.reset();
   });
-  </script>`, '/contact', { description: 'Contact Invoice Chaser: questions, feedback, or a bug to report about automatic invoice reminders.' });
+  </script>`, '/contact', { description: 'Get help with Invoice Chaser, report a problem or ask about your plan. Send a message through the contact form. It is stored for the site owner to read.' });
 }
 
 export function privacyPage() {
   return layout('Privacy', `
   <h1>Privacy</h1>
-  <p><strong>What we collect.</strong> Your account email, business name, and the invoices you enter (client names, client emails, amounts, due dates, and any pay link you paste). We also store the reminders we send on your behalf and your email templates.</p>
-  <p><strong>What we never do.</strong> We never process payments, hold your money, or sell your data. Your clients' details are used only to send the reminders you asked for.</p>
-  <p><strong>Cookies.</strong> We use one strictly necessary cookie to keep you signed in. We do not use tracking cookies in this version.</p>
-  <p><strong>Future advertising.</strong> If display advertising (for example Google AdSense) is enabled later, Google and its partners may use cookies to serve ads on public pages of this site. Those cookies will never be used inside private pages (dashboard, login, signup, settings), and this page will be updated before any ad code goes live.</p>
-  <p><strong>Deletion.</strong> Delete an invoice and it is gone from your dashboard. To delete your whole account, contact us through the contact page.</p>`, '/privacy', { description: 'Invoice Chaser privacy: what we collect, what we never do, cookies, future advertising, and deletion.' });
+  <p><strong>Who this is.</strong> Invoice Chaser is built and run by Abhishek, an independent developer in India. There is no separate company, phone number, or street address. The way to reach the site is the <a href="/contact">contact form</a>.</p>
+  <p><strong>What we collect.</strong> If you create an account: your email, a password hash (not the password), business name, and currency. Invoices you enter: client name, client email, amount, due date, and any pay link you paste. Your reminder templates, and a log of reminders sent for you, including the recipient, subject, and body. If you use the contact form: the name, email, and message you submit. If you pay for a plan: the plan, the USDT amount, the transaction hash, the sending address read from that transaction, the verification status, and the time. We do not collect card numbers.</p>
+  <p><strong>Plan payments.</strong> Paid plans are 19 USDT (Starter) or 49 USDT (Pro) in BEP-20 USDT on BNB Smart Chain, for 30 days, renewed only if you pay again. You send the transfer yourself to the wallet on the payment page. The site reads the public transaction to check the token, amount, and recipient, then stores that payment record. Invoice Chaser does not hold your clients' money and does not take a cut of their payments. Clients pay you through the pay link you paste.</p>
+  <p><strong>Who processes it.</strong> The site and its database run on Cloudflare (Workers and D1). Reminder email is sent through Resend, from reminders@paychaserhq.com. That address is the sending address for reminders. It is not a support inbox. Plan payments are checked by reading BNB Smart Chain. The chain record is public.</p>
+  <p><strong>Cookies and analytics.</strong> When you sign in, the site sets one cookie named <code>session</code>. It is HttpOnly, Secure, and SameSite=Lax, lasts 30 days, and is used only to keep the session. Public pages, including sign-in and sign-up, also load Google Analytics 4, measurement ID G-00Q0MX10EP, through gtag.js. That tag sets its own cookies, including one named <code>_ga</code>, and measures page visits. This site does not override Google's cookie settings, does not show a consent banner, and does not change how the tag runs. The private dashboard at /app does not include this tag. We do not sell your data. The tag is the standard page-view tag; these pages do not send invoice contents or transaction hashes to Analytics as extra parameters.</p>
+  <p><strong>How long it stays.</strong> There is no automatic deletion schedule. Account, invoice, reminder, contact, and payment rows stay in the database until they are removed. You can delete an invoice from the dashboard. To ask for the account itself to be deleted, use the contact form. This page does not promise a number of days for that. Session rows are stored with a 30-day expiry. Google keeps Analytics data under Google's own settings; this site does not set a custom retention period.</p>
+  <p><strong>Future advertising.</strong> If display advertising (for example Google AdSense) is enabled later, Google and its partners may use cookies to serve ads on public pages of this site. Those cookies will never be used inside private pages (dashboard, login, signup, settings), and this page will be updated before any ad code goes live.</p>`, '/privacy', { description: 'Invoice Chaser privacy: account and invoice data, USDT plan payments, the sign-in cookie, Google Analytics 4, and how to ask for deletion.' });
+}
+
+export function termsPage() {
+  return layout('Terms of Service', `
+  <h1>Terms of Service</h1>
+  <p>These terms describe how Invoice Chaser at paychaserhq.com is offered. The site is built and run by Abhishek, an independent developer in India. There is no registered company, phone number, or street address behind this site. This page is not legal advice, and it does not name a law firm or a court.</p>
+  <h2>The service</h2>
+  <p>Invoice Chaser sends email reminders for invoices you add. You choose the client, the amount, the due date, the wording, and any payment link. Marking an invoice paid stops its pending reminders. Pausing an invoice holds them. The product does not collect your clients' payments, does not hold their money, and does not promise that a client will pay.</p>
+  <p>You are responsible for the information you enter and for having a proper reason to email those addresses. Do not use the service to send unlawful, deceptive, or harassing messages, or to access someone else's account.</p>
+  <h2>Accounts</h2>
+  <p>An account needs an email address and a password. You are responsible for keeping that password private and for what happens under the account. The free plan includes 3 active invoices.</p>
+  <h2>Paid plans</h2>
+  <p>Starter is 19 USDT for 25 active invoices. Pro is 49 USDT for 100 active invoices. Each paid plan lasts 30 days from the time the payment is verified. It does not renew by itself. When the 30 days end, the account returns to the free plan unless you pay again.</p>
+  <p>Payment is USDT (BEP-20) on BNB Smart Chain only. You send the exact amount yourself to the wallet address shown on the payment page, then submit the transaction hash. The plan changes only after that public transaction is checked and matches. There is no card checkout. A network fee for the transfer is charged by the chain, is not part of the 19 or 49 USDT, and is not paid to Invoice Chaser.</p>
+  <p>A USDT transfer cannot be reversed by this site. Sending a different amount, a different token, or a different network does not upgrade the plan. If that happens, use the <a href="/contact">contact form</a> and include the transaction hash. This page does not promise a refund, a replacement transfer, or a deadline for a reply.</p>
+  <h2>Email delivery and availability</h2>
+  <p>Reminders are sent by email. Inbox providers can delay, filter, or reject mail. The site can also be unavailable. These terms do not promise that every reminder will arrive or that the service will be uninterrupted.</p>
+  <h2>Your data</h2>
+  <p>What is stored, including the Google Analytics tag and plan-payment records, is described on the <a href="/privacy">privacy page</a>. You can delete an invoice from the dashboard. To ask for the account to be deleted, use the contact form. This page does not promise a number of days for that.</p>
+  <h2>Other pages on this site</h2>
+  <p>Calculators, templates, and guides are general information for you to check against your own contract and local rules. They are not legal, tax, or debt-collection advice.</p>
+  <h2>Changes</h2>
+  <p>These terms can change by updating this page. The site does not email you when that happens.</p>
+  <p>Questions about these terms go through the <a href="/contact">contact form</a>.</p>`, '/terms', {
+    description: 'Read the terms for using Invoice Chaser, including account responsibilities, 30-day paid plans, manual renewal, and USDT payment limits.',
+  });
 }
 
 export function loginPage(error) {
@@ -356,8 +411,8 @@ function articleJsonld(path, headline, description) {
     '@type': 'Article',
     headline,
     description,
-    author: { '@type': 'Organization', name: 'Invoice Chaser', url: SITE_URL + '/' },
-    publisher: { '@type': 'Organization', name: 'Invoice Chaser', url: SITE_URL + '/' },
+    author: { '@type': 'Organization', '@id': SITE_URL + '/#organization', name: 'Invoice Chaser', url: SITE_URL + '/' },
+    publisher: { '@type': 'Organization', '@id': SITE_URL + '/#organization', name: 'Invoice Chaser', url: SITE_URL + '/' },
     mainEntityOfPage: SITE_URL + path,
   });
 }
@@ -377,8 +432,8 @@ export function blogIndexPage() {
 export function articlePaymentReminderEmail() {
   const path = '/blog/payment-reminder-email';
   const headline = 'How to write a payment reminder email that actually gets paid';
-  const description = 'A payment reminder email works when it is polite, specific, and makes paying easy. Here are the five parts every reminder needs, plus a full example.';
-  return layout(headline, `
+  const description = 'Write a clear payment reminder without damaging a client relationship. Get subject-line examples, timing guidance and a polite follow-up email.';
+  return layout('How to Ask for Overdue Invoice Payment Politely', `
   <h1>${headline}</h1>
   <p>Most late payments are not disputes. The client meant to pay, the invoice slipped down their inbox, and nobody followed up. A good reminder email fixes exactly that — it jogs the memory, removes every obstacle to paying, and keeps the relationship intact. A bad one does the opposite: it sounds angry, vague, or accusatory, and the client puts it off again.</p>
   <h2>Why most reminders fail</h2>
@@ -397,14 +452,14 @@ export function articlePaymentReminderEmail() {
   <p>Do not threaten consequences in the first reminder. Do not copy in the client's boss or team to apply pressure — it embarrasses people and rarely speeds payment. Do not send the same email twice because you forgot you sent it; duplicate reminders make you look disorganised and train clients to ignore you. And do not chase by email forever: if two written reminders get no reply, a short phone call resolves what email cannot, because it is much harder to ignore a person than an inbox.</p>
   <h2>Make it automatic</h2>
   <p>The hardest part of reminders is not writing one — it is sending the second and third on time, every time, for every invoice. That is what Invoice Chaser does: you add the invoice once, and the day 7, 14 and 30 reminders go out on schedule in your own words, with your own pay link in every message. The free plan covers 3 active invoices, and you can <a href="/signup">start free here</a>. The full set of default templates is on the <a href="/templates">sample templates page</a>. Or generate a single reminder right now with the <a href="/reminder-email-generator">free reminder email generator</a>.</p>
-  <p>Related: <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a> · <a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
+  <p>Related: <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a> · <a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></p>`, path, { description, ogType: 'article', jsonld: articleJsonld(path, headline, description) });
 }
 
 export function articleClientNotPaying() {
   const path = '/blog/client-not-paying';
   const headline = "What to do when a client doesn't pay your invoice";
-  const description = 'When a client does not pay: check the boring stuff, remind politely, call, set a firm deadline, pause work, and prevent it next time.';
-  return layout(headline, `
+  const description = 'Check the invoice, follow up in writing, agree a payment date and document next steps. A practical checklist for freelancers with unpaid invoices.';
+  return layout('Client Not Paying an Invoice? Freelancer Steps', `
   <h1>${headline}</h1>
   <p>An unpaid invoice is stressful because it mixes money with a relationship. The way through it is to work the steps in order, from the least confrontational to the firmest, and to give each step a fair chance before moving on. Jumping straight to threats feels satisfying for an afternoon and usually costs you the client and the payment both.</p>
   <h2>Step 0: check the boring stuff first</h2>
@@ -423,7 +478,7 @@ export function articleClientNotPaying() {
   <p>If everything above fails, the remaining routes are mediation or a small-claims process. The rules, limits, and costs vary by country and region, and the effort is only worth it above a certain amount — chasing a small invoice through a court often costs more in time than the invoice is worth. For a large sum, get professional advice before acting rather than relying on general guidance from an article. Keep every email, invoice, and note of every call: a paper trail is what makes any formal route possible.</p>
   <h2>Prevent the next one</h2>
   <p>The cheapest unpaid invoice is the one that never happens. Ask for a deposit on larger jobs. Put payment terms on every invoice. Include a pay link so paying takes one click. And put reminders on a schedule — day 7, day 14, day 30 — instead of relying on memory, because memory is exactly what fails when you are busy doing the work. Invoice Chaser runs that schedule for you; the <a href="/signup">free plan covers 3 active invoices</a>.</p>
-  <p>Related: <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a> · <a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
+  <p>Related: <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a> · <a href="/blog/invoice-reminder-templates">Invoice reminder email templates for freelancers</a></p>`, path, { description, ogType: 'article', jsonld: articleJsonld(path, headline, description) });
 }
 
 export function articleReminderTemplates() {
@@ -451,8 +506,8 @@ export function articleReminderTemplates() {
 export function articleLateFee() {
   const path = '/blog/late-fee';
   const headline = 'How to charge a late fee on an unpaid invoice';
-  const description = 'How to charge a late fee on an unpaid invoice: standard rates, what your terms must say, how to calculate it, and what to do if the client refuses.';
-  return layout(headline, `
+  const description = 'See what a late-fee clause should explain: rate, timing, grace period and calculation method. Check your contract and local rules before charging.';
+  return layout('Late Fee Wording for Freelance Invoices', `
   <h1>${headline}</h1>
   <p>A late fee is not a punishment. It is a term you agree up front that puts a price on late payment, so paying on time becomes the cheaper option for the client. Used well, it prevents late payment more than it penalises it. Used badly — invented after the invoice is already late, or set so high it looks like a penalty — it creates a dispute about the fee instead of payment of the invoice.</p>
   <h2>The one rule: agree it first</h2>
@@ -468,7 +523,7 @@ export function articleLateFee() {
   <h2>Prevent the next one</h2>
   <p>The cheapest late fee is the one you never need. Ask for a deposit on larger jobs, print payment terms and a due date on every invoice, include a payment link, and run reminders on a schedule — day 7, day 14, day 30 — instead of relying on memory. The <a href="/reminder-email-generator">free reminder email generator</a> writes each reminder for you, and Invoice Chaser sends the whole sequence automatically.</p>
   <p>This guide is general information, not legal advice. Late fee caps and statutory interest rules vary by country and region, so check the rules where you and your client are before relying on a rate.</p>
-  <p>Related: <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a> · <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a></p>`, path, { description, jsonld: articleJsonld(path, headline, description) });
+  <p>Related: <a href="/blog/client-not-paying">What to do when a client doesn't pay your invoice</a> · <a href="/blog/payment-reminder-email">How to write a payment reminder email that actually gets paid</a></p>`, path, { description, ogType: 'article', jsonld: articleJsonld(path, headline, description) });
 }
 
 
@@ -523,8 +578,8 @@ export function reminderEmailGeneratorPage() {
     + 'function copySubject(){copyText("g-subject","Subject copied.");}'
     + 'function prefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}prefill("g-biz","biz");prefill("g-client","client");prefill("g-inv","inv");prefill("g-amt","amt");prefill("g-due","due");prefill("g-link","link");prefill("g-cur","cur");genDay(7);'
     + '</script>';
-  return layout('Free reminder email generator', body, '/reminder-email-generator', {
-    description: 'Generate a polite day 7, firm day 14, and final day 30 invoice reminder email in seconds. Free tool — enter client, amount and due date, copy and send.',
+  return layout('Free Invoice Reminder Email Generator', body, '/reminder-email-generator', {
+    description: 'Create a polite, firm or final invoice reminder with your client, amount and due date. Copy the email free, with no signup and no upload.',
     jsonld: jsonld,
     breadcrumbs: [['Reminder email generator', '/reminder-email-generator']],
   });
@@ -633,8 +688,8 @@ export function lateFeeCalculatorPage() {
     + 'function copyClause(){var el=document.getElementById("l-clause");el.select();try{navigator.clipboard.writeText(el.value);}catch(e){document.execCommand("copy");}document.getElementById("l-copied").textContent="Clause copied — paste it into your payment terms.";}'
     + 'function lprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}lprefill("l-amt","amt");lprefill("l-due","due");lprefill("l-rate","rate");lprefill("l-flat","flat");lprefill("l-grace","grace");lprefill("l-cur","cur");calcLate();'
     + '</script>';
-  return layout('Free late fee calculator', body, '/late-fee-calculator', {
-    description: 'Free late fee calculator for freelancers. Enter the amount, due date and your rate to work out the late fee and total now due — no sign-up.',
+  return layout('Freelance Invoice Late Fee Calculator', body, '/late-fee-calculator', {
+    description: 'Estimate a flat or percentage late fee using your agreed invoice terms. See the overdue balance and total due. Free calculator; no signup.',
     jsonld: jsonld,
     breadcrumbs: [['Late fee calculator', '/late-fee-calculator']],
   });
@@ -820,8 +875,8 @@ export function usLateFeeCalculatorPage() {
     + 'document.getElementById("u-state").addEventListener("change",uShowCap);'
     + 'function uprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}uprefill("u-amt","amt");uprefill("u-due","due");uprefill("u-rate","rate");uprefill("u-flat","flat");uprefill("u-grace","grace");uprefill("u-state","state");uprefill("u-method","method");calcLateUS();'
     + '</script>';
-  return layout('Late fee calculator (US) — state caps & reminder email', body, '/us-late-fee-calculator', {
-    description: 'Free US late fee calculator: work out the late fee, check your state\'s cap, copy a clause and generate the reminder email. No sign-up.',
+  return layout('US Invoice Late Fee Calculator', body, '/us-late-fee-calculator', {
+    description: 'Calculate overdue invoice interest using your agreed rate and grace period. See US state-rule references and copy a reminder. Free; no signup.',
     jsonld: jsonld,
     breadcrumbs: [['Late fee calculator (US)', '/us-late-fee-calculator']],
   });
@@ -929,8 +984,8 @@ export function invoiceReminderEmailTemplatePage() {
     + 'function copyTpl(id){var el=document.getElementById(id);var txt=el.innerText||el.textContent;try{navigator.clipboard.writeText(txt);}catch(e){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);document.execCommand("copy");s.removeAllRanges();}document.getElementById("t-tpl-copied").textContent="Template copied — replace the placeholders and send.";tEvent("copy_reminder_template");}'
     + 'function tprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}tprefill("t-biz","biz");tprefill("t-client","client");tprefill("t-inv","inv");tprefill("t-amt","amt");tprefill("t-due","due");tprefill("t-fee","fee");tprefill("t-total","total");tprefill("t-link","link");tprefill("t-cur","cur");genTpl(7);'
     + '</script>';
-  return layout('Invoice reminder email templates (free) — generator + letter sample', body, '/invoice-reminder-email-template', {
-    description: '9 free invoice reminder email templates plus a late payment reminder letter sample. Fill in your details and copy, or generate one instantly.',
+  return layout('Overdue Invoice Email Templates: 9 Free Samples', body, '/invoice-reminder-email-template', {
+    description: 'Copy 9 invoice reminder emails, from a polite first nudge to a firm final notice. Includes subject lines, timing tips and a payment reminder letter.',
     jsonld: jsonld,
     breadcrumbs: [['Invoice reminder email templates', '/invoice-reminder-email-template']],
   });
@@ -1040,8 +1095,8 @@ export function cashFlowForecastPage() {
     + 'function copyFlowSummary(){if(!cSummary){document.getElementById("c-copied").textContent="Forecast first, then copy.";return;}try{navigator.clipboard.writeText(cSummary);}catch(e){var ta=document.createElement("textarea");ta.value=cSummary;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();}document.getElementById("c-copied").textContent="Summary copied.";cEvent("copy_cash_flow_summary");}'
     + 'function cprefill(id,key){var v=new URLSearchParams(window.location.search).get(key);if(v){document.getElementById(id).value=v;}}cprefill("c-cash","cash");calcFlow();'
     + '</script>';
-  return layout('Small business cash flow forecast template — free 13-week planner', body, '/small-business-cash-flow-forecast-template', {
-    description: 'Free 13-week cash flow forecast template: enter cash, invoices and bills to find the week you run short. Download as CSV. No sign-up.',
+  return layout('Free 13-Week Cash Flow Template for Freelancers', body, '/small-business-cash-flow-forecast-template', {
+    description: 'Plan client payments and bills week by week. See potential cash shortfalls and download your 13-week forecast as CSV. Free, with no signup.',
     jsonld: jsonld,
     breadcrumbs: [['Cash flow forecast template', '/small-business-cash-flow-forecast-template']],
   });

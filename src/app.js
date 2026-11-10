@@ -72,7 +72,7 @@ export function appPage() {
     + '<form id="settingsForm"><label>Business name</label><input name="business_name" id="setBusiness">'
     + '<label>Currency</label><select name="currency" id="setCurrency"><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option><option value="INR">INR (₹)</option></select>'
     + '<p><button type="submit">Save settings</button></p></form>'
-    + '<p style="color:#5b6775">Plan: Free (3 active invoices). Starter $19/month for 25 and Pro $49/month for 100 are shown on the <a href="/pricing">pricing page</a>; checkout is not live in this version, so you will never be charged here.</p></div>'
+    + '<p style="color:#5b6775">Free is 3 active invoices. Starter is 19 USDT for 25 and Pro is 49 USDT for 100, each for 30 days, renewed manually in USDT (BEP-20) on BNB Smart Chain. Details are on the <a href="/pricing">pricing page</a>.</p></div>'
     + '</section></main>'
     + '<div class="modal" id="modal"><div class="box"><h3 id="modalTitle" style="margin-top:0"></h3><div id="modalBody"></div>'
     + '<p><button class="ghost" id="modalClose">Close</button></p></div></div>'

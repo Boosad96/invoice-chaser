@@ -14,12 +14,13 @@ import {
 } from './email.js';
 import {
   layout, homePage, howItWorksPage, pricingPage, templatesPage, faqPage,
-  aboutPage, contactPage, privacyPage, loginPage, signupPage, payPage,
+  aboutPage, contactPage, privacyPage, termsPage, loginPage, signupPage, payPage,
   blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleReminderTemplates, articleLateFee,
   reminderEmailGeneratorPage, invoiceTemplatePage, lateFeeCalculatorPage, usLateFeeCalculatorPage, invoiceReminderEmailTemplatePage, cashFlowForecastPage, irregularIncomeBudgetPage, expenseTrackerPage,
 } from './pages.js';
 import { appPage } from './app.js';
 import { OG_IMAGE_B64 } from './og-image.js';
+import { FAVICON_PNG_B64, FAVICON_ICO_B64 } from './favicon.js';
 import {
   USDT_BEP20, PAY_TO, PLAN_PRICES, planUnits, formatUsdt, validTxHash, verifyUsdtPayment,
 } from './verify.js';
@@ -52,7 +53,6 @@ const REDIRECTS = {
   '/team': '/about',
   '/help': '/faq',
   '/legal': '/privacy',
-  '/terms': '/privacy',
   '/impressum': '/about',
   '/imprint': '/about',
 };
@@ -210,7 +210,7 @@ const INDEXNOW_KEY = '45ca874b411d2d66d815e908ec12ef1f';
 // Every fact here is also stated on the site's own pages.
 const LLMS_TXT = `# Invoice Chaser
 
-> Invoice Chaser is automatic invoice-reminder software for freelancers and solo trades. It sends polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due. Free plan: 3 active invoices. Paid plans: Starter $19/month (25 invoices), Pro $49/month (100 invoices), paid in USDT on BNB Smart Chain.
+> Invoice Chaser is automatic invoice-reminder software for freelancers and solo trades. It sends polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due. Free plan: 3 active invoices. Paid plans: Starter 19 USDT for 25 invoices and Pro 49 USDT for 100 invoices, each for 30 days, paid in USDT (BEP-20) on BNB Smart Chain and renewed manually.
 
 ## Free tools (no sign-up)
 
@@ -228,7 +228,7 @@ const LLMS_TXT = `# Invoice Chaser
 - Reminders run at day 7 (polite), day 14 (firmer) and day 30 (final) after the due date.
 - Marking an invoice paid stops its reminders immediately; any invoice can be paused.
 - Invoice Chaser never touches clients' money: clients pay through the freelancer's own payment link.
-- Paid plans last 30 days, are paid in USDT (BEP-20) and are verified on-chain before the plan activates.
+- Paid plans last 30 days, are paid in USDT (BEP-20) on BNB Smart Chain, are verified on-chain before the plan activates, and are renewed manually.
 - All free tools run entirely in the browser; nothing is uploaded and no sign-up is needed.
 
 ## Pages
@@ -239,6 +239,7 @@ const LLMS_TXT = `# Invoice Chaser
 - [Sample reminder templates](https://paychaserhq.com/templates)
 - [FAQ](https://paychaserhq.com/faq)
 - [Guides](https://paychaserhq.com/blog)
+- [Terms](https://paychaserhq.com/terms)
 
 ## Related free tools from the same maker
 
@@ -263,9 +264,9 @@ const LLMS_FULL_TXT = `# Invoice Chaser — full site summary
 ## Pricing
 
 - Free: 3 active invoices, $0, full reminder sequence and templates included.
-- Starter: $19/month, 25 active invoices.
-- Pro: $49/month, 100 active invoices.
-- Paid plans last 30 days. Payment is in USDT on BNB Smart Chain (BEP-20) to the wallet on the payment page; the exact amount is verified on-chain and the plan activates automatically. When a plan expires the account falls back to the free plan.
+- Starter: 19 USDT for 25 active invoices, for 30 days.
+- Pro: 49 USDT for 100 active invoices, for 30 days.
+- Paid plans last 30 days and do not renew by themselves. Payment is in USDT (BEP-20) on BNB Smart Chain to the wallet on the payment page; the exact amount is verified on-chain and the plan activates automatically. When a plan expires the account falls back to the free plan unless you pay again.
 
 ## Free tools (no sign-up, run in the browser)
 
@@ -306,6 +307,15 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const method = request.method;
+    // www is a duplicate of the apex. Redirect only that host, and keep the
+    // path and query. POST and other methods use 308 so the method survives;
+    // GET and HEAD use 301. The apex host is never redirected, so this cannot loop.
+    const host = url.hostname.toLowerCase();
+    if (host === 'www.paychaserhq.com') {
+      const location = 'https://paychaserhq.com' + url.pathname + url.search;
+      const status = (method === 'GET' || method === 'HEAD') ? 301 : 308;
+      return new Response(null, { status, headers: { Location: location } });
+    }
     // Trailing-slash canonicalisation: /templates/ -> /templates (301).
     // GET/HEAD only, never /api/ (the dashboard API) and never the root '/'.
     const rawPath = url.pathname;
@@ -341,6 +351,7 @@ export default {
     if (method === 'GET' && path === '/about') return html(aboutPage());
     if (method === 'GET' && path === '/contact') return html(contactPage());
     if (method === 'GET' && path === '/privacy') return html(privacyPage());
+    if (method === 'GET' && path === '/terms') return html(termsPage());
     if (method === 'GET' && path === '/login') return html(loginPage());
     if (method === 'GET' && path === '/signup') return html(signupPage());
     if (method === 'GET' && path === '/app') return html(appPage());
@@ -360,8 +371,19 @@ export default {
       const bytes = Uint8Array.from(atob(OG_IMAGE_B64), (c) => c.charCodeAt(0));
       return new Response(bytes, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' } });
     }
+    if ((method === 'GET' || method === 'HEAD') && (path === '/favicon.png' || path === '/favicon.ico')) {
+      const isPng = path === '/favicon.png';
+      const bytes = Uint8Array.from(atob(isPng ? FAVICON_PNG_B64 : FAVICON_ICO_B64), (c) => c.charCodeAt(0));
+      return new Response(method === 'HEAD' ? null : bytes, {
+        headers: {
+          'Content-Type': isPng ? 'image/png' : 'image/x-icon',
+          'Content-Length': String(bytes.length),
+          'Cache-Control': 'public, max-age=86400',
+        },
+      });
+    }
     if (method === 'GET' && path === '/sitemap.xml') {
-      const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
+      const pages = ['/', '/how-it-works', '/pricing', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy', '/terms'];
       const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc><lastmod>2026-11-10</lastmod></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
