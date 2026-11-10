@@ -201,11 +201,118 @@ async function runDailyJob(env) {
   }
 }
 
+// IndexNow verification key (public, not a secret). The key file at
+// /<key>.txt lets Bing/Yandex/etc. verify ownership for IndexNow submits.
+const INDEXNOW_KEY = '45ca874b411d2d66d815e908ec12ef1f';
+
+// llms.txt — a clean Markdown summary of the site for AI answers
+// (ChatGPT, Perplexity, Google AI Overviews and other generative engines).
+// Every fact here is also stated on the site's own pages.
+const LLMS_TXT = `# Invoice Chaser
+
+> Invoice Chaser is automatic invoice-reminder software for freelancers and solo trades. It sends polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due. Free plan: 3 active invoices. Paid plans: Starter $19/month (25 invoices), Pro $49/month (100 invoices), paid in USDT on BNB Smart Chain.
+
+## Free tools (no sign-up)
+
+- [Reminder email generator](https://paychaserhq.com/reminder-email-generator): Generate a day 7, 14 or 30 invoice reminder email.
+- [Invoice template](https://paychaserhq.com/invoice-template): Build a professional invoice in the browser.
+- [Late fee calculator](https://paychaserhq.com/late-fee-calculator): Work out the late fee on an overdue invoice.
+- [US late fee calculator](https://paychaserhq.com/us-late-fee-calculator): Work out the late fee, check your state's cap, copy a late-fee clause and generate the reminder email.
+- [Invoice reminder email templates](https://paychaserhq.com/invoice-reminder-email-template): 9 free reminder templates plus a formal letter sample.
+- [Small business cash flow forecast](https://paychaserhq.com/small-business-cash-flow-forecast-template): Free 13-week cash flow planner with CSV download.
+- [Irregular income budget template](https://paychaserhq.com/irregular-income-budget-template-excel): Budget from your lowest month, tax first, 50/30/20 split, spreadsheet download.
+- [Business expense tracker](https://paychaserhq.com/business-expense-tracker-excel): Log expenses mapped to IRS Schedule C lines, spreadsheet download.
+
+## Key facts
+
+- Reminders run at day 7 (polite), day 14 (firmer) and day 30 (final) after the due date.
+- Marking an invoice paid stops its reminders immediately; any invoice can be paused.
+- Invoice Chaser never touches clients' money: clients pay through the freelancer's own payment link.
+- Paid plans last 30 days, are paid in USDT (BEP-20) and are verified on-chain before the plan activates.
+- All free tools run entirely in the browser; nothing is uploaded and no sign-up is needed.
+
+## Pages
+
+- [Home](https://paychaserhq.com/)
+- [How it works](https://paychaserhq.com/how-it-works)
+- [Pricing](https://paychaserhq.com/pricing)
+- [Sample reminder templates](https://paychaserhq.com/templates)
+- [FAQ](https://paychaserhq.com/faq)
+- [Guides](https://paychaserhq.com/blog)
+
+## Related free tools from the same maker
+
+- [Income Tax Act 2025 Section Mapper](https://tax.paychaserhq.com/): old section to new section, TDS codes.
+- [e-Jagriti & RERA Complaint Generator](https://complaints.paychaserhq.com/): find your forum, fee and steps.
+- [Succession Certificate & Legal Heir Helper](https://succession.paychaserhq.com/): which certificate, petition draft and court fees.
+`;
+
+const LLMS_FULL_TXT = `# Invoice Chaser — full site summary
+
+> Invoice Chaser is automatic invoice-reminder software for freelancers and solo trades. It sends polite, firmer, then final email reminders at day 7, 14 and 30 after an invoice is due, so freelancers stop losing money to forgotten follow-ups without the awkward phone call.
+
+## What Invoice Chaser is
+
+- One workflow: add an invoice, reminders run themselves, marking it paid stops them.
+- Invoices are typed in or imported from a CSV (client name, client email, amount, due date, optional pay link).
+- Every reminder template is plain text the user can rewrite, with placeholders for client, amount, due date, pay link and business name.
+- Reminders are sent by email, from the user's own business. Replies go to the user's inbox.
+- Every reminder is recorded as sent the moment it goes out, so a retry can never double-send it.
+- Invoice Chaser never holds client funds or takes a cut. Clients pay through the freelancer's own payment link or bank details. The only payment Invoice Chaser itself takes is the plan subscription.
+
+## Pricing
+
+- Free: 3 active invoices, $0, full reminder sequence and templates included.
+- Starter: $19/month, 25 active invoices.
+- Pro: $49/month, 100 active invoices.
+- Paid plans last 30 days. Payment is in USDT on BNB Smart Chain (BEP-20) to the wallet on the payment page; the exact amount is verified on-chain and the plan activates automatically. When a plan expires the account falls back to the free plan.
+
+## Free tools (no sign-up, run in the browser)
+
+- [Reminder email generator](https://paychaserhq.com/reminder-email-generator): Fill in the invoice and generate a day 7, 14 or 30 reminder email, or a formal letter version.
+- [Invoice template](https://paychaserhq.com/invoice-template): Build a professional invoice in the browser.
+- [Late fee calculator](https://paychaserhq.com/late-fee-calculator): Work out the late fee on an overdue invoice.
+- [US late fee calculator](https://paychaserhq.com/us-late-fee-calculator): Work out the late fee on an overdue US invoice, check the state's cap and statutory rate, copy a late-fee clause and generate the reminder email. 1% to 2% per month is the normal range, with 1.5% a month the most common term. A late fee can usually only be charged if it was in the agreed payment terms before the work started. Interest is simple, never compounded, and is calculated on the original invoice amount.
+- [Invoice reminder email templates](https://paychaserhq.com/invoice-reminder-email-template): 9 free templates — before the due date, day 7 polite, day 14 firmer, day 30 final, with a late fee, partial payment, disputed invoice, retainer, and a short text/WhatsApp version — plus a formal late payment reminder letter sample.
+- [Sample reminder templates](https://paychaserhq.com/templates): The three default templates (day 7, day 14, day 30) with guidance on when to send each, subject lines, adapting them for different clients, and what to do if the client replies.
+- [Small business cash flow forecast](https://paychaserhq.com/small-business-cash-flow-forecast-template): Free 13-week planner. Enter starting cash, invoices owed with due dates, weekly bills and one-off bills; it flags the week the balance goes negative. Downloadable as CSV. It assumes every invoice is paid on its due date, so treat it as the best case.
+- [Irregular income budget template](https://paychaserhq.com/irregular-income-budget-template-excel): Budget from the lowest of the last six months, set tax aside first (25% is the usual US freelancer rule of thumb: 15.3% self-employment tax plus income tax), split the rest 50/30/20 between needs, wants and savings. Downloadable as a spreadsheet.
+- [Business expense tracker](https://paychaserhq.com/business-expense-tracker-excel): Log expenses with date, description, category and amount; each one is mapped to its IRS Schedule C line, with business meals counted at 50% automatically. Totals by category and by month, downloadable as a spreadsheet.
+
+## Guides
+
+- [How to write a payment reminder email](https://paychaserhq.com/blog/payment-reminder-email)
+- [What to do when a client is not paying](https://paychaserhq.com/blog/client-not-paying)
+- [Invoice reminder templates guide](https://paychaserhq.com/blog/invoice-reminder-templates)
+- [Late fees explained](https://paychaserhq.com/blog/late-fee)
+
+## Frequently asked questions (short answers)
+
+- Does Invoice Chaser touch my money? No, for clients' money. It never holds client funds. The only payment it takes is the plan subscription, in USDT.
+- What happens when a client pays? Mark the invoice paid and every pending reminder for it stops immediately.
+- Can I pause chasing one client? Yes. Paused invoices send nothing until resumed.
+- Do I need accounting software? No. Invoices are typed in or imported from a CSV.
+- Can a reminder be sent twice by mistake? No. Each reminder is recorded as sent and the daily job only picks up reminders still marked pending.
+- Can I use the free tools without signing up? Yes. All eight free tools run in the browser with no sign-up.
+
+## Related free tools from the same maker
+
+- [Income Tax Act 2025 Section Mapper](https://tax.paychaserhq.com/): old section to new section, TDS codes.
+- [e-Jagriti & RERA Complaint Generator](https://complaints.paychaserhq.com/): find your forum, fee and steps.
+- [Succession Certificate & Legal Heir Helper](https://succession.paychaserhq.com/): which certificate, petition draft and court fees.
+`;
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const path = url.pathname.replace(/\/+$/, '') || '/';
     const method = request.method;
+    // Trailing-slash canonicalisation: /templates/ -> /templates (301).
+    // GET/HEAD only, never /api/ (the dashboard API) and never the root '/'.
+    const rawPath = url.pathname;
+    if ((method === 'GET' || method === 'HEAD') && rawPath.length > 1 && rawPath.endsWith('/') && !rawPath.startsWith('/api/')) {
+      return new Response(null, { status: 301, headers: { Location: rawPath.replace(/\/+$/, '') + url.search } });
+    }
+    const path = rawPath.replace(/\/+$/, '') || '/';
     const db = env.DB;
 
     // Public pages
@@ -238,7 +345,16 @@ export default {
     if (method === 'GET' && path === '/signup') return html(signupPage());
     if (method === 'GET' && path === '/app') return html(appPage());
     if (method === 'GET' && path === '/robots.txt') {
-      return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nSitemap: https://paychaserhq.com/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
+      return new Response('User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nUser-agent: GPTBot\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nUser-agent: ClaudeBot\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nUser-agent: PerplexityBot\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nUser-agent: Google-Extended\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nUser-agent: CCBot\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nUser-agent: Applebot-Extended\nAllow: /\nDisallow: /app\nDisallow: /api/\n\nSitemap: https://paychaserhq.com/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain' } });
+    }
+    if (method === 'GET' && path === '/llms.txt') {
+      return new Response(LLMS_TXT, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+    }
+    if (method === 'GET' && path === '/llms-full.txt') {
+      return new Response(LLMS_FULL_TXT, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+    }
+    if (method === 'GET' && path === '/' + INDEXNOW_KEY + '.txt') {
+      return new Response(INDEXNOW_KEY + '\n', { headers: { 'Content-Type': 'text/plain' } });
     }
     if (method === 'GET' && path === '/og-image.png') {
       const bytes = Uint8Array.from(atob(OG_IMAGE_B64), (c) => c.charCodeAt(0));
@@ -246,7 +362,7 @@ export default {
     }
     if (method === 'GET' && path === '/sitemap.xml') {
       const pages = ['/', '/how-it-works', '/pricing', '/pay', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy'];
-      const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc><lastmod>2026-11-06</lastmod></url>').join('\n');
+      const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc><lastmod>2026-11-10</lastmod></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
 
