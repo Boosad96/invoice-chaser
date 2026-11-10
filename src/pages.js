@@ -9,37 +9,105 @@ function esc(s) {
 }
 
 const CSS = `
-:root{--ink:#14202e;--muted:#55636f;--line:#e2e8ee;--brand:#0b6b5e;--brand2:#0e8a78;--accent:#f59e0b;--bg:#f6f7f8;--card:#fff}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.6;background:var(--bg)}
-a{color:var(--brand)}header{border-bottom:1px solid var(--line);background:#fff}
-.nav{max-width:1000px;margin:0 auto;padding:16px 20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
-.nav .logo{font-weight:800;font-size:21px;color:var(--ink);text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:10px}
-.logo-badge{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--brand);color:#fff;font-size:18px;font-weight:800}
-.nav a{color:var(--muted);text-decoration:none;font-size:15px}.nav a:hover{color:var(--ink)}
-.btn{display:inline-block;background:var(--brand);color:#fff!important;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700;border:0;cursor:pointer;box-shadow:0 2px 8px rgba(11,107,94,.25)}
+:root{--ink:#121417;--muted:#5c6770;--line:#e7e8eb;--brand:#0b6b5e;--brand2:#08574c;--bg:#f7f8f7;--card:#fff;--soft:#e8f4f1;--shadow:0 1px 2px rgba(18,20,23,.04),0 12px 32px rgba(18,20,23,.06)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.6;background:var(--bg);font-size:16px}
+a{color:var(--brand)}a:hover{color:var(--brand2)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.bar{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;gap:22px;align-items:center}
+.logo{font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:-.02em;white-space:nowrap;flex-shrink:0}
+.logo-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--brand);color:#fff;font-size:16px;font-weight:700}
+.links{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.bar>.links{flex-wrap:nowrap}
+.links a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;white-space:nowrap}
+.links a:hover,.links a.on{color:var(--ink)}
+.bar-end{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.signin{color:var(--ink);text-decoration:none;font-weight:600;font-size:14.5px;padding:8px 10px;white-space:nowrap}
+.drawer{display:none}
+.drawer summary{list-style:none;cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;font-weight:600;font-size:14px}
+.drawer summary::-webkit-details-marker{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--brand);color:#fff!important;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:600;border:0;cursor:pointer;min-height:44px;line-height:1.2;box-shadow:0 1px 1px rgba(11,107,94,.15)}
 .btn:hover{background:var(--brand2)}
 .btn.ghost{background:#fff;color:var(--ink)!important;border:1px solid var(--line);box-shadow:none}
-main{max-width:1000px;margin:0 auto;padding:36px 20px 72px}
-h1{font-size:44px;line-height:1.15;margin:10px 0 14px;letter-spacing:-.5px}h2{margin-top:36px;font-size:24px}h3{margin:0 0 6px}p{color:var(--muted)}
-.hero{padding:36px 0 24px}.eyebrow{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--brand);text-transform:uppercase;margin:0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,32,46,.06)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-label{display:block;margin:14px 0 4px;font-weight:600}
-input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:16px}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:15px}
-footer{border-top:1px solid var(--line);background:#fff}footer .nav{font-size:14px}
-code{background:#eef2f5;padding:2px 6px;border-radius:4px;font-size:14px}
-pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow:auto;font-size:14px}
-.note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin:16px 0}
-.hero-panel{background:linear-gradient(135deg,#07332d 0%,#0b6b5e 60%,#0e8a78 100%);border-radius:20px;padding:44px 36px;color:#fff;box-shadow:0 16px 40px rgba(7,51,45,.3)}
-.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
-.hero-panel .eyebrow{color:#fbbf24}.hero-panel h1{color:#fff;font-size:50px}
-.hero-panel p{color:#cde8e2}.hero-panel .btn.ghost{background:transparent;color:#fff!important;border:1px solid rgba(255,255,255,.5);box-shadow:none}
-.hero-visual svg{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 24px rgba(0,0,0,.3))}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
-.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(20,32,46,.06)}
-.stat b{display:block;font-size:26px;color:var(--brand)}.stat span{color:var(--muted);font-size:14px}
-@media(max-width:640px){h1{font-size:32px}.nav{gap:12px}.hero{padding:24px 0 16px}.hero-grid{grid-template-columns:1fr}.hero-panel{padding:28px 22px}.hero-panel h1{font-size:36px}.stats{grid-template-columns:1fr}}
+.btn.ghost:hover{border-color:#cfd5da;background:#fbfbfb}
+main{max-width:1120px;margin:0 auto;padding:40px 24px 80px}
+h1{font-size:56px;line-height:1.05;margin:0 0 16px;letter-spacing:-.035em;font-weight:700;color:var(--ink)}
+h2{margin:0 0 12px;font-size:28px;letter-spacing:-.03em;line-height:1.2;color:var(--ink)}
+h3{margin:0 0 8px;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
+p{color:#3e494f}
+.lede{font-size:18px;line-height:1.55;max-width:38rem;margin:0 0 22px}
+.eyebrow{font-size:13px;font-weight:650;letter-spacing:.08em;color:var(--brand);text-transform:uppercase;margin:0 0 10px}
+.section{margin:72px 0}
+.section > p{max-width:42rem}
+.hero{padding:8px 0 4px}
+.hero-home{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding:18px 0 8px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.feature p,.step p{margin:0}
+.step{position:relative}
+.step-n{display:inline-flex;width:28px;height:28px;border-radius:999px;background:var(--soft);color:var(--brand);font-weight:700;align-items:center;justify-content:center;margin-bottom:12px;font-size:14px}
+.price-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}
+.price-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.price-card h2,.price-card h3{font-size:16px;margin:0;letter-spacing:0}
+.price{font-size:40px;letter-spacing:-.04em;font-weight:700;color:var(--ink);margin:4px 0;line-height:1}
+.price span{font-size:16px;letter-spacing:0;font-weight:600;color:var(--muted);margin-left:4px}
+.price-card .btn{margin-top:auto;width:100%}
+.preview-label{font-size:12px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.preview-window{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.preview-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:18px 18px 8px}
+.k{margin:0;font-size:12px;color:var(--muted);font-weight:600}
+.amt{margin:2px 0 0;font-size:32px;font-weight:700;letter-spacing:-.04em;color:var(--ink)}
+.pill{background:var(--soft);color:var(--brand);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.seq{list-style:none;margin:0;padding:4px 18px 8px}
+.seq li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:14px;color:var(--ink)}
+.seq li b{font-weight:600}
+.mail{margin:8px;background:#fbfbfb;border:1px solid var(--line);border-radius:12px;padding:14px 14px 6px}
+.mail p{margin:0 0 8px;font-size:14px}
+.mail-subject{font-weight:650;color:var(--ink)}
+.faq-list{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.faq-list details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 16px;box-shadow:0 1px 2px rgba(18,20,23,.03)}
+.faq-list summary{cursor:pointer;font-weight:650;padding:12px 0;color:var(--ink)}
+.faq-list details p{margin-top:0}
+.tool-links{display:flex;flex-wrap:wrap;gap:8px}
+.tool-links a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;text-decoration:none;font-size:14px;font-weight:550}
+label{display:block;margin:14px 0 4px;font-weight:600;color:var(--ink)}
+input,textarea,select{width:100%;padding:11px 12px;border:1px solid #d9dee3;border-radius:8px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--soft);border-color:var(--brand)}
+main form{max-width:480px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px;vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+footer{border-top:1px solid var(--line);background:#fff;padding:36px 0 28px}
+.foot{max-width:1120px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1.1fr .8fr 1.4fr;gap:28px}
+.foot p{margin:8px 0;font-size:14px}
+.foot-links{display:flex;flex-direction:column;gap:8px}
+.foot-links a{color:var(--muted);text-decoration:none;font-size:14px}
+.foot-links a:hover{color:var(--ink)}
+.badges{max-width:1120px;margin:18px auto 0;padding:14px 24px 0;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+code{background:#eef2f1;padding:2px 6px;border-radius:4px;font-size:14px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto;font-size:14px}
+.note{background:#f4fbf8;border:1px solid #d5ebe4;border-radius:12px;padding:14px 16px;margin:16px 0}
+@media(max-width:1180px){
+.bar>.links,.signin{display:none}
+.drawer{display:block}
+.drawer[open] .links{display:flex;flex-direction:column;align-items:flex-start;position:absolute;right:16px;top:64px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:220px;box-shadow:var(--shadow);z-index:40}
+}
+@media(max-width:900px){
+h1{font-size:38px}
+.hero-home,.grid,.price-grid,.foot{grid-template-columns:1fr}
+.section{margin:48px 0}
+}
+#more-tools{scroll-margin-top:84px}
+@media(max-width:720px){
+main{padding:28px 16px 64px}
+.bar{padding:12px 16px;gap:8px}
+table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:420px){
+.logo{font-size:16px}
+.bar .btn{padding:10px 12px;font-size:14px}
+}
 `;
 
 const SITE_URL = 'https://paychaserhq.com';
@@ -50,7 +118,7 @@ export function layout(title, body, active, meta = {}) {
     ['/templates', 'Sample templates'], ['#more-tools', 'Free tools'], ['/blog', 'Guides'], ['/faq', 'FAQ'], ['/about', 'About'], ['/contact', 'Contact'],
   ];
   const nav = links.map(([href, label]) =>
-    '<a href="' + href + '"' + (active === href ? ' style="color:#1c2430;font-weight:600"' : '') + '>' + label + '</a>').join('');
+    '<a href="' + href + '"' + (active === href ? ' class="on" aria-current="page"' : '') + '>' + label + '</a>').join('');
   const description = meta.description || 'Invoice Chaser chases unpaid invoices for freelancers and solo trades, automatically, by email.';
   const canonical = SITE_URL + (active === '/' ? '/' : active);
   const robots = meta.robots || 'index, follow';
@@ -74,12 +142,18 @@ export function layout(title, body, active, meta = {}) {
     + '<title>' + esc(title) + ' — Invoice Chaser</title><meta name="description" content="' + esc(description) + '">'
     + '<meta name="robots" content="' + robots + '"><link rel="canonical" href="' + canonical + '"><meta name="directree-verify" content="directree-verify=c27ac50d3ec2e4759ef20037b6eb3168"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" href="/favicon.png" sizes="128x128">' + og + jsonld + crumbJsonld
     + '<style>' + CSS + '</style></head>'
-    + '<body><header><nav class="nav"><a class="logo" href="/"><span class="logo-badge">✓</span>Invoice Chaser</a>' + nav
-    + '<a href="/login">Sign in</a><a class="btn" href="/signup">Start free</a></nav></header>'
+    + '<body><header><div class="bar"><a class="logo" href="/"><span class="logo-badge">✓</span>Invoice Chaser</a>'
+    + '<nav class="links" aria-label="Primary">' + nav + '</nav>'
+    + '<div class="bar-end"><a class="signin" href="/login">Sign in</a><a class="btn" href="/signup">Start free</a>'
+    + '<details class="drawer"><summary>Menu</summary><nav class="links" aria-label="Mobile">' + nav + '<a href="/login">Sign in</a></nav></details>'
+    + '</div></div></header>'
     + '<main>' + crumbNav + body + '</main>'
-    + '<footer><nav class="nav"><span>Invoice Chaser — built for freelancers and solo trades.</span>'
-    + '<a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/about">About</a><a href="/contact">Contact</a></nav>'
-    + '<p id="more-tools" style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)">Free tools on this site: <a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a> · <a href="/business-expense-tracker-excel">Expense tracker</a><br>Other projects: <a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p><p style="max-width:1000px;margin:0 auto;padding:0 20px 18px;font-size:14px;color:var(--muted)"><a href="https://www.directree.io/tool/automatic-invoice-reminders-for-freelancers">Verified on Directree</a> · <a href="https://fazier.com" rel="noopener" target="_blank"><img alt="Launched on Fazier" src="https://fazier.com/api/v1/public/badges/launch_badges.svg?badge_type=launched&amp;theme=light" style="height:32px;vertical-align:middle"/></a></p></footer></body></html>';
+    + '<footer><div class="foot"><div class="foot-brand"><a class="logo" href="/"><span class="logo-badge">✓</span>Invoice Chaser</a>'
+    + '<p>Built for freelancers and solo trades.</p></div>'
+    + '<nav class="foot-links" aria-label="Footer"><a href="/how-it-works">How it works</a><a href="/pricing">Pricing</a><a href="/templates">Sample templates</a><a href="/faq">FAQ</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>'
+    + '<div id="more-tools"><p><strong>Free tools</strong></p><p><a href="/reminder-email-generator">Reminder generator</a> · <a href="/invoice-template">Invoice template</a> · <a href="/late-fee-calculator">Late fee calculator</a> · <a href="/us-late-fee-calculator">US late fee calculator</a> · <a href="/invoice-reminder-email-template">Reminder templates</a> · <a href="/small-business-cash-flow-forecast-template">Cash flow forecast</a> · <a href="/irregular-income-budget-template-excel">Irregular income budget</a> · <a href="/business-expense-tracker-excel">Expense tracker</a></p>'
+    + '<p><strong>Other projects</strong></p><p><a href="https://tax.paychaserhq.com/">Income Tax Act 2025 Section Mapper — old section to new section, TDS codes</a> · <a href="https://complaints.paychaserhq.com/">e-Jagriti &amp; RERA Complaint Generator — find your forum, fee and steps</a> · <a href="https://succession.paychaserhq.com/">Succession Certificate &amp; Legal Heir Helper — which certificate, petition draft &amp; court fees</a></p></div></div>'
+    + '<p class="badges"><a href="https://www.directree.io/tool/automatic-invoice-reminders-for-freelancers">Verified on Directree</a> · <a href="https://fazier.com" rel="noopener" target="_blank"><img alt="Launched on Fazier" src="https://fazier.com/api/v1/public/badges/launch_badges.svg?badge_type=launched&amp;theme=light" style="height:32px;vertical-align:middle"/></a></p></footer></body></html>';
 }
 
 export function homePage() {
@@ -117,44 +191,75 @@ export function homePage() {
     ],
   });
   return layout('Automatic Invoice Reminders for Freelancers', `
-  <section class="hero-panel"><div class="hero-grid"><div>
-  <p class="eyebrow">Automatic invoice reminders</p><h1>Unpaid invoices chase themselves.</h1>
-  <p style="font-size:19px">Invoice Chaser is automatic invoice reminder software for freelancers and solo trades. It sends polite, firmer, then final reminders at day 7, 14 and 30 after an invoice is due — so you stop losing money to forgotten follow-ups, without the awkward phone call.</p>
-  <p><a class="btn" href="/signup">Start free — 3 active invoices</a> &nbsp; <a class="btn ghost" href="/how-it-works">See how it works</a></p></div>
-  <div class="hero-visual"><svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Invoice marked paid after automatic reminders">
-    <rect x="45" y="15" width="210" height="200" rx="14" fill="#ffffff"/>
-    <rect x="65" y="35" width="110" height="12" rx="6" fill="#14202e"/>
-    <rect x="65" y="58" width="170" height="7" rx="3.5" fill="#cbd5e1"/>
-    <rect x="65" y="73" width="150" height="7" rx="3.5" fill="#cbd5e1"/>
-    <rect x="65" y="95" width="170" height="1.5" fill="#e2e8f0"/>
-    <rect x="65" y="108" width="90" height="7" rx="3.5" fill="#94a3b8"/>
-    <rect x="65" y="123" width="90" height="7" rx="3.5" fill="#94a3b8"/>
-    <rect x="65" y="138" width="90" height="7" rx="3.5" fill="#94a3b8"/>
-    <rect x="185" y="105" width="50" height="40" rx="8" fill="#ecfdf5"/>
-    <text x="210" y="131" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" font-weight="800" fill="#0b6b5e">$100</text>
-    <g transform="rotate(-12 195 175)"><rect x="155" y="160" width="80" height="30" rx="15" fill="none" stroke="#f59e0b" stroke-width="2.5"/><text x="195" y="180" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="800" fill="#f59e0b" letter-spacing="2">PAID</text></g>
-    <g><rect x="8" y="150" width="86" height="30" rx="15" fill="#0b6b5e"/><text x="51" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#ffffff">Day 7 ✓ sent</text></g>
-    <g><rect x="205" y="30" width="86" height="30" rx="15" fill="#f59e0b"/><text x="248" y="50" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#ffffff">Day 30 ✓ final</text></g>
-  </svg></div></div></section>
-  <div class="stats">
-    <div class="stat"><b>3 free</b><span>active invoices, no card</span></div>
-    <div class="stat"><b>7 · 14 · 30</b><span>day reminder sequence</span></div>
-    <div class="stat"><b>USDT checkout</b><span>pay with crypto, no card</span></div>
-  </div>
-  <div class="grid">
-    <div class="card"><h3>1. Add the invoice</h3><p>Type it in or import a CSV. Client name, email, amount, due date — done in under a minute.</p></div>
-    <div class="card"><h3>2. Reminders run themselves</h3><p>A polite nudge at day 7, a firmer reminder at day 14, a final notice at day 30. You edit every template.</p></div>
-    <div class="card"><h3>3. Paid? It stops.</h3><p>Mark an invoice paid and its whole sequence pauses instantly. Nobody gets chased after paying.</p></div>
-  </div>
-  <div class="card"><h2 style="margin-top:0">Why unpaid invoices pile up</h2>
-  <p>Most late payments are not disputes. The client meant to pay, the invoice slipped down their inbox, and nobody followed up. A single polite reminder recovers a large share of overdue invoices — the problem is that freelancers send it late, or never, because chasing feels awkward and admin eats the day. An automated reminder sequence fixes exactly that: the follow-up goes out on schedule, in a polite tone, every time.</p></div>
-  <div class="card"><h2 style="margin-top:0">How the day 7, 14 and 30 sequence works</h2>
-  <p>Day 7 is a friendly nudge that assumes the payment was simply forgotten. Day 14 is firmer and asks for payment or a reply about the invoice. Day 30 is a final notice that asks for payment now or a payment plan. Each step uses a template you can rewrite in your own voice, with your own payment link in every message. <a href="/how-it-works">See the full sequence</a>, or read the <a href="/templates">sample reminder templates</a> before you sign up.</p></div>
-  <div class="card"><h2 style="margin-top:0">Who it is for</h2>
-  <p>Plumbers, electricians, builders, designers, writers, consultants — anyone who sends invoices and then forgets to chase them. No accounting software required. If a client pays through your own payment link, paste it on the invoice and every reminder carries it.</p></div>
-  <div class="card"><h2 style="margin-top:0">What it never does</h2>
-  <p>Invoice Chaser never touches your clients' money. It only sends reminders — your clients pay you through your own Stripe, PayPal, or bank link. The only payment Invoice Chaser itself takes is your plan subscription, paid in USDT on BNB Smart Chain.</p></div>
-  <div class="card"><h2 style="margin-top:0">Free tools</h2><p>Eight free tools, no sign-up, everything runs in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a> on an overdue invoice, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan the next 13 weeks with the <a href="/small-business-cash-flow-forecast-template">small business cash flow forecast template</a>, budget irregular income with the <a href="/irregular-income-budget-template-excel">irregular income budget template</a>, or track expenses with the <a href="/business-expense-tracker-excel">business expense tracker</a>.</p></div>`, '/', {
+  <section class="hero-home">
+    <div>
+      <p class="eyebrow">Automatic invoice reminders</p>
+      <h1>Unpaid invoices chase themselves.</h1>
+      <p class="lede">Get paid on late invoices without the awkward phone call. Add an invoice once. Invoice Chaser sends a polite follow-up at day 7, a firmer one at day 14, and a final notice at day 30. Mark it paid and the sequence stops.</p>
+      <p class="cta-row"><a class="btn" href="/signup">Start free — 3 active invoices</a><a class="btn ghost" href="/how-it-works">See how it works</a></p>
+    </div>
+    <div class="preview">
+      <p class="preview-label">Sample only. Not a real customer or invoice.</p>
+      <div class="preview-window">
+        <div class="preview-top">
+          <div><p class="k">Sample invoice</p><p class="amt">100</p><p class="k">Illustrative amount · due 14 days ago</p></div>
+          <span class="pill">Open</span>
+        </div>
+        <ol class="seq">
+          <li><b>Day 7</b><span>Polite · sent</span></li>
+          <li><b>Day 14</b><span>Firmer · scheduled</span></li>
+          <li><b>Day 30</b><span>Final · waiting</span></li>
+        </ol>
+        <div class="mail">
+          <p class="k">Subject</p>
+          <p class="mail-subject">Friendly reminder: invoice was due</p>
+          <p>Hi,</p>
+          <p>Just a friendly nudge — the invoice was due and payment has not arrived. If you have already paid, please ignore this message. Otherwise you can pay through the link on the invoice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>What you get</h2>
+    <p>For freelancers and solo trades who send an invoice and then forget the follow-up. No accounting software required.</p>
+    <div class="grid">
+      <div class="card feature"><h3>Day 7, 14 and 30</h3><p>A polite nudge, a firmer reminder, then a final notice. You edit every template.</p></div>
+      <div class="card feature"><h3>Add it once</h3><p>Type the invoice or import a CSV: client, email, amount, due date, and your own pay link.</p></div>
+      <div class="card feature"><h3>Paid means it stops</h3><p>Mark an invoice paid and its pending reminders stop. Pause one client without pausing the rest.</p></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>How it works</h2>
+    <div class="grid">
+      <div class="card step"><span class="step-n">1</span><h3>Add the invoice</h3><p>Client name, email, amount, and due date. Paste your own payment link if you have one.</p></div>
+      <div class="card step"><span class="step-n">2</span><h3>Reminders run themselves</h3><p>Day 7 assumes it was forgotten. Day 14 asks for payment or a reply. Day 30 asks for payment or a plan.</p></div>
+      <div class="card step"><span class="step-n">3</span><h3>Mark it paid</h3><p>The sequence stops. Nobody gets chased after they have paid. <a href="/how-it-works">See the full sequence</a> or the <a href="/templates">sample reminder templates</a>.</p></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Pricing</h2>
+    <p>Same prices as the <a href="/pricing">pricing page</a>. Paid plans are USDT (BEP-20) on BNB Smart Chain, last 30 days, and do not renew by themselves. There is no card checkout.</p>
+    <div class="price-grid">
+      <article class="price-card"><h3>Free</h3><p class="price">0<span>USDT</span></p><p>3 active invoices. The full reminder sequence is included.</p><a class="btn ghost" href="/signup">Start free</a></article>
+      <article class="price-card"><h3>Starter</h3><p class="price">19<span>USDT</span></p><p>25 active invoices for 30 days. Manual renewal.</p><a class="btn" href="/pay?plan=starter">Pay 19 USDT</a></article>
+      <article class="price-card"><h3>Pro</h3><p class="price">49<span>USDT</span></p><p>100 active invoices for 30 days. Manual renewal.</p><a class="btn" href="/pay?plan=pro">Pay 49 USDT</a></article>
+    </div>
+    <p>Invoice Chaser never holds your clients' money. They pay you through your own link. The only payment this site takes is the plan, in USDT on BNB Smart Chain. A network fee is charged by the chain and is not part of the 19 or 49 USDT.</p>
+  </section>
+  <section class="section">
+    <h2>Questions</h2>
+    <div class="faq-list">
+      <details><summary>Does Invoice Chaser touch my clients' money?</summary><p>No. Clients pay you through your own payment link or bank details. The only payment Invoice Chaser takes is the plan, in USDT on BNB Smart Chain.</p></details>
+      <details><summary>How much does it cost?</summary><p>Free covers 3 active invoices. Starter is 19 USDT for 25 and Pro is 49 USDT for 100, each for 30 days. Renewal is manual. It is not an automatic monthly charge.</p></details>
+      <details><summary>How do I pay?</summary><p>Send USDT (BEP-20) on BNB Smart Chain and paste the transaction hash on the payment page. The plan starts after that payment is verified. It does not renew by itself.</p></details>
+      <details><summary>What happens when a plan expires?</summary><p>The account returns to the free plan: 3 active invoices. Pay again the same way if you want the higher limit.</p></details>
+    </div>
+    <p><a href="/faq">Read the full FAQ</a></p>
+  </section>
+  <section class="section">
+    <h2>Free tools</h2>
+    <p>Eight tools, no sign-up, in your browser: <a href="/reminder-email-generator">generate a day 7, 14 or 30 reminder email</a>, <a href="/invoice-template">build an invoice</a>, <a href="/late-fee-calculator">work out a late fee</a>, use the <a href="/us-late-fee-calculator">US late fee calculator with state caps</a>, copy an <a href="/invoice-reminder-email-template">invoice reminder email template</a>, plan 13 weeks with the <a href="/small-business-cash-flow-forecast-template">cash flow forecast</a>, budget with the <a href="/irregular-income-budget-template-excel">irregular income budget</a>, or log costs with the <a href="/business-expense-tracker-excel">expense tracker</a>.</p>
+  </section>`, '/', {
     description: homeDescription,
     jsonld,
   });
@@ -175,14 +280,14 @@ export function howItWorksPage() {
 export function pricingPage() {
   return layout('Pricing: Free, Starter & Pro', `
   <h1>Simple pricing</h1>
-  <p>Start free. Upgrade only when you have more unpaid invoices than the free plan covers.</p>
-  <table><tr><th>Plan</th><th>Active invoices</th><th>Price</th></tr>
-  <tr><td><strong>Free</strong></td><td>3</td><td>$0</td></tr>
-  <tr><td><strong>Starter</strong></td><td>25</td><td>19 USDT for 30 days</td></tr>
-  <tr><td><strong>Pro</strong></td><td>100</td><td>49 USDT for 30 days</td></tr></table>
+  <p class="lede">Start free. Upgrade only when you have more unpaid invoices than the free plan covers.</p>
+  <div class="price-grid">
+    <article class="price-card"><h2>Free</h2><p class="price">0<span>USDT</span></p><p>3 active invoices.</p><a class="btn ghost" href="/signup">Start free</a></article>
+    <article class="price-card"><h2>Starter</h2><p class="price">19<span>USDT</span></p><p>25 active invoices for 30 days. Manual renewal.</p><a class="btn" href="/pay?plan=starter">Pay 19 USDT — Starter</a></article>
+    <article class="price-card"><h2>Pro</h2><p class="price">49<span>USDT</span></p><p>100 active invoices for 30 days. Manual renewal.</p><a class="btn" href="/pay?plan=pro">Pay 49 USDT — Pro</a></article>
+  </div>
   <p>Every plan includes the full reminder sequence, editable templates, CSV import, and the dashboard. Starter and Pro are paid in USDT (BEP-20) on BNB Smart Chain. There is no card checkout and no automatic renewal. Each paid plan lasts 30 days from the moment the payment is verified on-chain, then the account returns to the free plan unless you pay again.</p>
-  <p>The price is the USDT amount only. A BNB Smart Chain transfer also needs a network fee. That fee is not part of the 19 or 49 USDT and is not paid to Invoice Chaser.</p>
-  <p><a class="btn" href="/pay?plan=starter">Pay 19 USDT — Starter</a> &nbsp; <a class="btn" href="/pay?plan=pro">Pay 49 USDT — Pro</a> &nbsp; <a class="btn ghost" href="/signup">Start free</a></p>`, '/pricing', {
+  <p>The price is the USDT amount only. A BNB Smart Chain transfer also needs a network fee. That fee is not part of the 19 or 49 USDT and is not paid to Invoice Chaser.</p>`, '/pricing', {
     description: 'Free: 3 active invoices. Starter: 19 USDT for 25; Pro: 49 USDT for 100, each for 30 days. Manual renewal on BNB Smart Chain; no card checkout.',
   });
 }
