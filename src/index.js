@@ -15,7 +15,7 @@ import {
 import {
   layout, homePage, howItWorksPage, pricingPage, templatesPage, faqPage,
   aboutPage, contactPage, privacyPage, termsPage, loginPage, signupPage, payPage,
-  blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleReminderTemplates, articleLateFee,
+  blogIndexPage, articlePaymentReminderEmail, articleClientNotPaying, articleLateFee,
   reminderEmailGeneratorPage, invoiceTemplatePage, lateFeeCalculatorPage, usLateFeeCalculatorPage, invoiceReminderEmailTemplatePage, cashFlowForecastPage, irregularIncomeBudgetPage, expenseTrackerPage,
 } from './pages.js';
 import { appPage } from './app.js';
@@ -55,6 +55,7 @@ const REDIRECTS = {
   '/legal': '/privacy',
   '/impressum': '/about',
   '/imprint': '/about',
+  '/blog/invoice-reminder-templates': '/invoice-reminder-email-template',
 };
 
 function json(data, status = 200, headers = {}) {
@@ -284,7 +285,7 @@ const LLMS_FULL_TXT = `# Invoice Chaser — full site summary
 
 - [How to write a payment reminder email](https://paychaserhq.com/blog/payment-reminder-email)
 - [What to do when a client is not paying](https://paychaserhq.com/blog/client-not-paying)
-- [Invoice reminder templates guide](https://paychaserhq.com/blog/invoice-reminder-templates)
+- [Overdue invoice email templates](https://paychaserhq.com/invoice-reminder-email-template): 9 copy-and-paste reminders and a letter sample. The older templates guide redirects here.
 - [Late fees explained](https://paychaserhq.com/blog/late-fee)
 
 ## Frequently asked questions (short answers)
@@ -345,7 +346,6 @@ export default {
     if (method === 'GET' && path === '/blog') return html(blogIndexPage());
     if (method === 'GET' && path === '/blog/payment-reminder-email') return html(articlePaymentReminderEmail());
     if (method === 'GET' && path === '/blog/client-not-paying') return html(articleClientNotPaying());
-    if (method === 'GET' && path === '/blog/invoice-reminder-templates') return html(articleReminderTemplates());
     if (method === 'GET' && path === '/blog/late-fee') return html(articleLateFee());
     if (method === 'GET' && path === '/faq') return html(faqPage());
     if (method === 'GET' && path === '/about') return html(aboutPage());
@@ -383,7 +383,7 @@ export default {
       });
     }
     if (method === 'GET' && path === '/sitemap.xml') {
-      const pages = ['/', '/how-it-works', '/pricing', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/invoice-reminder-templates', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy', '/terms'];
+      const pages = ['/', '/how-it-works', '/pricing', '/templates', '/reminder-email-generator', '/invoice-template', '/late-fee-calculator', '/us-late-fee-calculator', '/invoice-reminder-email-template', '/small-business-cash-flow-forecast-template', '/irregular-income-budget-template-excel', '/business-expense-tracker-excel', '/blog', '/blog/payment-reminder-email', '/blog/client-not-paying', '/blog/late-fee', '/faq', '/about', '/contact', '/privacy', '/terms'];
       const urls = pages.map((p) => '  <url><loc>https://paychaserhq.com' + p + '</loc><lastmod>2026-11-10</lastmod></url>').join('\n');
       return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '\n</urlset>', { headers: { 'Content-Type': 'application/xml' } });
     }
@@ -639,7 +639,7 @@ export default {
       return json({ error: 'Not found.' }, 404);
     }
 
-    if (method === 'GET' && REDIRECTS[path]) {
+    if ((method === 'GET' || method === 'HEAD') && REDIRECTS[path]) {
       return new Response(null, { status: 301, headers: { Location: REDIRECTS[path] } });
     }
 
